@@ -49,7 +49,7 @@
             overflow-x: hidden;
         }
         
-        /* Solid Blue Accents - No Animation */
+        /* Solids Blue Accents - No Animation */
         .text-blue { color: var(--blue) !important; }
         .bg-blue { background: var(--blue) !important; }
         .border-blue { border-color: var(--blue) !important; }
