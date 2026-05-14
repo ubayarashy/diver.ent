@@ -20,4 +20,8 @@ class DashboardController extends Controller
     {
         return view('dashboard.curator');
     }
+    public function adminIndex()
+    {
+        return view('dashboard.user');
+    }
 }

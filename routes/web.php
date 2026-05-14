@@ -87,7 +87,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:creator'])->prefix('creator')->name('creator.')->group(function () {
     
     // Creator Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'creatorIndex'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'creatorIndex'])->name('dashboard.creator');
     
     // Manage Projects
     Route::get('/projects', [ProjectController::class, 'myProjects'])->name('projects');
@@ -117,7 +117,7 @@ Route::middleware(['auth', 'role:creator'])->prefix('creator')->name('creator.')
 Route::middleware(['auth', 'role:curator'])->prefix('curator')->name('curator.')->group(function () {
     
     // Curator Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'curatorIndex'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'curatorIndex'])->name('dashboard.curator');
     
     // Approve/Reject Projects
     Route::get('/pending-projects', [ProjectController::class, 'pendingProjects'])->name('pending');
