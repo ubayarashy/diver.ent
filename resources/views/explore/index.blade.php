@@ -10,25 +10,15 @@
     /* ============================================ */
     
     /* Sticky Category Filter - Background SOLID HITAM */
-  .sticky-filter {
-    position: sticky;
-    top: 80px; /* tinggi navbar */
-    z-index: 40;
-    background: #000000;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(0, 210, 255, 0.15);
-}
-    nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    z-index: 50;
-    background: #000000;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-    /* Tambahan layer untuk memastikan tidak ada transparansi */
+    .sticky-filter {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        background: #000000;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+    }
+    
     .sticky-filter::before {
         content: '';
         position: absolute;
@@ -58,7 +48,7 @@
         font-weight: 500;
         letter-spacing: 0.5px;
         transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        background: rgba(20, 20, 20, 0.95); /* Dark background untuk button */
+        background: rgba(20, 20, 20, 0.95);
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: #9a9a9a;
         white-space: nowrap;
@@ -152,12 +142,6 @@
         z-index: 5;
     }
     
-    .category-badge svg {
-        width: 12px;
-        height: 12px;
-        stroke: #00D2FF;
-    }
-    
     /* Overlay on Hover */
     .project-overlay {
         position: absolute;
@@ -173,6 +157,20 @@
     
     .project-card:hover .project-overlay {
         opacity: 1;
+    }
+    
+    /* Like Button Animation */
+    .like-btn {
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+    
+    .like-btn.liked {
+        color: #ff4444;
+    }
+    
+    .like-btn:hover {
+        transform: scale(1.1);
     }
     
     /* Loading Spinner */
@@ -218,21 +216,15 @@
     }
     
     @media (min-width: 640px) {
-        .masonry-grid {
-            columns: 2;
-        }
+        .masonry-grid { columns: 2; }
     }
     
     @media (min-width: 1024px) {
-        .masonry-grid {
-            columns: 3;
-        }
+        .masonry-grid { columns: 3; }
     }
     
     @media (min-width: 1280px) {
-        .masonry-grid {
-            columns: 4;
-        }
+        .masonry-grid { columns: 4; }
     }
     
     .masonry-item {
@@ -254,7 +246,6 @@
         font-weight: 600;
     }
     
-    /* Line Clamp */
     .line-clamp-2 {
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -295,11 +286,10 @@
     </div>
 </section>
 
-<!-- Category Filter - Sticky dengan safe top -->
+<!-- Category Filter -->
 <div class="sticky-filter" x-data="{ activeCategory: 'all' }">
     <div class="container mx-auto px-6">
         <div class="filter-scroll">
-            <!-- All Category -->
             <button @click="activeCategory = 'all'; $dispatch('category-change', 'all')" 
                     :class="activeCategory === 'all' ? 'active' : ''"
                     class="filter-btn">
@@ -311,82 +301,46 @@
                 </svg>
                 <span>All</span>
             </button>
-            
-            <!-- Photography -->
             <button @click="activeCategory = 'photography'; $dispatch('category-change', 'photography')" 
                     :class="activeCategory === 'photography' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                    <circle cx="12" cy="13" r="4"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                 <span>Photography</span>
             </button>
-            
-            <!-- Design -->
             <button @click="activeCategory = 'design'; $dispatch('category-change', 'design')" 
                     :class="activeCategory === 'design' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 <span>Design</span>
             </button>
-            
-            <!-- Videography -->
             <button @click="activeCategory = 'videography'; $dispatch('category-change', 'videography')" 
                     :class="activeCategory === 'videography' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <rect x="2" y="6" width="16" height="12" rx="2"/>
-                    <path d="M22 8l-4 4 4 4V8z"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="16" height="12" rx="2"/><path d="M22 8l-4 4 4 4V8z"/></svg>
                 <span>Videography</span>
             </button>
-            
-            <!-- Poster -->
             <button @click="activeCategory = 'poster'; $dispatch('category-change', 'poster')" 
                     :class="activeCategory === 'poster' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <rect x="4" y="4" width="16" height="16" rx="2"/>
-                    <line x1="9" y1="8" x2="15" y2="8"/>
-                    <line x1="9" y1="12" x2="15" y2="12"/>
-                    <line x1="9" y1="16" x2="12" y2="16"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
                 <span>Poster</span>
             </button>
-            
-            <!-- Branding -->
             <button @click="activeCategory = 'branding'; $dispatch('category-change', 'branding')" 
                     :class="activeCategory === 'branding' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M20 7h-4.18A3 3 0 0 0 16 5.18V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-                    <circle cx="8" cy="12" r="2"/>
-                    <path d="M16 12h-4"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20 7h-4.18A3 3 0 0 0 16 5.18V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><circle cx="8" cy="12" r="2"/><path d="M16 12h-4"/></svg>
                 <span>Branding</span>
             </button>
-            
-            <!-- Portrait -->
             <button @click="activeCategory = 'portrait'; $dispatch('category-change', 'portrait')" 
                     :class="activeCategory === 'portrait' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 <span>Portrait</span>
             </button>
-            
-            <!-- Street -->
             <button @click="activeCategory = 'street'; $dispatch('category-change', 'street')" 
                     :class="activeCategory === 'street' ? 'active' : ''"
                     class="filter-btn">
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M2 12h20M12 2v20M3 3l18 18M21 3L3 21"/>
-                </svg>
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M12 2v20M3 3l18 18M21 3L3 21"/></svg>
                 <span>Street</span>
             </button>
         </div>
@@ -396,7 +350,6 @@
 <!-- Projects Grid Section -->
 <section class="py-12 px-6" x-data="explorePage()" x-init="init()">
     <div class="container mx-auto">
-        <!-- Result Count -->
         <div class="mb-8 flex justify-between items-center flex-wrap gap-4">
             <div class="result-count">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -405,22 +358,16 @@
                 </svg>
                 <span x-text="filteredProjects.length"></span> projects found
             </div>
-            <div class="text-xs text-gray-500">
-                ▼ Scroll to load more
-            </div>
+            <div class="text-xs text-gray-500">▼ Scroll to load more</div>
         </div>
         
-        <!-- Masonry Grid -->
         <div class="masonry-grid">
             <template x-for="project in displayedProjects" :key="project.id">
                 <div class="masonry-item">
                     <div class="project-card group relative cursor-pointer">
                         <div class="relative overflow-hidden rounded-2xl bg-gray-900">
-                            <!-- Thumbnail -->
-                            <img :src="project.thumbnail" :alt="project.title" 
-                                 class="thumbnail-img w-full transition-all duration-500">
+                            <img :src="project.thumbnail" :alt="project.title" class="thumbnail-img w-full transition-all duration-500">
                             
-                            <!-- Category Badge -->
                             <div class="category-badge">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <template x-if="project.category === 'Photography'">
@@ -439,7 +386,6 @@
                                 <span x-text="project.category"></span>
                             </div>
                             
-                            <!-- Overlay -->
                             <div class="project-overlay">
                                 <h3 class="text-lg font-bold mb-1" x-text="project.title"></h3>
                                 <p class="text-gray-300 text-sm mb-3 line-clamp-2" x-text="project.description"></p>
@@ -447,18 +393,24 @@
                                     <span class="text-xs px-2 py-1 bg-white/10 rounded-full" x-text="project.subcategory"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <div class="flex gap-3 text-xs text-gray-300">
-                                        <span class="flex items-center gap-1">❤️ <span x-text="project.likes.toLocaleString()"></span></span>
+                                    <div class="flex gap-4 text-xs">
+                                        <button @click="likeProject(project.id, $event)" 
+                                                class="like-btn flex items-center gap-1 transition"
+                                                :class="likedProjects.includes(project.id) ? 'liked' : 'text-gray-300'">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                            </svg>
+                                            <span x-text="project.likes.toLocaleString()"></span>
+                                        </button>
                                         <span class="flex items-center gap-1">👁️ <span x-text="project.views.toLocaleString()"></span></span>
                                     </div>
-                                    <button class="px-3 py-1.5 bg-[#00D2FF] text-black rounded-full text-xs font-semibold hover:brightness-110 transition">
+                                    <a :href="'/projects/' + project.slug" 
+                                       class="px-3 py-1.5 bg-[#00D2FF] text-black rounded-full text-xs font-semibold hover:brightness-110 transition">
                                         View Details
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Info -->
                         <div class="mt-3">
                             <h3 class="font-semibold text-sm" x-text="project.title"></h3>
                             <p class="text-xs text-gray-500" x-text="project.photographer || project.designer || project.videographer"></p>
@@ -468,17 +420,15 @@
             </template>
         </div>
         
-        <!-- Load More Button -->
         <div class="text-center mt-12" x-show="displayedProjects.length < filteredProjects.length">
             <button @click="loadMore" 
-                    class="magnetic-btn px-8 py-3 border border-[#00D2FF] rounded-full text-[#00D2FF] hover:bg-[#00D2FF] hover:text-black transition inline-flex items-center gap-2"
+                    class="px-8 py-3 border border-[#00D2FF] rounded-full text-[#00D2FF] hover:bg-[#00D2FF] hover:text-black transition inline-flex items-center gap-2"
                     :disabled="loading">
                 <div x-show="loading" class="loading-spinner w-4 h-4"></div>
                 <span x-text="loading ? 'Loading...' : 'Load More Projects'"></span>
             </button>
         </div>
         
-        <!-- No Results -->
         <div class="text-center py-20" x-show="filteredProjects.length === 0">
             <svg class="w-20 h-20 mx-auto text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -494,6 +444,7 @@
     function explorePage() {
         return {
             projects: @json($allProjects),
+            likedProjects: @json($likedProjectIds ?? []),
             activeCategory: 'all',
             searchQuery: '',
             visibleCount: 24,
@@ -502,7 +453,6 @@
             get filteredProjects() {
                 let filtered = [...this.projects];
                 
-                // Filter by category
                 if (this.activeCategory !== 'all') {
                     filtered = filtered.filter(p => {
                         const cat = this.activeCategory;
@@ -517,7 +467,6 @@
                     });
                 }
                 
-                // Filter by search query
                 if (this.searchQuery) {
                     const query = this.searchQuery.toLowerCase();
                     filtered = filtered.filter(p => 
@@ -536,9 +485,9 @@
             },
             
             init() {
-                // Listen for category changes
                 window.addEventListener('category-change', (e) => {
                     this.activeCategory = e.detail;
+                    this.visibleCount = 24;
                 });
             },
             
@@ -549,6 +498,52 @@
                     this.visibleCount += 12;
                     this.loading = false;
                 }, 500);
+            },
+            
+            getProjectSlug(projectId) {
+                const project = this.projects.find(p => p.id === projectId);
+                return project ? project.slug : '';
+            },
+            
+            async likeProject(projectId, event) {
+                if (event) event.stopPropagation();
+                
+                const slug = this.getProjectSlug(projectId);
+                if (!slug) return;
+                
+                const isLiked = this.likedProjects.includes(projectId);
+                const url = `/projects/${slug}/like`;
+                
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        if (data.liked) {
+                            this.likedProjects.push(projectId);
+                        } else {
+                            this.likedProjects = this.likedProjects.filter(id => id !== projectId);
+                        }
+                        
+                        // Update likes count di project
+                        const project = this.projects.find(p => p.id === projectId);
+                        if (project) {
+                            project.likes = data.likes_count;
+                        }
+                        
+                        // Force re-render
+                        this.projects = [...this.projects];
+                    }
+                } catch (error) {
+                    console.error('Error liking project:', error);
+                }
             }
         }
     }
@@ -556,15 +551,11 @@
     // Reveal animations
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('active');
         });
     }, { threshold: 0.1 });
     
-    document.querySelectorAll('.reveal').forEach(el => {
-        revealObserver.observe(el);
-    });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
 @endpush
 

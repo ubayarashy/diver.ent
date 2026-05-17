@@ -2,31 +2,48 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $fillable = [
+        'name', 'email', 'password', 'role', 'avatar', 
+        'bio', 'location', 'verified', 'follower_count', 'following_count'
+    ];
+
+    protected $hidden = ['password', 'remember_token'];
+
+    // Relasi ke project (sebagai creator)
+    public function projects()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Project::class, 'user_id');
+    }
+    
+    // TAMBAHKAN INI - Relasi ke Like
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    
+    // Followers (orang yang follow user ini)
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+    }
+    
+    // Following (orang yang di-follow user ini)
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+    
+    // Cek apakah user sudah follow creator ini
+    public function isFollowing($creatorId)
+    {
+        return $this->following()->where('following_id', $creatorId)->exists();
     }
 }

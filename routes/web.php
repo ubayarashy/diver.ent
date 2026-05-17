@@ -9,9 +9,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ContactController;
 
-
-Route::get('/creators', [CreatorController::class, 'directory'])->name('creators.directory');
-Route::get('/creators/{id}', [CreatorController::class, 'profile'])->name('creators.profile');
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,10 +32,10 @@ Route::get('/explore/search', [ExploreController::class, 'search'])->name('explo
 Route::get('/creators', [CreatorController::class, 'directory'])->name('creators.directory');
 Route::get('/creators/{id}/{slug?}', [CreatorController::class, 'profile'])->name('creators.profile');
 
-// Project Detail
+// Project Detail & Like (POST untuk like)
 Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projects.detail');
-Route::get('/projects/{slug}/like', [ProjectController::class, 'like'])->name('projects.like')->middleware('auth');
-Route::get('/projects/{slug}/bookmark', [ProjectController::class, 'bookmark'])->name('projects.bookmark')->middleware('auth');
+Route::post('/projects/{slug}/like', [ProjectController::class, 'like'])->name('projects.like')->middleware('auth');
+Route::post('/projects/{slug}/bookmark', [ProjectController::class, 'bookmark'])->name('projects.bookmark')->middleware('auth');
 
 // Contact Page
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -75,9 +72,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('dashboard.settings');
     Route::put('/dashboard/settings', [DashboardController::class, 'updateSettings']);
     
-    // Follow Creator
+    // Follow Creator (POST untuk follow, DELETE untuk unfollow)
     Route::post('/creators/{id}/follow', [CreatorController::class, 'follow'])->name('creators.follow');
     Route::delete('/creators/{id}/unfollow', [CreatorController::class, 'unfollow'])->name('creators.unfollow');
+    
+    // User Profile Edit (untuk user biasa)
+    Route::get('/profile/edit', [DashboardController::class, 'editProfile'])->name('user.profile.edit');
+    Route::put('/profile/update', [DashboardController::class, 'updateProfile'])->name('user.profile.update');
+    Route::delete('/profile/avatar', [DashboardController::class, 'deleteAvatar'])->name('user.profile.delete-avatar');
 });
 
 // ============================================
@@ -89,8 +91,13 @@ Route::middleware(['auth', 'role:creator'])->prefix('creator')->name('creator.')
     // Creator Dashboard
     Route::get('/dashboard', [DashboardController::class, 'creatorIndex'])->name('dashboard');
     
+    // Creator Profile Edit
+    Route::get('/profile/edit', [DashboardController::class, 'editCreatorProfile'])->name('profile.edit');
+    Route::put('/profile/update', [DashboardController::class, 'updateCreatorProfile'])->name('profile.update');
+    Route::delete('/profile/avatar', [DashboardController::class, 'deleteCreatorAvatar'])->name('profile.delete-avatar');
+    
     // Manage Projects
-    Route::get('/projects', [ProjectController::class, 'myProjects'])->name('projects');
+    Route::get('/projects', [ProjectController::class, 'myProjects'])->name('projects.index');
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
@@ -104,10 +111,6 @@ Route::middleware(['auth', 'role:creator'])->prefix('creator')->name('creator.')
     
     // Statistics
     Route::get('/statistics', [DashboardController::class, 'creatorStats'])->name('statistics');
-    
-    // Profile Management
-    Route::get('/profile/edit', [CreatorController::class, 'editProfile'])->name('profile.edit');
-    Route::put('/profile', [CreatorController::class, 'updateProfile'])->name('profile.update');
 });
 
 // ============================================
@@ -137,13 +140,10 @@ Route::middleware(['auth', 'role:curator'])->prefix('curator')->name('curator.')
     // Trending Management
     Route::get('/trending', [DashboardController::class, 'trendingManagement'])->name('trending');
     Route::post('/trending/set', [DashboardController::class, 'setTrending'])->name('trending.set');
-    
-    // Category Management
-    Route::resource('/categories', CategoryController::class)->except(['show']);
 });
 
 // ============================================
-// TEST ROUTES (Untuk testing, hapus nanti)
+// TEST ROUTES (Untuk testing)
 // ============================================
 
 Route::get('/test-landing', function () {

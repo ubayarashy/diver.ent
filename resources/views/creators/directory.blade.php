@@ -30,10 +30,18 @@
         color: black;
         font-size: 10px;
     }
+    .follow-btn {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
     .follow-btn.following {
         background: rgba(0, 210, 255, 0.1);
         border-color: #00D2FF;
         color: #00D2FF;
+    }
+    .follow-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
     .search-input {
         background: rgba(255, 255, 255, 0.05);
@@ -52,6 +60,13 @@
     .reveal-up.active {
         opacity: 1;
         transform: translateY(0);
+    }
+    .creator-avatar-large {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #00D2FF;
     }
 </style>
 
@@ -152,12 +167,20 @@
     console.log('Creators data:', creatorsData);
     console.log('Jumlah creator:', creatorsData.length);
     
+    // AMBIL DATA FOLLOWING DARI DATABASE
+    let followingIds = [];
+    @auth
+        @php
+            $followingIdsArray = auth()->user()->following()->pluck('following_id')->toArray();
+        @endphp
+        followingIds = @json($followingIdsArray);
+        console.log('Following IDs from DB:', followingIds);
+    @endauth
+    
     // State
-    let currentCreators = [...creatorsData];
     let activeCategory = 'all';
     let searchQuery = '';
     let sortBy = 'followers';
-    let followingIds = [];
     let visibleCount = 12;
     
     // DOM Elements
@@ -172,6 +195,65 @@
         if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
         if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
         return num.toString();
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    async function toggleFollow(creatorId, buttonElement) {
+        if (!buttonElement) return;
+        
+        const isFollowing = buttonElement.textContent.trim() === 'Following';
+        const url = isFollowing 
+            ? `/creators/${creatorId}/unfollow`
+            : `/creators/${creatorId}/follow`;
+        const method = isFollowing ? 'DELETE' : 'POST';
+        
+        buttonElement.disabled = true;
+        buttonElement.textContent = 'Loading...';
+        
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                if (isFollowing) {
+                    buttonElement.textContent = 'Follow';
+                    buttonElement.classList.remove('following');
+                    buttonElement.classList.remove('border-blue', 'text-blue');
+                    buttonElement.classList.add('border-blue/50', 'text-white', 'hover:bg-blue', 'hover:text-black');
+                    followingIds = followingIds.filter(id => id !== creatorId);
+                } else {
+                    buttonElement.textContent = 'Following';
+                    buttonElement.classList.remove('border-blue/50', 'text-white', 'hover:bg-blue', 'hover:text-black');
+                    buttonElement.classList.add('following', 'border-blue', 'text-blue');
+                    followingIds.push(creatorId);
+                }
+            } else {
+                alert(data.message || 'Something went wrong');
+                buttonElement.textContent = isFollowing ? 'Following' : 'Follow';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to update follow status');
+            buttonElement.textContent = isFollowing ? 'Following' : 'Follow';
+        } finally {
+            buttonElement.disabled = false;
+        }
     }
     
     function renderCreators() {
@@ -227,40 +309,41 @@
         // Render HTML
         let html = '';
         visible.forEach((creator, index) => {
+            const isFollowing = followingIds.includes(creator.id);
             html += `
                 <div class="creator-card group reveal-up" style="animation-delay: ${index * 0.03}s">
                     <div class="glass rounded-2xl overflow-hidden">
-                        <div class="relative h-32 overflow-hidden">
-                            <img src="${creator.cover}" class="w-full h-full object-cover">
-                            <div class="absolute top-3 right-3">
-                                ${creator.verified ? '<span class="verified-badge"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></span>' : ''}
+                        <div class="relative pt-8 pb-4 bg-gradient-to-b from-blue/10 to-transparent">
+                            <div class="flex justify-center">
+                                <img src="${creator.avatar}" class="creator-avatar-large">
                             </div>
+                            ${creator.verified ? '<div class="absolute top-3 right-3"><span class="verified-badge"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></span></div>' : ''}
                         </div>
-                        <div class="relative px-6">
-                            <div class="absolute -top-10 left-6">
-                                <img src="${creator.avatar}" class="w-20 h-20 rounded-full object-cover border-4 border-black">
+                        <div class="p-5 pt-2">
+                            <div class="text-center">
+                                <h3 class="font-bold text-lg">${escapeHtml(creator.name)}</h3>
+                                <p class="text-gray-400 text-sm mb-1">${escapeHtml(creator.role)}</p>
+                                <p class="text-gray-500 text-xs mb-3">${escapeHtml(creator.location || 'Various')}</p>
+                                <p class="text-gray-400 text-sm line-clamp-2 mb-4">${escapeHtml(creator.bio.substring(0, 100))}${creator.bio.length > 100 ? '...' : ''}</p>
                             </div>
-                        </div>
-                        <div class="p-6 pt-12">
-                            <div class="flex items-center justify-between mb-1">
-                                <h3 class="font-bold text-lg">${creator.name}</h3>
-                                <span class="text-xs text-gray-500">⭐ ${creator.rating}</span>
-                            </div>
-                            <p class="text-gray-400 text-sm mb-2">${creator.role}</p>
-                            <p class="text-gray-500 text-xs mb-3">${creator.location || 'Various'}</p>
-                            <p class="text-gray-400 text-sm line-clamp-2 mb-4">${creator.bio.substring(0, 100)}${creator.bio.length > 100 ? '...' : ''}</p>
                             <div class="flex justify-between mb-4 text-center">
                                 <div><div class="font-bold text-sm">${formatNumber(creator.followers)}</div><div class="text-xs text-gray-500">Followers</div></div>
                                 <div><div class="font-bold text-sm">${creator.projects}</div><div class="text-xs text-gray-500">Projects</div></div>
                                 <div><div class="font-bold text-sm">⭐ ${creator.rating}</div><div class="text-xs text-gray-500">Rating</div></div>
                             </div>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                ${creator.tags && creator.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-400">${tag}</span>`).join('')}
+                            <div class="flex flex-wrap justify-center gap-2 mb-4">
+                                ${creator.tags && creator.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-400">${escapeHtml(tag)}</span>`).join('')}
                             </div>
-                            <button onclick="toggleFollow(${creator.id})" 
-                                    class="follow-btn w-full py-2 rounded-full text-sm font-semibold border transition ${followingIds.includes(creator.id) ? 'following border-blue text-blue' : 'border-blue/50 text-white hover:bg-blue hover:text-black'}">
-                                ${followingIds.includes(creator.id) ? 'Following' : 'Follow'}
-                            </button>
+                            <div class="flex gap-2">
+                                <button onclick="toggleFollow(${creator.id}, this)" 
+                                        class="follow-btn flex-1 py-2 rounded-full text-sm font-semibold border transition ${isFollowing ? 'following border-blue text-blue' : 'border-blue/50 text-white hover:bg-blue hover:text-black'}">
+                                    ${isFollowing ? 'Following' : 'Follow'}
+                                </button>
+                                <a href="/creators/${creator.id}" 
+                                   class="flex-1 py-2 rounded-full text-sm font-semibold border border-white/20 hover:border-blue hover:text-blue transition text-center">
+                                    View Profile
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -275,15 +358,6 @@
         }, 100);
     }
     
-    function toggleFollow(id) {
-        if (followingIds.includes(id)) {
-            followingIds = followingIds.filter(i => i !== id);
-        } else {
-            followingIds.push(id);
-        }
-        renderCreators();
-    }
-    
     function loadMore() {
         visibleCount += 12;
         renderCreators();
@@ -296,7 +370,6 @@
         visibleCount = 12;
         renderCreators();
         
-        // Update active class on filter buttons
         document.querySelectorAll('.filter-btn, .filter-btn-all').forEach(btn => {
             btn.classList.remove('bg-blue', 'text-black');
             btn.classList.add('text-white');
@@ -305,18 +378,30 @@
         document.querySelector('.filter-btn-all').classList.remove('text-white');
     }
     
+    function updateSortButtons(activeId) {
+        const buttons = ['sortFollowers', 'sortProjects', 'sortRating'];
+        buttons.forEach(id => {
+            const btn = document.getElementById(id);
+            if (id === activeId) {
+                btn.classList.add('text-blue');
+                btn.classList.remove('text-gray-500');
+            } else {
+                btn.classList.add('text-gray-500');
+                btn.classList.remove('text-blue');
+            }
+        });
+    }
+    
     // Event Listeners
     document.addEventListener('DOMContentLoaded', () => {
         renderCreators();
         
-        // Search
         searchInput.addEventListener('input', (e) => {
             searchQuery = e.target.value;
             visibleCount = 12;
             renderCreators();
         });
         
-        // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 activeCategory = btn.dataset.cat;
@@ -345,52 +430,30 @@
             document.querySelector('.filter-btn-all').classList.remove('text-white');
         });
         
-        // Sort buttons
         document.getElementById('sortFollowers').addEventListener('click', () => {
             sortBy = 'followers';
             visibleCount = 12;
             renderCreators();
-            document.getElementById('sortFollowers').classList.add('text-blue');
-            document.getElementById('sortFollowers').classList.remove('text-gray-500');
-            document.getElementById('sortProjects').classList.add('text-gray-500');
-            document.getElementById('sortProjects').classList.remove('text-blue');
-            document.getElementById('sortRating').classList.add('text-gray-500');
-            document.getElementById('sortRating').classList.remove('text-blue');
+            updateSortButtons('sortFollowers');
         });
         
         document.getElementById('sortProjects').addEventListener('click', () => {
             sortBy = 'projects';
             visibleCount = 12;
             renderCreators();
-            document.getElementById('sortProjects').classList.add('text-blue');
-            document.getElementById('sortProjects').classList.remove('text-gray-500');
-            document.getElementById('sortFollowers').classList.add('text-gray-500');
-            document.getElementById('sortFollowers').classList.remove('text-blue');
-            document.getElementById('sortRating').classList.add('text-gray-500');
-            document.getElementById('sortRating').classList.remove('text-blue');
+            updateSortButtons('sortProjects');
         });
         
         document.getElementById('sortRating').addEventListener('click', () => {
             sortBy = 'rating';
             visibleCount = 12;
             renderCreators();
-            document.getElementById('sortRating').classList.add('text-blue');
-            document.getElementById('sortRating').classList.remove('text-gray-500');
-            document.getElementById('sortFollowers').classList.add('text-gray-500');
-            document.getElementById('sortFollowers').classList.remove('text-blue');
-            document.getElementById('sortProjects').classList.add('text-gray-500');
-            document.getElementById('sortProjects').classList.remove('text-blue');
+            updateSortButtons('sortRating');
         });
         
-        // Load more
         document.getElementById('loadMoreBtn').addEventListener('click', loadMore);
-        
-        // Reset filters
         document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
     });
-    
-    window.toggleFollow = toggleFollow;
 </script>
 @endpush
-
 @endsection

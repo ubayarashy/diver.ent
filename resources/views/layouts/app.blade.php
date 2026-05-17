@@ -179,56 +179,116 @@
     <div class="floating-blue" style="width: 500px; height: 500px; bottom: 10%; right: -200px;"></div>
     
     <!-- Navbar -->
-    <nav x-data="{ isOpen: false, scrolled: false }" 
-         x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
-         class="navbar"
-         :class="scrolled ? 'navbar-scrolled' : ''">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center h-20">
-                <a href="/" class="text-2xl font-bold tracking-tighter">
-                    <span class="text-white">DIVER</span>
-                    <span class="text-blue">.ent</span>
-                </a>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="text-sm uppercase tracking-wider hover:text-blue transition">Home</a>
-                    <a href="/explore" class="text-sm uppercase tracking-wider hover:text-blue transition">Explore</a>
-                    <a href="/creators" class="text-sm uppercase tracking-wider hover:text-blue transition">Creators</a>
-                    <a href="/contact" class="text-sm uppercase tracking-wider hover:text-blue transition">Contact</a>
-                    
-                    @auth
-                        <a href="/dashboard" class="text-sm uppercase tracking-wider hover:text-blue transition">Dashboard</a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-sm uppercase tracking-wider hover:text-blue transition">Logout</button>
-                        </form>
-                    @else
-                        <a href="/login" class="px-6 py-2 border border-blue rounded-full text-sm uppercase tracking-wider hover:bg-blue hover:text-black transition">Sign In</a>
-                    @endauth
+ <!-- Navbar -->
+<nav x-data="{ isOpen: false, scrolled: false }" 
+     x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
+     class="navbar"
+     :class="scrolled ? 'navbar-scrolled' : ''">
+    <div class="container mx-auto px-6">
+        <div class="flex justify-between items-center h-20">
+            <a href="/" class="text-2xl font-bold tracking-tighter">
+                <span class="text-white">DIVER</span>
+                <span class="text-blue">.ent</span>
+            </a>
+            
+     <!-- Desktop Menu -->
+<div class="hidden md:flex items-center space-x-8">
+    <a href="/" class="text-sm uppercase tracking-wider hover:text-blue transition">Home</a>
+    <a href="/explore" class="text-sm uppercase tracking-wider hover:text-blue transition">Explore</a>
+    <a href="/creators" class="text-sm uppercase tracking-wider hover:text-blue transition">Creators</a>
+    <a href="/contact" class="text-sm uppercase tracking-wider hover:text-blue transition">Contact</a>
+    
+    @auth
+        {{-- Profile Icon Dropdown --}}
+        <div class="relative" x-data="{ open: false }">
+            <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
+                <img src="{{ Auth::user()->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=00D2FF&color=fff&size=32' }}" 
+                     class="w-8 h-8 rounded-full object-cover border border-blue/30">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-black/95 backdrop-blur-md border border-blue/20 rounded-xl shadow-lg z-50">
+                <div class="p-3 border-b border-white/10">
+                    <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
+                    <p class="text-xs text-gray-500">{{ ucfirst(Auth::user()->role) }}</p>
                 </div>
                 
-                <button @click="isOpen = !isOpen" class="md:hidden text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        <path x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <div x-show="isOpen" x-transition.duration.300ms class="md:hidden pb-4 space-y-3">
-                <a href="/" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Home</a>
-                <a href="/explore" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Explore</a>
-                <a href="/creators" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Creators</a>
-                <a href="/contact" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Contact</a>
-                @auth
-                    <a href="/dashboard" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Dashboard</a>
+                @if(auth()->user()->role === 'creator')
+                    <a href="{{ route('creator.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('creator.profile.edit') }}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Edit Profile
+                    </a>
+                @elseif(auth()->user()->role === 'curator' || auth()->user()->role === 'admin')
+                    <a href="{{ route('curator.dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Dashboard
+                    </a>
                 @else
-                    <a href="/login" class="block px-6 py-2 border border-blue rounded-full text-sm uppercase tracking-wider text-center hover:bg-blue hover:text-black transition">Sign In</a>
-                @endauth
+                    <a href="{{ route('dashboard.user') }}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('user.profile.edit') }}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Edit Profile
+                    </a>
+                @endif
+                
+                <form method="POST" action="{{ route('logout') }}" class="block">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-white/5 transition text-left">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        Logout
+                    </button>
+                </form>
             </div>
         </div>
-    </nav>
-    
+    @else
+        <a href="/login" class="px-6 py-2 border border-blue rounded-full text-sm uppercase tracking-wider hover:bg-blue hover:text-black transition">Sign In</a>
+    @endauth
+</div>
+            <!-- Mobile Menu Button -->
+            <button @click="isOpen = !isOpen" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path x-show="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path x-show="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div x-show="isOpen" x-transition.duration.300ms class="md:hidden pb-4 space-y-3">
+            <a href="/" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Home</a>
+            <a href="/explore" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Explore</a>
+            <a href="/creators" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Creators</a>
+            <a href="/contact" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Contact</a>
+            
+            @auth
+                {{-- MENU DASHBOARD MOBILE BERDASARKAN ROLE --}}
+                @if(auth()->user()->role === 'creator')
+                    <a href="{{ route('creator.dashboard') }}" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Dashboard</a>
+                @elseif(auth()->user()->role === 'curator' || auth()->user()->role === 'admin')
+                    <a href="{{ route('curator.dashboard') }}" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Dashboard</a>
+                @else
+                    <a href="{{ route('dashboard.user') }}" class="block text-sm uppercase tracking-wider hover:text-blue transition py-2">Dashboard</a>
+                @endif
+                
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="block w-full text-left text-sm uppercase tracking-wider hover:text-blue transition py-2">Logout</button>
+                </form>
+            @else
+                <a href="/login" class="block px-6 py-2 border border-blue rounded-full text-sm uppercase tracking-wider text-center hover:bg-blue hover:text-black transition">Sign In</a>
+            @endauth
+        </div>
+    </div>
+</nav>
     <div class="navbar-spacer"></div>
     
     <main>
