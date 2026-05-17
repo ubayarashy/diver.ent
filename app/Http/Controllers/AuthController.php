@@ -99,10 +99,45 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $request->validate(['email' => 'required|email']);
-        
-        // Here you can add logic to send password reset email
-        // For now, just redirect back with status
+        $request->validate(['email' => 'required|email']);
+ 
+        $status = Password::sendResetLink(
+        $request->only('email')
+        );
+ 
+         return $status === Password::ResetLinkSent
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
         
         return back()->with('status', 'We have emailed your password reset link!');
+    }
+
+    public function showReset(){
+        return view('auth.reset-password');
+    }
+
+    public function reset(Request $request, string $token){
+        $request->validate([
+            'token'=>'required',
+            'email'=>'required|email',
+            'password'=>'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request ->only('email','password','password_confirmation','token'),
+            function (User $user , string $password){
+                $user->forceFill([
+                    'password'=>Hash::make($password);
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user);)
+            }
+        );
+
+            return $status === Password::PasswordReset
+                ? redirect()->route('login')->with('status',__('$status'))
+                : back()->withErrors(['email'=>[__($status)]]);
     }
 }

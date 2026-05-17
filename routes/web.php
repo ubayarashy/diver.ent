@@ -1,6 +1,10 @@
 <?php
-
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\CreatorController;
@@ -57,6 +61,12 @@ Route::post('/register', [AuthController::class, 'register']);
 // Forgot Password
 Route::get('/forgot-password', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('/forgot-password', [AuthController::class, 'forgot'])->name('password.email');
+Route::get('/reset-password',[AuthController::class,'showReset'])->name('password.req');
+Route::post('/reset-password',[AuthController::class,'reset'])->name('password.request');
+// Route::get('/reset-password/{token}',{return view('auth.reset-password', ['token' => $token]);})>middleware('guest')->name('password.reset');
+
+
+
 
 // ============================================
 // USER DASHBOARD ROUTES (Butuh login)
