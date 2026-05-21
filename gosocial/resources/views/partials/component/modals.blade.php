@@ -25,8 +25,11 @@
         <p>Masuk ke Client Area diver.ent.</p>
         <button class="btn-outline" style="width:100%;justify-content:center;margin-bottom:16px;">🔵 Sign in with Google</button>
         <div style="text-align:center;color:var(--text-secondary);font-size:.85rem;margin-bottom:16px;">atau</div>
-        <input type="email" class="modal-input" placeholder="Email address">
-        <input type="password" class="modal-input" placeholder="Password">
+        <input type="email" class="modal-input" id="login-email" placeholder="Email address">
+        <div style="position:relative;">
+            <input type="password" class="modal-input" id="login-password" placeholder="Password">
+            <button type="button" class="toggle-pw" data-target="login-password" aria-label="Hold to show password">👁️</button>
+        </div>
         <a href="#" style="font-size:.82rem;color:var(--accent);display:block;margin-bottom:16px;">Forgot password?</a>
         <button class="btn-primary" style="width:100%;justify-content:center;">Sign In</button>
         <div class="modal-switch">Belum punya akun? <a href="#" id="switch-to-register">Sign Up</a></div>
@@ -49,7 +52,7 @@
             <input type="email" class="modal-input" id="reg-email" placeholder="Email address" required>
             <div style="position:relative;">
                 <input type="password" class="modal-input" id="reg-password" placeholder="Password" required minlength="8" oninput="checkPasswordStrength(this.value)">
-                <button type="button" class="toggle-pw" onclick="togglePassword('reg-password', this)" aria-label="Show password">👁️</button>
+                <button type="button" class="toggle-pw" data-target="reg-password" aria-label="Hold to show password">👁️</button>
             </div>
             <div class="pw-strength" id="pw-strength">
                 <div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div>
@@ -57,7 +60,7 @@
             </div>
             <div style="position:relative;">
                 <input type="password" class="modal-input" id="reg-confirm" placeholder="Konfirmasi Password" required oninput="checkPasswordMatch()">
-                <button type="button" class="toggle-pw" onclick="togglePassword('reg-confirm', this)" aria-label="Show password">👁️</button>
+                <button type="button" class="toggle-pw" data-target="reg-confirm" aria-label="Hold to show password">👁️</button>
             </div>
             <div class="pw-match-msg" id="pw-match-msg"></div>
             <button type="submit" class="btn-primary" id="reg-submit" style="width:100%;justify-content:center;" disabled>Create Account</button>

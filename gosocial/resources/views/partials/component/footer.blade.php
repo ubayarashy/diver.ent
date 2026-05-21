@@ -4,7 +4,7 @@
         <div class="footer-grid">
             <div class="footer-about">
                 <h4>diver.ent</h4>
-                <p>Digital marketing agency terpercaya di Surabaya. Kami membantu bisnis tumbuh melalui strategi digital yang terukur dan kreatif sejak 2019.</p>
+                <p>Digital marketing agency terpercaya di Medan. Kami membantu bisnis tumbuh melalui strategi digital yang terukur dan kreatif sejak 2019.</p>
                 <div class="footer-badges">
                     <span class="footer-badge">Google Ads Certified</span>
                     <span class="footer-badge">Meta Certified</span>
@@ -32,7 +32,7 @@
                 <h4>Contact</h4>
                 <a href="https://wa.me/6281234567890" target="_blank">📱 +62 812-3456-7890</a>
                 <a href="mailto:hello@diverent.co.id">✉️ hello@diverent.co.id</a>
-                <p style="margin-top:8px;">📍 Surabaya, Jawa Timur, Indonesia</p>
+                <p style="margin-top:8px;">📍 Medan, Sumatera Utara, Indonesia</p>
             </div>
         </div>
         <div class="footer-bottom">

@@ -9,7 +9,7 @@
 <section class="hero" id="hero">
     <div class="container">
         <div class="hero-content reveal">
-            <span class="hero-tag">🚀 #1 Digital Marketing Agency Surabaya</span>
+            <span class="hero-tag">🚀 #1 Digital Marketing Agency Medan</span>
             <h1>Digital Marketing Agency <span class="highlight">diver.ent</span></h1>
             <p>Kami membantu bisnis Anda tumbuh melalui strategi digital marketing yang terukur, kreatif, dan data-driven. Dari social media hingga website development.</p>
             <div class="hero-ctas">
@@ -206,7 +206,7 @@
             <div class="reveal">
                 <span class="section-tag">About Us</span>
                 <h2 class="section-title">diver.ent Digital Agency</h2>
-                <p class="section-desc">diver.ent adalah digital marketing agency berbasis di Surabaya yang berkomitmen membantu bisnis Indonesia tumbuh di era digital melalui strategi yang terukur dan data-driven.</p>
+                <p class="section-desc">diver.ent adalah digital marketing agency berbasis di Medan yang berkomitmen membantu bisnis Indonesia tumbuh di era digital melalui strategi yang terukur dan data-driven.</p>
                 <div class="about-stats">
                     <div class="stat-item">
                         <div class="stat-number" data-count="80" data-suffix="%">0%</div>

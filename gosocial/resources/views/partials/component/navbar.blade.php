@@ -26,7 +26,7 @@
                     </div>
                     <div>
                         <h4>Visual & Audio</h4>
-                        <a href="/#services">Video Production</a>
+                        <a href="{{ route('service.vp') }}">Video Production</a>
                         <a href="{{ route('service.fp') }}">Foto Produk</a>
                         <a href="{{ route('service.cp') }}">Commercial Photography</a>
                     </div>
@@ -73,6 +73,10 @@
             <li><a href="#" data-modal="login-modal">Sign In</a></li>
         </ul>
         <div style="display:flex;align-items:center;gap:16px;">
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme" style="font-size:1.2rem; display:flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:var(--surface-alt); transition:var(--transition);">
+                <span class="icon-light" style="display:none;">☀️</span>
+                <span class="icon-dark">🌙</span>
+            </button>
             <a href="/#cta-bottom" class="btn-primary" id="nav-cta">Get In Touch</a>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>

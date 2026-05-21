@@ -145,20 +145,38 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('login-modal')?.classList.add('active');
         });
     }
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+
+    // Password Visibility (Hold to show)
+    document.querySelectorAll('.toggle-pw').forEach(btn => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        
+        const show = () => { target.type = 'text'; btn.textContent = '🙈'; };
+        const hide = () => { target.type = 'password'; btn.textContent = '👁️'; };
+        
+        btn.addEventListener('mousedown', show);
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); show(); }, {passive: false});
+        
+        btn.addEventListener('mouseup', hide);
+        btn.addEventListener('mouseleave', hide);
+        btn.addEventListener('touchend', hide);
+        btn.addEventListener('touchcancel', hide);
+    });
 });
 
 // ===== Registration Form Functions =====
 
-function togglePassword(inputId, btn) {
-    const input = document.getElementById(inputId);
-    if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
-    } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-    }
-}
 
 function checkPasswordStrength(pw) {
     const fill = document.getElementById('pw-fill');

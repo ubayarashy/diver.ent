@@ -38,3 +38,6 @@ Route::get('/service/foto-produk', function () {
     return view('services.foto-produk');
 })->name('service.fp');
 
+Route::get('/service/video-production', function () {
+    return view('services.video-production');
+})->name('service.vp');
