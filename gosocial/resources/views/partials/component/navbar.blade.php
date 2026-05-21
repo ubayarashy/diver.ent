@@ -8,8 +8,8 @@
                 <div class="mega-menu">
                     <div>
                         <h4>Digital Marketing</h4>
-                        <a href="/#services">Social Media Management</a>
-                        <a href="/#services">Digital Ads (Meta, Google, TikTok)</a>
+                        <a href="{{ route('service.smm') }}">Social Media Management</a>
+                        <a href="{{ route('service.dc') }}">Digital Ads (Meta, Google, TikTok)</a>
                         <a href="/#services">SEO Optimization</a>
                         <a href="/#services">KOL & Affiliate Marketing</a>
                     </div>
@@ -27,8 +27,8 @@
                     <div>
                         <h4>Visual & Audio</h4>
                         <a href="/#services">Video Production</a>
-                        <a href="/#services">Foto Produk</a>
-                        <a href="/#services">Commercial Photography</a>
+                        <a href="{{ route('service.fp') }}">Foto Produk</a>
+                        <a href="{{ route('service.cp') }}">Commercial Photography</a>
                     </div>
                 </div>
             </li>

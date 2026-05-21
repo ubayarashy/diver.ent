@@ -22,8 +22,8 @@
             </div>
             <div>
                 <h4>Top Services</h4>
-                <a href="/#services">Social Media Management</a>
-                <a href="/#services">Digital Ads</a>
+                <a href="{{ route('service.smm') }}">Social Media Management</a>
+                <a href="{{ route('service.dc') }}">Digital Ads</a>
                 <a href="/#services">Website Development</a>
                 <a href="/#services">SEO Optimization</a>
                 <a href="/#services">Branding & Design</a>
