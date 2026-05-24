@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientAreaController;
 use App\Http\Controllers\CollaborationController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -175,4 +176,18 @@ Route::prefix('company')->name('company.')->group(function () {
 // ==================== FALLBACK ROUTE (404) ====================
 Route::fallback(function () {
     return view('errors.404');
+});
+
+// Team routes
+Route::middleware(['auth', 'role:team'])->prefix('team')->name('team.')->group(function () {
+    Route::get('/dashboard', [TeamController::class, 'dashboard'])->name('dashboard');
+    Route::get('/tasks', [TeamController::class, 'tasks'])->name('tasks');
+    Route::get('/task/{id}', [TeamController::class, 'showTask'])->name('task.detail');
+    Route::post('/task/{id}/status', [TeamController::class, 'updateTaskStatus'])->name('task.status');
+    Route::post('/task/{id}/progress', [TeamController::class, 'updateProgress'])->name('task.progress');
+    Route::post('/task/{id}/upload', [TeamController::class, 'uploadResult'])->name('task.upload');
+    Route::get('/calendar', [TeamController::class, 'calendar'])->name('calendar');
+    Route::get('/notifications', [TeamController::class, 'notifications'])->name('notifications');
+    Route::get('/profile', [TeamController::class, 'profile'])->name('profile');
+    Route::post('/profile', [TeamController::class, 'updateProfile'])->name('profile.update');
 });

@@ -32,11 +32,23 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
             
+            // Ambil data user yang baru saja login
+            $user = Auth::user();
+
+            // Tentukan link redirect berdasarkan role user
+            if ($user->role == 'admin') {
+                $redirect = '/admin/dashboard';
+            } elseif ($user->role == 'team') {
+                $redirect = '/team/dashboard';
+            } else {
+                $redirect = '/client/dashboard';
+            }
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Login berhasil',
-                'user' => Auth::user(),
-                'redirect' => url('/client/dashboard')  // DIUBAH ke dashboard client
+                'user' => $user,
+                'redirect' => url($redirect) // Menggunakan variabel redirect yang dinamis
             ]);
         }
 
@@ -63,10 +75,12 @@ class AuthController extends Controller
             ], 422);
         }
 
+        // Secara default pendaftar baru diset sebagai 'client'
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'client',
         ]);
 
         Auth::login($user);
@@ -75,7 +89,7 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Registrasi berhasil! Selamat datang ' . $user->name,
             'user' => $user,
-            'redirect' => url('/client/dashboard')  // DIUBAH ke dashboard client
+            'redirect' => url('/client/dashboard')
         ]);
     }
 
@@ -127,6 +141,7 @@ class AuthController extends Controller
                     'email' => $googleUser->getEmail(),
                     'google_id' => $googleUser->getId(),
                     'password' => Hash::make(uniqid()),
+                    'role' => 'client', // Default role jika user baru terdaftar via Google
                 ]);
             } else {
                 $user->update(['google_id' => $googleUser->getId()]);
@@ -134,7 +149,15 @@ class AuthController extends Controller
             
             Auth::login($user);
             
-            return redirect()->route('client.dashboard');  // DIUBAH ke dashboard client
+            // Redirect dinamis untuk login Google
+            if ($user->role == 'admin') {
+                return redirect()->intent('/admin/dashboard');
+            } elseif ($user->role == 'team') {
+                return redirect()->intent('/team/dashboard');
+            } else {
+                return redirect()->intent('/client/dashboard');
+            }
+
         } catch (\Exception $e) {
             return redirect()->route('home')->with('error', 'Google login gagal: ' . $e->getMessage());
         }
