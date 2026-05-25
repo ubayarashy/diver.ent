@@ -12,11 +12,11 @@
         scroll-padding-top: 80px;
     }
 
-    /* Reveal Animation */
+    /* Elegant Reveal - Lebih halus dan mewah */
     .reveal {
         opacity: 0;
-        transform: translateY(40px);
-        transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        transform: translateY(20px);
+        transition: opacity 0.9s ease, transform 0.9s ease;
     }
 
     .reveal.active {
@@ -24,10 +24,9 @@
         transform: translateY(0);
     }
 
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
 
     /* Hero Section */
     .hero {
@@ -46,7 +45,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(59,130,255,0.08) 0%, transparent 50%);
+        background: radial-gradient(ellipse at 20% 50%, rgba(59,130,255,0.06) 0%, transparent 60%);
         pointer-events: none;
     }
 
@@ -60,52 +59,38 @@
         display: inline-block;
         background: rgba(59, 130, 255, 0.1);
         color: var(--accent);
-        padding: 8px 16px;
+        padding: 6px 14px;
         border-radius: 40px;
-        font-size: 0.8rem;
-        font-weight: 600;
+        font-size: 0.75rem;
+        font-weight: 500;
         margin-bottom: 28px;
         letter-spacing: 0.5px;
     }
 
     .hero h1 {
         font-size: clamp(2.5rem, 7vw, 5rem);
-        font-weight: 800;
+        font-weight: 700;
         line-height: 1.1;
         margin-bottom: 24px;
         font-family: var(--font-display);
-        letter-spacing: -2px;
+        letter-spacing: -1px;
     }
 
     .hero .highlight {
         color: var(--accent);
-        position: relative;
-        display: inline-block;
-    }
-
-    .hero .highlight::after {
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: var(--accent);
-        opacity: 0.3;
-        border-radius: 2px;
     }
 
     .hero p {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         color: var(--text-secondary);
         margin-bottom: 32px;
         max-width: 560px;
-        line-height: 1.7;
+        line-height: 1.6;
     }
 
     .hero-ctas {
         display: flex;
-        gap: 20px;
+        gap: 16px;
         margin-bottom: 60px;
         flex-wrap: wrap;
     }
@@ -121,8 +106,8 @@
 
     .hero-media span {
         color: var(--text-secondary);
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: 0.7rem;
+        font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
@@ -135,14 +120,8 @@
 
     .media-logos span {
         font-size: 0.85rem;
-        font-weight: 600;
+        font-weight: 500;
         opacity: 0.5;
-        transition: opacity 0.3s;
-        cursor: default;
-    }
-
-    .media-logos span:hover {
-        opacity: 1;
     }
 
     /* Section Common */
@@ -154,57 +133,55 @@
         display: inline-block;
         background: rgba(59, 130, 255, 0.1);
         color: var(--accent);
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 40px;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
     .section-title {
-        font-size: clamp(2rem, 5vw, 3.2rem);
-        font-weight: 800;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 700;
         margin-bottom: 16px;
         font-family: var(--font-display);
-        letter-spacing: -1px;
+        letter-spacing: -0.5px;
     }
 
     .section-desc {
         color: var(--text-secondary);
-        font-size: 1.05rem;
+        font-size: 1rem;
         max-width: 600px;
-        line-height: 1.7;
+        line-height: 1.6;
         margin-bottom: 48px;
     }
 
     /* Why Choose Us */
     .why-us {
         background: var(--surface);
-        position: relative;
     }
 
     .comparison-table {
         width: 100%;
         border-collapse: collapse;
         background: var(--bg);
-        border-radius: 20px;
+        border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     }
 
     .comparison-table th,
     .comparison-table td {
-        padding: 20px 24px;
+        padding: 18px 24px;
         text-align: left;
         border-bottom: 1px solid var(--border);
     }
 
     .comparison-table th {
         background: var(--surface-card);
-        font-weight: 700;
-        font-size: 0.85rem;
+        font-weight: 600;
+        font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
@@ -213,20 +190,15 @@
         border-bottom: none;
     }
 
-    .comparison-table tr:hover td {
-        background: rgba(59, 130, 255, 0.02);
-    }
-
     .check {
         color: var(--accent);
-        font-weight: 600;
     }
 
     .cross {
         color: #ef4444;
     }
 
-    /* Three Pillars */
+    /* Three Pillars - Tanpa animasi berlebihan */
     .pillars-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -237,63 +209,37 @@
     .pillar-card {
         background: var(--surface-card);
         border: 1px solid var(--border);
-        border-radius: 24px;
+        border-radius: 20px;
         padding: 40px 32px;
         text-align: center;
-        transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .pillar-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent), transparent);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease;
+        transition: all 0.4s ease;
     }
 
     .pillar-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-4px);
         border-color: var(--accent);
     }
 
-    .pillar-card:hover::before {
-        transform: scaleX(1);
-    }
-
     .pillar-icon {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         margin-bottom: 24px;
         color: var(--accent);
     }
 
     .pillar-card h3 {
-        font-size: 1.3rem;
-        font-weight: 700;
+        font-size: 1.2rem;
+        font-weight: 600;
         margin-bottom: 16px;
         font-family: var(--font-display);
     }
 
     .pillar-card p {
         color: var(--text-secondary);
-        line-height: 1.7;
-        font-size: 0.9rem;
+        line-height: 1.6;
+        font-size: 0.85rem;
     }
 
-    /* Client Logos Carousel */
-    .client-logos {
-        padding: 50px 0;
-        background: var(--surface);
-        overflow: hidden;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-    }
+   
 
     .logo-track {
         display: flex;
@@ -304,16 +250,10 @@
 
     .logo-track span {
         color: var(--text-secondary);
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: 0.9rem;
+        font-weight: 500;
         opacity: 0.6;
-        transition: opacity 0.3s;
         white-space: nowrap;
-    }
-
-    .logo-track span:hover {
-        opacity: 1;
-        color: var(--accent);
     }
 
     @keyframes scrollLogos {
@@ -332,13 +272,13 @@
     .filter-btn {
         background: transparent;
         border: 1px solid var(--border);
-        padding: 8px 24px;
+        padding: 8px 22px;
         border-radius: 40px;
         color: var(--text-secondary);
         cursor: pointer;
         transition: all 0.3s;
         font-weight: 500;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 
     .filter-btn.active,
@@ -356,7 +296,7 @@
 
     .portfolio-item {
         position: relative;
-        border-radius: 20px;
+        border-radius: 16px;
         overflow: hidden;
         cursor: pointer;
         aspect-ratio: 4/3;
@@ -368,11 +308,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.5s ease;
-    }
-
-    .portfolio-item:hover .portfolio-thumb {
-        transform: scale(1.05);
     }
 
     .overlay {
@@ -380,7 +315,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
         padding: 24px;
         transform: translateY(100%);
         transition: transform 0.4s ease;
@@ -391,25 +326,25 @@
     }
 
     .overlay h4 {
-        font-size: 1.1rem;
-        font-weight: 700;
+        font-size: 1rem;
+        font-weight: 600;
         margin-bottom: 4px;
         color: #fff;
     }
 
     .overlay span {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: var(--accent);
     }
 
-    /* Services Section */
+    /* Services Section - 4 Layanan Elegan */
     .services-section {
         background: var(--surface);
     }
 
-    .services-slider {
+    .services-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 24px;
         margin-top: 48px;
     }
@@ -418,9 +353,10 @@
         background: var(--bg);
         border: 1px solid var(--border);
         border-radius: 20px;
-        padding: 28px;
+        padding: 32px 24px;
         transition: all 0.4s ease;
         position: relative;
+        text-align: center;
     }
 
     .service-card:hover {
@@ -434,31 +370,46 @@
         right: 16px;
         padding: 4px 12px;
         border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 700;
+        font-size: 0.6rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        background: var(--accent);
+        color: #000;
     }
 
-    .badge-full { background: var(--accent); color: #000; }
-    .badge-top { background: #f59e0b; color: #000; }
-    .badge-best { background: #10b981; color: #fff; }
-    .badge-trending { background: var(--accent); color: #000; }
-
     .service-icon {
-        font-size: 2.2rem;
+        font-size: 2rem;
         margin-bottom: 20px;
         color: var(--accent);
     }
 
     .service-card h3 {
         font-size: 1.1rem;
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 12px;
+        font-family: var(--font-display);
     }
 
     .service-card p {
         color: var(--text-secondary);
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .service-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .service-link:hover {
+        gap: 10px;
     }
 
     /* About Section */
@@ -473,41 +424,35 @@
     .about-stats {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 24px;
-        margin-top: 48px;
+        gap: 20px;
+        margin-top: 40px;
     }
 
     .stat-item {
         background: var(--surface-card);
         border: 1px solid var(--border);
-        border-radius: 20px;
+        border-radius: 16px;
         padding: 24px;
         text-align: center;
-        transition: all 0.3s;
-    }
-
-    .stat-item:hover {
-        border-color: var(--accent);
-        transform: translateY(-2px);
     }
 
     .stat-number {
-        font-size: 2.5rem;
-        font-weight: 800;
+        font-size: 2.2rem;
+        font-weight: 700;
         color: var(--accent);
         font-family: var(--font-display);
         margin-bottom: 8px;
     }
 
     .stat-label {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: var(--text-secondary);
     }
 
     .about-visual {
         background: linear-gradient(135deg, var(--surface-card), var(--surface));
-        border-radius: 24px;
-        min-height: 400px;
+        border-radius: 20px;
+        min-height: 380px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -529,18 +474,16 @@
     .testimonial-card {
         background: var(--bg);
         border: 1px solid var(--border);
-        border-radius: 20px;
+        border-radius: 16px;
         padding: 28px;
-        transition: all 0.3s;
     }
 
     .testimonial-card:hover {
-        transform: translateY(-4px);
         border-color: var(--accent);
     }
 
     .testimonial-quote {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         line-height: 1.7;
         margin-bottom: 24px;
         color: var(--text-secondary);
@@ -550,36 +493,100 @@
     .testimonial-author {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
     }
 
     .testimonial-avatar {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
         background: linear-gradient(135deg, var(--accent), var(--accent-hover));
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 700;
+        font-weight: 600;
         color: #fff;
     }
 
     .author-name {
-        font-weight: 700;
+        font-weight: 600;
         margin-bottom: 4px;
+        font-size: 0.9rem;
     }
 
     .author-role {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         color: var(--text-secondary);
+    }
+
+    /* FAQ Section - Baru */
+    .faq-section {
+        background: var(--bg);
+    }
+
+    .faq-grid {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .faq-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        margin-bottom: 16px;
+        overflow: hidden;
+    }
+
+    .faq-question {
+        width: 100%;
+        padding: 20px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: none;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .faq-question:hover {
+        color: var(--accent);
+    }
+
+    .faq-icon {
+        font-size: 1.2rem;
+        transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        padding: 0 24px;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 300px;
+        padding: 0 24px 20px;
+    }
+
+    .faq-answer p {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        line-height: 1.7;
     }
 
     /* CTA Bottom */
     .cta-bottom {
         text-align: center;
-        padding: 120px 0;
-        position: relative;
+        padding: 100px 0;
         background: linear-gradient(135deg, var(--surface), var(--bg));
     }
 
@@ -602,17 +609,17 @@
     /* Media Coverage */
     .media-coverage {
         text-align: center;
-        padding: 60px 0;
+        padding: 50px 0;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
     }
 
     .media-coverage p {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 2px;
         color: var(--text-secondary);
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
 
     .media-row {
@@ -624,15 +631,9 @@
 
     .media-row span {
         font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 1rem;
+        font-weight: 600;
+        font-size: 0.9rem;
         opacity: 0.5;
-        transition: opacity 0.3s;
-        cursor: default;
-    }
-
-    .media-row span:hover {
-        opacity: 1;
     }
 
     /* Buttons */
@@ -642,19 +643,17 @@
         padding: 12px 28px;
         border-radius: 50px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         display: inline-flex;
         align-items: center;
         gap: 8px;
         transition: all 0.3s;
-        border: none;
-        cursor: pointer;
         text-decoration: none;
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 255, 0.35);
+        box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
     }
 
     .btn-outline {
@@ -664,7 +663,7 @@
         padding: 12px 28px;
         border-radius: 50px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -681,6 +680,9 @@
     @media (max-width: 1024px) {
         section {
             padding: 80px 0;
+        }
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
         .pillars-grid {
             gap: 20px;
@@ -700,6 +702,9 @@
         .hero-ctas {
             gap: 12px;
         }
+        .services-grid {
+            grid-template-columns: 1fr;
+        }
         .pillars-grid {
             grid-template-columns: 1fr;
         }
@@ -709,22 +714,23 @@
         .portfolio-grid {
             grid-template-columns: 1fr;
         }
-        .services-slider {
-            grid-template-columns: 1fr;
-        }
         .testimonial-carousel {
             grid-template-columns: 1fr;
         }
         .comparison-table th,
         .comparison-table td {
             padding: 12px 16px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         .about-stats {
-            gap: 16px;
+            gap: 12px;
         }
         .stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
+        }
+        .faq-question {
+            font-size: 0.9rem;
+            padding: 16px 20px;
         }
     }
 </style>
@@ -733,11 +739,11 @@
 <section class="hero" id="hero">
     <div class="container">
         <div class="hero-content reveal">
-            <span class="hero-tag"><i class="fas fa-rocket" style="margin-right: 6px;"></i> #1 Digital Marketing Agency Medan</span>
+            <span class="hero-tag"><i class="fas fa-rocket"></i> #1 Digital Marketing Agency Medan</span>
             <h1>Digital Marketing Agency <span class="highlight">diver.ent</span></h1>
-            <p>Kami membantu bisnis Anda tumbuh melalui strategi digital marketing yang terukur, kreatif, dan data-driven. Dari social media hingga website development.</p>
+            <p>Kami membantu bisnis Anda tumbuh melalui strategi digital marketing yang terukur, kreatif, dan data-driven.</p>
             <div class="hero-ctas">
-                <a href="#cta-bottom" class="btn-primary"><i class="fas fa-calendar-check"></i> Konsultasi Gratis →</a>
+                <a href="#cta-bottom" class="btn-primary"><i class="fas fa-calendar-check"></i> Konsultasi Gratis</a>
                 <a href="#portfolio" class="btn-outline"><i class="fas fa-folder-open"></i> Lihat Portfolio</a>
             </div>
             <div class="hero-media">
@@ -772,9 +778,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Kelengkapan Layanan (12+ layanan)</td>
-                    <td><i class="fas fa-check-circle check"></i> Full-service</td>
-                    <td><i class="fas fa-times-circle cross"></i> Terbatas</td>
+                    <td>Kelengkapan Layanan</td>
+                    <td><i class="fas fa-check-circle check"></i> Terfokus & Spesialis</td>
+                    <td><i class="fas fa-times-circle cross"></i> Generalis</td>
                 </tr>
                 <tr>
                     <td>Tim Dedicated & Responsif</td>
@@ -813,47 +819,19 @@
             <div class="pillar-card reveal reveal-delay-2">
                 <div class="pillar-icon"><i class="fas fa-bolt"></i></div>
                 <h3>Digital Activation</h3>
-                <p>Eksekusi kampanye di semua channel digital — social media, ads, SEO, content — dengan tim berpengalaman.</p>
+                <p>Eksekusi kampanye di semua channel digital dengan tim berpengalaman dan teknologi terkini.</p>
             </div>
             <div class="pillar-card reveal reveal-delay-3">
                 <div class="pillar-icon"><i class="fas fa-chart-bar"></i></div>
                 <h3>Data-Driven Optimization</h3>
-                <p>Optimasi berkelanjutan berbasis data dan analytics untuk memastikan ROI maksimal dari setiap campaign.</p>
+                <p>Optimasi berkelanjutan berbasis data dan analytics untuk memastikan ROI maksimal.</p>
             </div>
         </div>
     </div>
 </section>
 
 {{-- Client Logo Carousel --}}
-<div class="client-logos">
-    <div class="logo-track">
-        <span><i class="fas fa-building"></i> PT Telkom Indonesia</span>
-        <span><i class="fas fa-university"></i> Bank BCA</span>
-        <span><i class="fas fa-store"></i> Tokopedia</span>
-        <span><i class="fas fa-car"></i> Grab Indonesia</span>
-        <span><i class="fas fa-female"></i> Wardah Beauty</span>
-        <span><i class="fas fa-tshirt"></i> Erigo</span>
-        <span><i class="fas fa-truck"></i> J&T Express</span>
-        <span><i class="fas fa-mug-hot"></i> Kopi Kenangan</span>
-        <span><i class="fas fa-graduation-cap"></i> Ruangguru</span>
-        <span><i class="fas fa-makeup"></i> Sociolla</span>
-        <span><i class="fas fa-car"></i> Astra International</span>
-        <span><i class="fas fa-utensils"></i> Indomie</span>
-        {{-- Duplicate for infinite scroll --}}
-        <span><i class="fas fa-building"></i> PT Telkom Indonesia</span>
-        <span><i class="fas fa-university"></i> Bank BCA</span>
-        <span><i class="fas fa-store"></i> Tokopedia</span>
-        <span><i class="fas fa-car"></i> Grab Indonesia</span>
-        <span><i class="fas fa-female"></i> Wardah Beauty</span>
-        <span><i class="fas fa-tshirt"></i> Erigo</span>
-        <span><i class="fas fa-truck"></i> J&T Express</span>
-        <span><i class="fas fa-mug-hot"></i> Kopi Kenangan</span>
-        <span><i class="fas fa-graduation-cap"></i> Ruangguru</span>
-        <span><i class="fas fa-makeup"></i> Sociolla</span>
-        <span><i class="fas fa-car"></i> Astra International</span>
-        <span><i class="fas fa-utensils"></i> Indomie</span>
-    </div>
-</div>
+
 
 {{-- Portfolio --}}
 <section class="portfolio-section" id="portfolio">
@@ -861,7 +839,7 @@
         <div class="reveal">
             <span class="section-tag"><i class="fas fa-star"></i> Portfolio</span>
             <h2 class="section-title">Our Best Work</h2>
-            <p class="section-desc">Lihat hasil karya terbaik kami di berbagai industri.</p>
+            <p class="section-desc">Lihat hasil karya terbaik kami dari berbagai industri.</p>
         </div>
         <div class="portfolio-filters reveal">
             <button class="filter-btn active" data-filter="all"><i class="fas fa-fire"></i> Featured</button>
@@ -895,46 +873,46 @@
             @endforeach
         </div>
         <div style="text-align:center;margin-top:40px;" class="reveal">
-            <a href="{{ route('portfolio') }}" class="btn-outline"><i class="fas fa-arrow-right"></i> See All Portfolio →</a>
+            <a href="{{ route('portfolio') }}" class="btn-outline"><i class="fas fa-arrow-right"></i> See All Portfolio</a>
         </div>
     </div>
 </section>
 
-{{-- Services --}}
+{{-- Services - 4 Layanan Unggulan --}}
 <section class="services-section" id="services">
     <div class="container">
         <div class="reveal">
-            <span class="section-tag"><i class="fas fa-cogs"></i> Services</span>
-            <h2 class="section-title">Layanan Kami</h2>
-            <p class="section-desc">12 layanan digital marketing komprehensif untuk pertumbuhan bisnis Anda.</p>
+            <span class="section-tag"><i class="fas fa-cogs"></i> Our Services</span>
+            <h2 class="section-title">Layanan Unggulan Kami</h2>
+            <p class="section-desc">4 layanan digital marketing spesialis untuk pertumbuhan bisnis Anda.</p>
         </div>
-        <div class="services-slider reveal">
-            @php
-            $services = [
-                ['icon'=>'fas fa-sync-alt','name'=>'360° Marketing','desc'=>'Solusi marketing menyeluruh dari strategi hingga eksekusi.','badge'=>'Full Solution','bclass'=>'badge-full'],
-                ['icon'=>'fab fa-instagram','name'=>'Social Media','desc'=>'Manajemen akun sosial media dengan konten kreatif & engaging.','badge'=>'Top Choice','bclass'=>'badge-top'],
-                ['icon'=>'fas fa-globe','name'=>'Website Dev','desc'=>'Pengembangan website modern, responsif, dan SEO-friendly.','badge'=>'Best','bclass'=>'badge-best'],
-                ['icon'=>'fas fa-chart-line','name'=>'Digital Ads','desc'=>'Kampanye iklan digital di Google, Meta, TikTok & platform lain.','badge'=>'Trending','bclass'=>'badge-trending'],
-                ['icon'=>'fas fa-palette','name'=>'Branding & Design','desc'=>'Identitas visual brand yang konsisten dan memorable.','badge'=>'','bclass'=>''],
-                ['icon'=>'fas fa-users','name'=>'KOL & Affiliate','desc'=>'Kolaborasi dengan influencer & KOL untuk memperluas reach.','badge'=>'Trending','bclass'=>'badge-trending'],
-                ['icon'=>'fas fa-camera','name'=>'Foto Produk','desc'=>'Fotografi produk profesional untuk e-commerce & katalog.','badge'=>'','bclass'=>''],
-                ['icon'=>'fas fa-video','name'=>'Video Production','desc'=>'Produksi video komersial, company profile, & konten sosmed.','badge'=>'Best','bclass'=>'badge-best'],
-                ['icon'=>'fas fa-pen-nib','name'=>'Logo Design','desc'=>'Desain logo yang unik dan merepresentasikan brand Anda.','badge'=>'','bclass'=>''],
-                ['icon'=>'fas fa-camera-retro','name'=>'Commercial Photo','desc'=>'Fotografi komersial untuk branding & marketing materials.','badge'=>'','bclass'=>''],
-                ['icon'=>'fas fa-mobile-alt','name'=>'Apps Dev','desc'=>'Pengembangan aplikasi mobile iOS & Android.','badge'=>'Best','bclass'=>'badge-best'],
-                ['icon'=>'fas fa-search','name'=>'SEO','desc'=>'Optimasi mesin pencari untuk meningkatkan visibilitas organik.','badge'=>'Top Choice','bclass'=>'badge-top'],
-            ];
-            @endphp
-            @foreach($services as $svc)
+        <div class="services-grid reveal">
             <div class="service-card">
-                @if($svc['badge'])
-                <span class="service-badge {{ $svc['bclass'] }}">{{ $svc['badge'] }}</span>
-                @endif
-                <div class="service-icon"><i class="{{ $svc['icon'] }}"></i></div>
-                <h3>{{ $svc['name'] }}</h3>
-                <p>{{ $svc['desc'] }}</p>
+                <span class="service-badge">POPULAR</span>
+                <div class="service-icon"><i class="fab fa-instagram"></i></div>
+                <h3>Social Media Management</h3>
+                <p>Kelola akun media sosial Anda dengan konten kreatif, strategi engagement, dan analitik performa.</p>
+                <a href="{{ route('service.smm') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
             </div>
-            @endforeach
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-video"></i></div>
+                <h3>Videography</h3>
+                <p>Produksi video profesional untuk company profile, iklan, brand story, dan konten viral.</p>
+                <a href="{{ route('service.vp') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-camera"></i></div>
+                <h3>Fotografi</h3>
+                <p>Fotografi produk, commercial, portrait, dan event dengan hasil berkualitas tinggi.</p>
+                <a href="{{ route('service.fp') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <span class="service-badge">TRENDING</span>
+                <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Digital Ads</h3>
+                <p>Kampanye iklan digital di Google, Meta, TikTok yang ditargetkan dengan tepat sasaran.</p>
+                <a href="{{ route('service.dc') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </div>
 </section>
@@ -950,19 +928,19 @@
                 <div class="about-stats">
                     <div class="stat-item">
                         <div class="stat-number" data-count="80" data-suffix="%">0%</div>
-                        <div class="stat-label"><i class="fas fa-chart-line"></i> Klien mengalami peningkatan performa digital</div>
+                        <div class="stat-label"><i class="fas fa-chart-line"></i> Peningkatan Performa</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" data-count="200" data-suffix="+">0+</div>
-                        <div class="stat-label"><i class="fas fa-briefcase"></i> Proyek berhasil diselesaikan</div>
+                        <div class="stat-label"><i class="fas fa-briefcase"></i> Proyek Selesai</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number" data-count="50" data-suffix="+">0+</div>
-                        <div class="stat-label"><i class="fas fa-users"></i> Klien aktif dari berbagai industri</div>
+                        <div class="stat-label"><i class="fas fa-users"></i> Klien Aktif</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" data-count="12" data-suffix="">0</div>
-                        <div class="stat-label"><i class="fas fa-cogs"></i> Layanan digital komprehensif</div>
+                        <div class="stat-number" data-count="4" data-suffix="">0</div>
+                        <div class="stat-label"><i class="fas fa-cogs"></i> Layanan Unggulan</div>
                     </div>
                 </div>
             </div>
@@ -1009,6 +987,64 @@
     </div>
 </section>
 
+{{-- FAQ Section --}}
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="reveal">
+            <div class="section-tag"><i class="fas fa-question-circle"></i> FAQ</div>
+            <h2 class="section-title">Pertanyaan Umum</h2>
+            <p class="section-desc">Informasi yang sering ditanyakan tentang layanan kami.</p>
+        </div>
+        <div class="faq-grid reveal">
+            <div class="faq-item">
+                <button class="faq-question">
+                    Berapa lama waktu pengerjaan proyek?
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Waktu pengerjaan tergantung pada kompleksitas proyek. Untuk Social Media Management biasanya 1-2 minggu, Videography 2-4 minggu, Fotografi 3-7 hari, dan Digital Ads 1-2 minggu. Kami akan memberikan timeline jelas setelah brief disetujui.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Bagaimana cara memulai kerjasama?
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Cukup klik tombol "Mulai Kerjasama" di halaman ini atau kunjungi halaman "Ayo Kerjasama" setelah login. Isi brief proyek Anda, tim kami akan menghubungi maksimal 1x24 jam.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah ada biaya konsultasi?
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Konsultasi awal GRATIS! Tim kami akan dengan senang hati mendengarkan kebutuhan Anda dan memberikan rekomendasi terbaik tanpa biaya apapun.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah bisa request revisi?
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Ya, setiap paket layanan sudah termasuk revisi sesuai kesepakatan awal. Kami memastikan hasil akhir sesuai dengan ekspektasi Anda.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Bagaimana sistem pembayaran?
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Kami menerima pembayaran melalui transfer bank (BCA, Mandiri, BRI) dengan skema 50% DP dan 50% setelah proyek selesai. Untuk proyek besar bisa dinegosiasikan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- CTA Bottom --}}
 <section class="cta-bottom" id="cta-bottom">
     <div class="container reveal">
@@ -1016,8 +1052,8 @@
         <h2 class="section-title">Don't Get Left Behind</h2>
         <p class="section-desc">Kompetitor Anda sudah memulai transformasi digital. Saatnya bisnis Anda tampil lebih baik di dunia digital.</p>
         <div class="hero-ctas">
-            <a href="#portfolio" class="btn-primary"><i class="fas fa-chart-line"></i> Case Studies →</a>
-            <a href="https://wa.me/6281234567890?text=Halo%20diver.ent%2C%20saya%20ingin%20konsultasi" target="_blank" class="btn-outline"><i class="fab fa-whatsapp"></i> Contact Us</a>
+            <a href="#portfolio" class="btn-primary"><i class="fas fa-chart-line"></i> Lihat Case Studies</a>
+            <a href="{{ route('client.create-project') }}" class="btn-outline"><i class="fab fa-whatsapp"></i> Mulai Kerjasama</a>
         </div>
     </div>
 </section>
@@ -1061,7 +1097,7 @@
         reveals.forEach(el => {
             const windowHeight = window.innerHeight;
             const revealTop = el.getBoundingClientRect().top;
-            const revealPoint = 120;
+            const revealPoint = 100;
             if (revealTop < windowHeight - revealPoint) {
                 el.classList.add('active');
             }
@@ -1073,22 +1109,21 @@
     
     // Counter animation for about stats
     const counters = document.querySelectorAll('.stat-number');
-    const speed = 200;
     let animated = false;
 
     const animateCounters = () => {
         if (animated) return;
         animated = true;
         counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            const suffix = counter.getAttribute('data-suffix') || '';
+            let count = 0;
+            const increment = Math.ceil(target / 50);
             const updateCount = () => {
-                const target = parseInt(counter.getAttribute('data-count'));
-                const suffix = counter.getAttribute('data-suffix') || '';
-                const count = parseInt(counter.innerText);
-                const increment = Math.ceil(target / speed);
-                
+                count += increment;
                 if (count < target) {
-                    counter.innerText = count + increment + suffix;
-                    setTimeout(updateCount, 20);
+                    counter.innerText = count + suffix;
+                    requestAnimationFrame(updateCount);
                 } else {
                     counter.innerText = target + suffix;
                 }
@@ -1109,6 +1144,14 @@
     }, { threshold: 0.3 });
     
     if (aboutSection) observer.observe(aboutSection);
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
 </script>
 
 @endsection

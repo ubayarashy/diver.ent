@@ -5,57 +5,26 @@
             <div class="logo-circle-mask">
                 <img src="{{ asset('img/logo.png') }}" alt="diver.ent" class="logo-img-circle">
             </div>
-          
+            <span class="logo-text">diver.<span class="accent">ent</span></span>
         </a>
         
         <ul class="nav-links" id="nav-links">
+            <!-- Services - 4 Layanan -->
             <li>
                 <a href="/#services">Services ▾</a>
                 <div class="mega-menu">
                     <div>
-                        <h4>Digital Marketing</h4>
-                        <a href="{{ route('service.smm') }}">Social Media Management</a>
-                        <a href="{{ route('service.dc') }}">Digital Ads (Meta, Google, TikTok)</a>
-                        <a href="/#services">SEO Optimization</a>
-                        <a href="/#services">KOL & Affiliate Marketing</a>
-                    </div>
-                    <div>
-                        <h4>Technology</h4>
-                        <a href="/#services">Website Development</a>
-                        <a href="/#services">Apps Development</a>
-                        <a href="/#services">360° Marketing</a>
-                    </div>
-                    <div>
-                        <h4>Branding</h4>
-                        <a href="/#services">Logo Design</a>
-                        <a href="/#services">Branding & Design</a>
-                    </div>
-                    <div>
-                        <h4>Visual & Audio</h4>
-                        <a href="{{ route('service.vp') }}">Video Production</a>
-                        <a href="{{ route('service.fp') }}">Foto Produk</a>
-                        <a href="{{ route('service.cp') }}">Commercial Photography</a>
+                        <h4>Layanan Kami</h4>
+                        <a href="{{ route('service.smm') }}"><i class="fab fa-instagram"></i> Social Media Management</a>
+                        <a href="{{ route('service.vp') }}"><i class="fas fa-video"></i> Videography</a>
+                        <a href="{{ route('service.fp') }}"><i class="fas fa-camera"></i> Fotografi</a>
+                        <a href="{{ route('service.dc') }}"><i class="fas fa-chart-line"></i> Digital Ads</a>
                     </div>
                 </div>
             </li>
-            <li>
-                <a href="/#about">Solution ▾</a>
-                <div class="mega-menu">
-                    <div>
-                        <h4>By Industry</h4>
-                        <a href="/#about">Enterprise</a>
-                        <a href="/#about">Education</a>
-                        <a href="/#about">F&B</a>
-                        <a href="/#about">Healthcare</a>
-                    </div>
-                    <div>
-                        <h4>By Scale</h4>
-                        <a href="/#about">UMKM</a>
-                        <a href="/#about">Brand Nasional</a>
-                        <a href="/#about">Startup</a>
-                    </div>
-                </div>
-            </li>
+            <!-- Solution -->
+           
+            <!-- Company -->
             <li>
                 <a href="/#about">Company ▾</a>
                 <div class="mega-menu">
@@ -67,16 +36,17 @@
                     </div>
                     <div>
                         <h4>Resources</h4>
-                        <a href="#">Careers</a>
-                        <a href="#">Blog</a>
+                     
                         <a href="/#cta-bottom">Contact</a>
                     </div>
                 </div>
             </li>
+            <!-- Portfolio -->
             <li>
                 <a href="{{ route('portfolio') }}" @if(request()->routeIs('portfolio')) style="color:var(--accent);" @endif>Portfolio</a>
             </li>
             
+            <!-- Auth Menu -->
             @auth
                 <li class="client-menu">
                     <a href="#" class="client-menu-trigger">
@@ -150,7 +120,7 @@
     padding: 0 20px;
 }
 
-/* ==================== LOGO BULAT TANPA BINGKAI ==================== */
+/* ==================== LOGO ==================== */
 .logo {
     display: flex;
     align-items: center;
@@ -158,7 +128,6 @@
     text-decoration: none;
 }
 
-/* Wadah yang membulatkan logo secara otomatis */
 .logo-circle-mask {
     width: 44px;
     height: 44px;
@@ -170,7 +139,6 @@
     background: transparent;
 }
 
-/* Gambar logo yang akan dibulatkan */
 .logo-img-circle {
     width: 100%;
     height: 100%;
@@ -178,7 +146,6 @@
     object-position: center;
 }
 
-/* Hover effect ringan */
 .logo-circle-mask:hover {
     transform: scale(1.02);
     transition: transform 0.2s ease;
@@ -229,10 +196,10 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 24px;
-    min-width: 600px;
+    min-width: 300px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
+    gap: 16px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -254,19 +221,29 @@
     letter-spacing: 0.1em;
     color: var(--accent);
     margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
 }
 
 .mega-menu a {
-    display: block;
-    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
     font-size: 0.85rem;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.3s;
+    transition: all 0.3s;
 }
 
 .mega-menu a:hover {
     color: var(--accent);
+    transform: translateX(6px);
+}
+
+.mega-menu a i {
+    width: 20px;
+    font-size: 0.9rem;
 }
 
 /* ==================== CLIENT DROPDOWN ==================== */
@@ -372,7 +349,7 @@
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 1024px) {
     .mega-menu {
-        min-width: 500px;
+        min-width: 260px;
     }
 }
 
