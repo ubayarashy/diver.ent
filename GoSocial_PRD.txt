@@ -1,0 +1,209 @@
+================================================================================
+  PRODUCT REQUIREMENTS DOCUMENT (PRD)
+  GoSocial Digital Marketing Agency — Website Redesign
+  Version: 1.0
+  Date: 2025
+================================================================================
+
+1. OVERVIEW & OBJECTIVE
+------------------------
+GoSocial adalah digital marketing agency berbasis di Surabaya, Indonesia, yang
+menyediakan layanan komprehensif mulai dari Social Media Management, Digital Ads,
+SEO, Website Development, Branding, hingga Visual/Audio Production.
+
+Tujuan website:
+- Memperkenalkan GoSocial sebagai agensi terpercaya dan profesional
+- Menghasilkan lead/konsultasi dari calon klien baru
+- Membangun kepercayaan melalui portofolio, testimoni, dan trust signal
+- Menyediakan portal klien aktif (Client Area)
+- Meningkatkan konversi melalui multi-channel komunikasi
+
+2. TARGET USERS
+---------------
+Primary  : Pemilik bisnis (UMKM, brand nasional, enterprise) yang mencari jasa
+           digital marketing dan teknologi
+Secondary: Marketing Manager / CMO perusahaan
+Tertiary : Klien aktif yang mengakses Client Area
+
+3. KEY FEATURES & REQUIREMENTS
+--------------------------------
+
+3.1 ANNOUNCEMENT BAR
+- Menampilkan peringatan penipuan yang mengatasnamakan GoSocial
+- Link ke artikel blog terkait
+- Bisa dismiss (close) oleh user
+- Sticky di paling atas halaman
+
+3.2 NAVIGASI (MEGA MENU)
+- Sticky navbar dengan logo GoSocial di kiri
+- Dropdown mega menu:
+  * Services: Digital Marketing, Technology, Branding, Visual & Audio
+  * Solution: Per industri (Enterprise, Education, F&B, Healthcare, dll)
+  * Company: About, How it Works, Portfolio, Careers, Blog, dll
+- CTA button "Get In Touch" di kanan navbar
+- Mobile: hamburger menu dengan slide-out panel
+- Bahasa toggle: Bahasa Indonesia / English
+
+3.3 HERO SECTION
+- Headline besar: "Digital Marketing Agency GoSocial"
+- Subheadline: value proposition singkat
+- Dual CTA: "Konsultasi Gratis" + "Lihat Portfolio"
+- Logo media coverage (Kompas, Detik, IDN Times, Tempo, Sindonews)
+- Hero visual / background video/image besar
+
+3.4 WHY CHOOSE US (COMPARISON TABLE)
+- Tabel interaktif: GoSocial vs Other Services
+- 4 aspek perbandingan: kelengkapan layanan, ketersediaan tim,
+  komunikasi rutin, track record
+- Embed video cara kerja GoSocial
+- Animasi reveal saat scroll
+
+3.5 THREE PILLARS / METODOLOGI
+- 3 card: Customized Strategy, Digital Activation, Data-Driven Optimization
+- Gambar ilustrasi tiap card
+- Link ke halaman How It Works
+
+3.6 CLIENT LOGO CAROUSEL
+- Auto-scrolling infinite loop logo klien
+- Klien dari berbagai industri dan skala
+- CTA: "Our Clients" ke halaman dedicated
+
+3.7 PORTFOLIO SECTION
+- Filter tab: Featured, Social Media, Website & Apps, Digital Ads,
+  Visual Branding, Photo & Video
+- Grid galeri thumbnail proyek
+- Hover state dengan nama klien + kategori
+- CTA: "See All Portfolio"
+
+3.8 SERVICES CATALOG (12 LAYANAN)
+- Slider card dengan badge (Full Solution, Top Choice, Best, Trending, dll)
+- Deskripsi singkat tiap layanan
+- 12 layanan: 360° Marketing, Social Media, Website Dev, Digital Ads,
+  Branding & Design, KOL & Affiliate, Foto Produk, Video Production,
+  Logo Design, Commercial Photography, Apps Dev, SEO
+
+3.9 ABOUT SECTION
+- Galeri foto tim/kantor
+- Positioning statement perusahaan
+- Statistik kunci: 80% klien mengalami peningkatan performa digital
+- Link ke halaman About
+
+3.10 TESTIMONI KLIEN (CAROUSEL)
+- 6 testimoni klien nyata
+- Foto profil, nama, jabatan, perusahaan
+- Auto-slide dengan pause on hover
+
+3.11 LIVECHAT WIDGET
+- Floating mini chat widget di sudut layar
+- Koneksi real-time ke admin GoSocial
+
+3.12 WHATSAPP FLOATING BUTTON & MODAL
+- Floating WA button
+- Modal pilihan: Online Meeting (Senin–Jumat, jam kerja) atau
+  Chat WA (setiap hari 08.00–21.00 WIB)
+- Setelah pilih: konfirmasi + arahan ke kontak
+
+3.13 CTA BOTTOM SECTION
+- Headline persuasif: "Don't Get Left Behind"
+- Dual CTA: Case Studies + Contact Us
+- Background visual menarik
+
+3.14 MEDIA COVERAGE ("AS SEEN ON")
+- Logo: Kompas, Detik, IDN Times, Tempo, Sindonews
+- Masing-masing terhubung ke URL artikel liputan
+
+3.15 FOOTER LENGKAP
+- Kolom 1: Tentang perusahaan + Google Maps Surabaya
+- Kolom 2: Link Company
+- Kolom 3: Top Services
+- Kolom 4: Info kontak (WA, email, alamat)
+- Badge: Google Ads Certified, Meta Certified, PSE Kominfo, TikTok Partner
+- Social media icons (IG, FB, YT, LinkedIn)
+- Language toggle (ID / EN)
+- Copyright
+
+3.16 AUTENTIKASI (LOGIN / REGISTER)
+- Modal popup Sign In & Sign Up
+- Google OAuth + Email & Password
+- Forgot Password
+- Akses Client Area
+
+3.17 MODAL FEEDBACK SISTEM
+- Success, Error, Warning states
+- Dipakai di semua form submission
+
+3.18 SEO & META TAGS
+- Meta description, OG tags (title, image, description)
+- Twitter Card, canonical URL, robots tag
+
+4. DESIGN REQUIREMENTS
+-----------------------
+Referensi: instrument.com
+Aesthetic: Editorial, dark-mode bold, large typography, cinematic feel
+Tone: Premium, modern, trustworthy, tech-forward
+
+Palette:
+- Background: #0a0a0a (near black)
+- Surface: #111111
+- Accent: #E8FF3A (electric lime/yellow-green)
+- Text Primary: #F5F5F0
+- Text Secondary: #888888
+- Border: #222222
+
+Typography:
+- Display: Clash Display / Syne (bold, editorial)
+- Body: DM Sans / Epilogue (clean, readable)
+
+Key Visual Principles:
+- Full-viewport hero sections
+- Oversized typography with tight leading
+- Asymmetric layouts, grid-breaking elements
+- Smooth scroll animations (fade-up, stagger)
+- Hover states yang memorable
+- Generous whitespace di dark background
+
+5. TECHNICAL REQUIREMENTS
+--------------------------
+- Single HTML file (all-in-one, no external build needed)
+- Vanilla HTML + CSS + JavaScript (no framework dependency)
+- Responsive: Mobile First (320px → 1440px+)
+- Google Fonts via CDN
+- CSS Variables untuk theming
+- Smooth scroll behavior
+- IntersectionObserver untuk scroll animations
+- Accessible: ARIA labels, keyboard navigation
+- Performance: lazy loading images, minimal JS
+- Browser support: Chrome, Firefox, Safari, Edge (last 2 versions)
+
+6. PAGES SCOPE (HOMEPAGE ONLY — FULL SINGLE PAGE)
+---------------------------------------------------
+Homepage mencakup semua section di atas sebagai one-page scrolling experience.
+Sub-pages (About, Portfolio, Blog, Client Area, dll) direpresentasikan sebagai
+anchor links / placeholder pages dalam file yang sama.
+
+7. SUCCESS METRICS
+-------------------
+- Time on Page > 2 menit
+- Bounce Rate < 50%
+- CTA Click Rate (Konsultasi Gratis) > 5%
+- WhatsApp click-through dari website
+- Form submission rate
+
+8. OUT OF SCOPE (v1.0)
+-----------------------
+- Backend server / database
+- CMS integration
+- E-commerce / payment gateway
+- Client Area dashboard (placeholder only)
+- Blog content management
+
+9. TIMELINE (ESTIMATE)
+-----------------------
+Week 1: Design system, Hero, Navbar
+Week 2: Core sections (Why Us, Services, Portfolio)
+Week 3: Social proof, Footer, Modals
+Week 4: QA, Performance audit, Launch
+
+================================================================================
+END OF PRD
+================================================================================
