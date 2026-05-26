@@ -13,7 +13,7 @@
         <div class="avatar">{{ substr(Auth::user()->name ?? 'T', 0, 2) }}</div>
         <div class="info">
             <h4>{{ Auth::user()->name ?? 'Team User' }}</h4>
-            <p>{{ Auth::user()->email ?? 'team@diverent.com' }}</p>
+            <p>Divisi: {{ Auth::user()->divisi }}</p>
         </div>
     </div>
 
@@ -36,10 +36,7 @@
     </nav>
 
     <div class="sidebar-footer">
-        <div class="theme-toggle" id="themeToggleSidebar">
-            <i class="fas fa-moon"></i> <span>Dark Mode</span>
-        </div>
-        <form action="{{ route('logout') }}" method="POST" id="logout-form">
+        <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </form>
@@ -138,16 +135,6 @@
     padding: 20px;
     border-top: 1px solid var(--border);
 }
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 12px;
-}
-.theme-toggle:hover { background: rgba(59,130,255,0.1); }
 .logout-btn {
     width: 100%;
     background: none;

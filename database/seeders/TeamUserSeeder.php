@@ -12,12 +12,15 @@ class TeamUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Kode untuk membuat user dummy baru dimasukkan di sini
-        \App\Models\User::create([
-            'name' => 'Alvonso Saragih',
-            'email' => 'alvonsosaragih@gmail.com',
-            'password' => bcrypt('alvonso'),
-            'role' => 'team',
-        ]);
+        // Hindari duplicate saat seeding ulang
+        \App\Models\User::updateOrCreate(
+            ['email' => 'alvonsositio@gmail.com'],
+            [
+                'name' => 'Alvonso Saragih',
+                'password' => bcrypt('alvonso'),
+                'role' => 'client',
+            ]
+        );
+
     }
 }

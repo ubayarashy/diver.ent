@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
-    
-
     public function dashboard()
     {
         $user = Auth::user();
-        $tasks = Task::where('assigned_to', $user->id)
-                    ->orderBy('deadline')
-                    ->get();
+        if (!$user->divisi) {
+            abort(403, 'Divisi tidak ditemukan untuk akun ini.');
+        }
+        $tasks = Task::where('divisi', $user->divisi)->orderBy('created_at', 'desc')->get();
         $stats = [
             'total' => $tasks->count(),
             'pending' => $tasks->where('status', 'pending')->count(),
@@ -31,97 +30,74 @@ class TeamController extends Controller
     public function tasks(Request $request)
     {
         $user = Auth::user();
-        $query = Task::where('assigned_to', $user->id);
+        $query = Task::where('divisi', $user->divisi);
         if ($request->has('status') && $request->status != 'all') {
             $query->where('status', $request->status);
         }
-        $tasks = $query->orderBy('deadline')->paginate(10);
+        $tasks = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('team.tasks', compact('tasks'));
     }
 
     public function showTask($id)
     {
-        $task = Task::with('project', 'result')->where('assigned_to', Auth::id())->findOrFail($id);
+        $user = Auth::user();
+        $task = Task::with('brief')->where('id', $id)->where('divisi', $user->divisi)->firstOrFail();
         return view('team.task-detail', compact('task'));
     }
 
     public function updateTaskStatus(Request $request, $id)
     {
-        $task = Task::where('assigned_to', Auth::id())->findOrFail($id);
+        $user = Auth::user();
+        $task = Task::where('id', $id)->where('divisi', $user->divisi)->firstOrFail();
         $request->validate([
-            'status' => 'required|in:pending,in_progress,review,revision,completed',
+            'status' => 'required|in:pending,in_progress,review,completed',
         ]);
         $task->status = $request->status;
         $task->save();
         return redirect()->back()->with('success', 'Status task diperbarui.');
     }
 
-    public function updateProgress(Request $request, $id)
-    {
-        $task = Task::where('assigned_to', Auth::id())->findOrFail($id);
-        $request->validate([
-            'progress' => 'required|integer|min:0|max:100',
-        ]);
-        $task->progress = $request->progress;
-        if ($task->progress == 100 && $task->status != 'completed') {
-            $task->status = 'review';
-        }
-        $task->save();
-        return redirect()->back()->with('success', 'Progress diperbarui.');
-    }
-
     public function uploadResult(Request $request, $id)
     {
-        $task = Task::where('assigned_to', Auth::id())->findOrFail($id);
+        $user = Auth::user();
+        $task = Task::where('id', $id)->where('divisi', $user->divisi)->firstOrFail();
+
         $request->validate([
-            'thumbnail' => 'nullable|image|max:2048',
-            'youtube_link' => 'nullable|url',
-            'social_link' => 'nullable|url',
-            'drive_link' => 'nullable|url',
+            'thumbnail' => 'required|image|max:2048',
+            'work_link' => 'required|url',
             'notes' => 'nullable|string',
         ]);
 
+        $path = $request->file('thumbnail')->store('thumbnails', 'public');
+
         $result = $task->result ?: new ProjectResult();
         $result->task_id = $task->id;
-
-        if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $result->thumbnail = $path;
-        }
-        $result->youtube_link = $request->youtube_link;
-        $result->social_link = $request->social_link;
-        $result->drive_link = $request->drive_link;
+        $result->thumbnail = $path;
+        $result->work_link = $request->work_link;
         $result->notes = $request->notes;
         $result->save();
 
-        // Jika baru upload, ubah status ke review
+        // Ubah status task menjadi review jika belum completed
         if ($task->status != 'completed') {
             $task->status = 'review';
             $task->save();
         }
 
-        return redirect()->back()->with('success', 'Hasil project berhasil diupload.');
+        return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
     }
 
     public function calendar()
-{
-    $tasks = Task::where('assigned_to', Auth::id())->get();
-    $events = $tasks->map(function($task) {
-        return [
-            'title' => $task->title,
-            'start' => $task->deadline->format('Y-m-d'),
-            'color' => $task->status == 'completed' ? '#00c853' : ($task->status == 'in_progress' ? '#3b82ff' : '#ffaa00'),
-        ];
-    });
-    return view('team.calendar', compact('events'));
-}
+    {
+        // Jika ingin menampilkan deadline dari brief, bisa diimplementasikan nanti
+        return view('team.calendar', ['events' => []]);
+    }
 
     public function notifications()
     {
-        // Untuk sementara kita ambil task yang deadline mendekat sebagai notifikasi
-        $tasks = Task::where('assigned_to', Auth::id())
+        $user = Auth::user();
+        $tasks = Task::where('divisi', $user->divisi)
                     ->where('status', '!=', 'completed')
-                    ->where('deadline', '<=', now()->addDays(3))
+                    ->orderBy('created_at', 'desc')
                     ->get();
         return view('team.notifications', compact('tasks'));
     }
@@ -137,8 +113,8 @@ class TeamController extends Controller
         $user = Auth::user();
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'phone' => 'nullable|string',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
         ]);
         $user->update($request->only('name', 'email', 'phone'));
         return redirect()->back()->with('success', 'Profil diperbarui.');

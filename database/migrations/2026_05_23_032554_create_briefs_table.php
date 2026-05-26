@@ -15,6 +15,12 @@ return new class extends Migration
             $table->json('categories');
             $table->decimal('budget', 15, 2)->nullable();
             $table->text('description')->nullable();
+            
+            // 3 Kolom baru yang ditambahkan:
+            $table->string('timeline')->nullable();
+            $table->string('phone');
+            $table->string('reference_link')->nullable();
+            
             $table->enum('status', ['pending', 'contacted', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });

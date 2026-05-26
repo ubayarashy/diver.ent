@@ -10,7 +10,7 @@ class ProjectResult extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task_id', 'thumbnail', 'youtube_link', 'social_link', 'drive_link', 'notes'
+        'task_id', 'thumbnail', 'work_link', 'notes'
     ];
 
     public function task()

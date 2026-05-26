@@ -10,11 +10,9 @@ return new class extends Migration
     {
         Schema::create('project_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained()->onDelete('cascade');
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
             $table->string('thumbnail')->nullable();
-            $table->string('youtube_link')->nullable();
-            $table->string('social_link')->nullable();
-            $table->string('drive_link')->nullable();
+            $table->string('work_link')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });
