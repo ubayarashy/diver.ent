@@ -22,8 +22,7 @@
                     </div>
                 </div>
             </li>
-            <!-- Solution -->
-           
+            
             <!-- Company -->
             <li>
                 <a href="/#about">Company ▾</a>
@@ -36,47 +35,98 @@
                     </div>
                     <div>
                         <h4>Resources</h4>
-                     
                         <a href="/#cta-bottom">Contact</a>
                     </div>
                 </div>
             </li>
+            
             <!-- Portfolio -->
             <li>
                 <a href="{{ route('portfolio') }}" @if(request()->routeIs('portfolio')) style="color:var(--accent);" @endif>Portfolio</a>
             </li>
             
-            <!-- Auth Menu -->
-            @auth
-                <li class="client-menu">
-                    <a href="#" class="client-menu-trigger">
-                        <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} ▾
-                    </a>
-                    <div class="client-dropdown">
-                        <a href="{{ route('client.dashboard') }}">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                        <a href="{{ route('client.create-project') }}">
-                            <i class="fas fa-handshake"></i> Ayo Kerjasama
-                        </a>
-                        <a href="{{ route('client.projects') }}">
-                            <i class="fas fa-history"></i> History Kerjasama
-                        </a>
-                        <a href="{{ route('client.payments') }}">
-                            <i class="fas fa-money-bill-wave"></i> Pembayaran
-                        </a>
-                        <a href="{{ route('client.profile') }}">
-                            <i class="fas fa-user-circle"></i> Profil Saya
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </div>
-                </li>
-            @else
-                <li><a href="#" data-modal="login-modal">Sign In</a></li>
-            @endauth
+            <!-- Auth Menu - Berdasarkan Role -->
+          <!-- Auth Menu - Berdasarkan Role -->
+@auth
+    @if(Auth::user()->role == 'admin')
+        {{-- MENU UNTUK ADMIN --}}
+        <li class="client-menu">
+            <a href="#" class="client-menu-trigger">
+                <i class="fas fa-user-shield"></i> {{ Auth::user()->name }} ▾
+            </a>
+            <div class="client-dropdown">
+                <a href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                </a>
+                <a href="{{ route('admin.briefs') }}">
+                    <i class="fas fa-file-alt"></i> Brief Client
+                </a>
+                <a href="{{ route('admin.payments') }}">
+                    <i class="fas fa-money-bill-wave"></i> Pembayaran
+                </a>
+                <a href="{{ route('admin.portfolios') }}">
+                    <i class="fas fa-folder-open"></i> Portfolio
+                </a>
+            
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </li>
+    @elseif(Auth::user()->role == 'team')
+        {{-- MENU UNTUK TEAM --}}
+        <li class="client-menu">
+            <a href="#" class="client-menu-trigger">
+                <i class="fas fa-users"></i> {{ Auth::user()->name }} ▾
+            </a>
+            <div class="client-dropdown">
+                <a href="{{ route('team.dashboard') }}">
+                    <i class="fas fa-tachometer-alt"></i> Team Dashboard
+                </a>
+                <a href="{{ route('team.tasks') }}">
+                    <i class="fas fa-tasks"></i> My Tasks
+                </a>
+                <a href="{{ route('team.calendar') }}">
+                    <i class="fas fa-calendar-alt"></i> Calendar
+                </a>
+              
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </li>
+    @else
+        {{-- MENU UNTUK CLIENT --}}
+        <li class="client-menu">
+            <a href="#" class="client-menu-trigger">
+                <i class="fas fa-user-circle"></i> {{ Auth::user()->name }} ▾
+            </a>
+            <div class="client-dropdown">
+                <a href="{{ route('client.dashboard') }}">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="{{ route('client.create-project') }}">
+                    <i class="fas fa-handshake"></i> Ayo Kerjasama
+                </a>
+                <a href="{{ route('client.projects') }}">
+                    <i class="fas fa-history"></i> History Kerjasama
+                </a>
+                <a href="{{ route('client.payments') }}">
+                    <i class="fas fa-money-bill-wave"></i> Pembayaran
+                </a>
+              
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-navbar').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </li>
+    @endif
+@else
+    <li><a href="#" data-modal="login-modal">Sign In</a></li>
+@endauth
         </ul>
         
         <div style="display:flex;align-items:center;gap:16px;">

@@ -10,16 +10,25 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id', 'assigned_to', 'title', 'description', 'status', 'progress', 'deadline'
+        'brief_id',
+        'assigned_to',
+        'title',
+        'description',
+        'status',
+        'progress',
+        'deadline',
+        'result',
+        'team_notes',
     ];
 
     protected $casts = [
+        'result' => 'array',
         'deadline' => 'date',
     ];
 
-    public function project()
+    public function brief()
     {
-        return $this->belongsTo(Brief::class, 'project_id');
+        return $this->belongsTo(Brief::class);
     }
 
     public function assignedTo()
@@ -27,8 +36,15 @@ class Task extends Model
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    public function result()
+    public function getStatusBadgeAttribute()
     {
-        return $this->hasOne(ProjectResult::class);
+        $badges = [
+            'pending' => '<span class="badge-pending">⏳ Pending</span>',
+            'in_progress' => '<span class="badge-progress">🔄 In Progress</span>',
+            'review' => '<span class="badge-review">📋 Review</span>',
+            'revision' => '<span class="badge-revision">✏️ Revision</span>',
+            'completed' => '<span class="badge-completed">✅ Completed</span>',
+        ];
+        return $badges[$this->status] ?? '<span class="badge-pending">⏳ Pending</span>';
     }
 }

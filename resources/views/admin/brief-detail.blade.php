@@ -93,6 +93,82 @@
             </div>
             @endif
 
+            <!-- ==================== SECTION PEMBAYARAN (BARU) ==================== -->
+            @php
+                $payment = App\Models\Payment::where('brief_id', $brief->id)->first();
+            @endphp
+            
+            <div class="detail-section">
+                <h3><i class="fas fa-money-bill-wave"></i> Informasi Pembayaran</h3>
+                @if($payment)
+                    <div class="payment-info">
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Invoice Number</span>
+                                <span class="detail-value">{{ $payment->invoice_number ?? '-' }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Jumlah Pembayaran</span>
+                                <span class="detail-value">Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span class="detail-value">
+                                    @if($payment->status == 'paid')
+                                        <span class="status-badge status-success">✓ Lunas</span>
+                                    @elseif($payment->status == 'pending')
+                                        <span class="status-badge status-warning">⏳ Menunggu Verifikasi</span>
+                                    @else
+                                        <span class="status-badge status-danger">⚠️ Belum Dibayar</span>
+                                    @endif
+                                </span>
+                            </div>
+                            @if($payment->paid_at)
+                            <div class="detail-item">
+                                <span class="detail-label">Tanggal Bayar</span>
+                                <span class="detail-value">{{ $payment->paid_at->format('d M Y H:i') }}</span>
+                            </div>
+                            @endif
+                        </div>
+                        
+                        @if($payment->payment_proof)
+                        <div class="payment-proof-section">
+                            <label class="detail-label">Bukti Pembayaran</label>
+                            <div class="payment-proof-wrapper">
+                                <a href="{{ asset('storage/' . $payment->payment_proof) }}" target="_blank" class="btn-proof">
+                                    <i class="fas fa-image"></i> Lihat Bukti Pembayaran
+                                </a>
+                            </div>
+                        </div>
+                        @endif
+                        
+                        @if($payment->status == 'pending')
+                        <div class="payment-actions">
+                            <form action="{{ route('admin.payment.verify', $payment->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <button type="submit" class="btn-verify-payment" onclick="return confirm('Verifikasi pembayaran ini?')">
+                                    <i class="fas fa-check-circle"></i> Verifikasi Pembayaran
+                                </button>
+                            </form>
+                            <form action="{{ route('admin.payment.reject', $payment->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <button type="submit" class="btn-reject-payment" onclick="return confirm('Tolak pembayaran ini?')">
+                                    <i class="fas fa-times-circle"></i> Tolak Pembayaran
+                                </button>
+                            </form>
+                        </div>
+                        @endif
+                    </div>
+                @else
+                    <div class="no-payment">
+                        <p>Belum ada informasi pembayaran untuk brief ini.</p>
+                        @if($brief->status == 'approved')
+                        <p class="hint">Status brief sudah "Disetujui". Client dapat melakukan pembayaran melalui halaman Payments mereka.</p>
+                        @endif
+                    </div>
+                @endif
+            </div>
+
             <div class="detail-actions">
                 <a href="https://wa.me/{{ $brief->user->phone ?? '' }}?text=Halo%20{{ urlencode($brief->user->name ?? '') }}%2C%20saya%20dari%20diver.ent.%20Brief%20Anda%20untuk%20project%20%22{{ urlencode($brief->project_name) }}%22%20telah%20kami%20terima." target="_blank" class="btn-wa">
                     <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
@@ -109,7 +185,7 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top:20px;
 }
 
 .admin-content {
@@ -225,6 +301,110 @@
     text-decoration: underline;
 }
 
+/* Payment Section Styles */
+.payment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.payment-proof-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.payment-proof-wrapper {
+    margin-top: 8px;
+}
+
+.btn-proof {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.btn-proof:hover {
+    opacity: 0.9;
+}
+
+.payment-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-verify-payment {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-reject-payment {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.status-success {
+    background: rgba(16,185,129,0.1);
+    color: #10b981;
+}
+
+.status-warning {
+    background: rgba(245,158,11,0.1);
+    color: #f59e0b;
+}
+
+.status-danger {
+    background: rgba(239,68,68,0.1);
+    color: #ef4444;
+}
+
+.no-payment {
+    background: var(--bg);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.no-payment .hint {
+    font-size: 0.8rem;
+    margin-top: 8px;
+    color: var(--text-secondary);
+}
+
 .detail-actions {
     padding: 24px;
     display: flex;
@@ -274,11 +454,13 @@
         grid-template-columns: 1fr;
         gap: 16px;
     }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    .payment-actions {
+        flex-direction: column;
+    }
+    .btn-verify-payment, .btn-reject-payment {
+        width: 100%;
+        justify-content: center;
+    }
 }
 </style>
 
@@ -302,6 +484,8 @@
             const data = await response.json();
             if (data.success) {
                 showToast(data.message);
+                // Reload page to update payment section
+                setTimeout(() => location.reload(), 1000);
             }
         });
     }

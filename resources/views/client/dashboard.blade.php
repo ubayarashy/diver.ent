@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-@include('partials.client.sidebar')
- @include('partials.client.navbar')
 
-<div class="client-main">
-    <div class="client-content">
+@include('partials.client.navbar-sidebar')
+
+<div class="app-main">
+    <div class="app-content">
         <!-- Welcome Section -->
         <div class="welcome-section">
             <div class="welcome-badge">
@@ -113,15 +113,10 @@
 </div>
 
 <style>
-    .client-main {
-        flex: 1;
-        margin-left: 280px;
-        min-height: 100vh;
-        background: var(--bg);
-    }
-
-    .client-content {
-        padding: 40px;
+    /* Hapus style .client-main dan .client-content */
+    /* Gunakan style dari navbar-sidebar untuk .app-main dan .app-content */
+    
+    .app-content {
         max-width: 1400px;
     }
 
@@ -458,12 +453,6 @@
     }
 
     @media (max-width: 768px) {
-        .client-main {
-            margin-left: 0;
-        }
-        .client-content {
-            padding: 20px;
-        }
         .stats-grid {
             gap: 16px;
         }

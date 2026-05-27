@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-@include('partials.client.sidebar')
-@include('partials.client.navbar')
-<div class="client-main">
-    <div class="client-content">
+@include('partials.client.navbar-sidebar')
+
+<div class="app-main">
+    <div class="app-content">
         <div class="page-header">
             <div class="page-title">
                 <h1><i class="fas fa-user-circle"></i> Profil Saya</h1>

@@ -1,9 +1,11 @@
 @extends('team.layouts.app')
 
 @section('content')
-@include('team.partials.sidebar')
+@include('partials.team.navbar')
+
+
 <div class="team-main">
-    @include('team.partials.navbar')
+    
     <div class="team-content">
         <h1><i class="fas fa-calendar-alt"></i> Kalender Project</h1>
         <div id="calendar"></div>
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <style>
 .team-main { margin-left: 280px; }
-.team-content { padding: 32px; }
+.team-content { padding: 20px; }
 #calendar { background: var(--surface-card); border-radius: 20px; padding: 20px; margin-top: 24px; }
 @media (max-width: 768px) { .team-main { margin-left: 0; } }
 </style>

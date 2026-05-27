@@ -121,7 +121,7 @@
                                 <option value="approved" {{ $brief->status == 'approved' ? 'selected' : '' }}>✅ Disetujui</option>
                                 <option value="rejected" {{ $brief->status == 'rejected' ? 'selected' : '' }}>❌ Ditolak</option>
                             </select>
-                        </td>
+                         </td>
                         <td>
                             <div class="action-buttons">
                                 <button class="btn-view" onclick="viewBrief({{ $brief->id }})" title="Detail">
@@ -134,7 +134,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                        </td>
+                         </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -142,9 +142,37 @@
         </div>
 
         <!-- Pagination -->
-        <div class="pagination">
-            {{ $briefs->links() }}
+        @if($briefs->hasPages())
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Menampilkan {{ $briefs->firstItem() }} - {{ $briefs->lastItem() }} dari {{ $briefs->total() }} data
+            </div>
+            <div class="pagination">
+                {{-- Previous Page Link --}}
+                @if ($briefs->onFirstPage())
+                    <span class="page-link disabled"><i class="fas fa-chevron-left"></i></span>
+                @else
+                    <a href="{{ $briefs->previousPageUrl() }}" class="page-link"><i class="fas fa-chevron-left"></i></a>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($briefs->getUrlRange(1, $briefs->lastPage()) as $page => $url)
+                    @if ($page == $briefs->currentPage())
+                        <span class="page-link active">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="page-link">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($briefs->hasMorePages())
+                    <a href="{{ $briefs->nextPageUrl() }}" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                @else
+                    <span class="page-link disabled"><i class="fas fa-chevron-right"></i></span>
+                @endif
+            </div>
         </div>
+        @endif
     </div>
 </div>
 
@@ -152,8 +180,9 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top:20px;
 }
+
 
 .admin-content {
     padding: 32px;
@@ -188,6 +217,9 @@
     color: var(--text);
     font-weight: 500;
     transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-export:hover {
@@ -296,14 +328,14 @@
 /* Tabel */
 .brief-table-container {
     overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
 }
 
 .brief-table {
     width: 100%;
     border-collapse: collapse;
     background: var(--surface);
-    border-radius: 16px;
-    overflow: hidden;
 }
 
 .brief-table th,
@@ -409,12 +441,71 @@
     color: #fff;
 }
 
-.pagination {
-    margin-top: 24px;
+/* Pagination */
+.pagination-container {
+    margin-top: 30px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
+.pagination-info {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.page-link:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.page-link.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.page-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.page-link i {
+    font-size: 0.8rem;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
     .stats-brief {
         grid-template-columns: repeat(3, 1fr);
@@ -430,16 +521,46 @@
     }
     .stats-brief {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
     .brief-table th,
     .brief-table td {
         padding: 12px;
+        font-size: 0.8rem;
+    }
+    .page-link {
+        min-width: 35px;
+        height: 35px;
+        padding: 0 8px;
+        font-size: 0.75rem;
+    }
+    .action-buttons button {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-brief {
+        grid-template-columns: 1fr;
+    }
+    .filter-section {
+        flex-direction: column;
+    }
+    .pagination {
+        gap: 4px;
+    }
+    .page-link {
+        min-width: 30px;
+        height: 30px;
+        padding: 0 6px;
+        font-size: 0.7rem;
     }
 }
 </style>
 
 <script>
-    // Filter by status
+    // Filter by status and search
     const statusFilter = document.getElementById('statusFilter');
     const searchInput = document.getElementById('searchInput');
     const tableRows = document.querySelectorAll('#briefTableBody tr');
@@ -483,7 +604,7 @@
                 
                 if (data.success) {
                     showToast(data.message, 'success');
-                    location.reload();
+                    setTimeout(() => location.reload(), 1000);
                 }
             } catch (error) {
                 showToast('Gagal mengupdate status', 'error');
@@ -514,7 +635,7 @@
               .then(data => {
                   if (data.success) {
                       showToast(data.message, 'success');
-                      location.reload();
+                      setTimeout(() => location.reload(), 1000);
                   }
               });
         }

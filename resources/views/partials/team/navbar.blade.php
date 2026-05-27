@@ -1,41 +1,27 @@
-{{-- Sidebar Kiri Admin --}}
+{{-- Sidebar Kiri Team --}}
 <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-brand">
         <div class="brand-logo">
             <img src="{{ asset('img/logo.png') }}" alt="diver.ent">
         </div>
         <div class="brand-name">diver.<span class="accent">ent</span></div>
-        <div class="brand-badge">Admin</div>
+        <div class="brand-badge">Team</div>
     </div>
 
     <nav class="sidebar-menu">
-        <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a href="{{ route('team.dashboard') }}" class="menu-item {{ request()->routeIs('team.dashboard') ? 'active' : '' }}">
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
-        <a href="{{ route('admin.briefs') }}" class="menu-item {{ request()->routeIs('admin.briefs*') ? 'active' : '' }}">
-            <i class="fas fa-file-alt"></i>
-            <span>Brief Client</span>
+        <a href="{{ route('team.tasks') }}" class="menu-item {{ request()->routeIs('team.tasks') ? 'active' : '' }}">
+            <i class="fas fa-tasks"></i>
+            <span>My Tasks</span>
         </a>
-        <a href="{{ route('admin.payments') }}" class="menu-item {{ request()->routeIs('admin.payments*') ? 'active' : '' }}">
-            <i class="fas fa-money-bill-wave"></i>
-            <span>Pembayaran</span>
-        </a>
-        
-        <a href="{{ route('admin.teams') }}" class="menu-item {{ request()->routeIs('admin.teams*') ? 'active' : '' }}">
-            <i class="fas fa-user-friends"></i>
-            <span>Team</span>
-        </a>
-        <a href="{{ route('admin.tasks') }}" class="menu-item {{ request()->routeIs('admin.tasks*') ? 'active' : '' }}">
-            <i class="fas fa-check-square"></i>
-            <span>Task</span>
-        </a>
-        <a href="{{ route('admin.portfolios') }}" class="menu-item {{ request()->routeIs('admin.portfolios*') ? 'active' : '' }}">
-            <i class="fas fa-folder-open"></i>
-            <span>Portfolio</span>
+        <a href="{{ route('team.calendar') }}" class="menu-item {{ request()->routeIs('team.calendar') ? 'active' : '' }}">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendar</span>
         </a>
        
-     
     </nav>
 
     <div class="sidebar-footer">
@@ -53,16 +39,34 @@
     </div>
 </aside>
 
-{{-- Navbar Atas Admin --}}
+{{-- Navbar Atas Team --}}
 <header class="app-header">
     <div class="header-left">
         <button class="mobile-toggle" id="mobileToggle">
             <i class="fas fa-bars"></i>
         </button>
+        <div class="header-title">
+            <span class="greeting">Team Panel</span>
+            <span class="page-name">
+                @if(request()->routeIs('team.dashboard'))
+                    Dashboard
+                @elseif(request()->routeIs('team.tasks'))
+                    My Tasks
+                @elseif(request()->routeIs('team.calendar'))
+                    Calendar
+             
+                @elseif(request()->routeIs('team.profile'))
+                    Profile
+                @else
+                    Team
+                @endif
+            </span>
+        </div>
     </div>
 
     <div class="header-center">
         <ul class="nav-menu">
+            <li><a href="/">Home</a></li>
             <li><a href="/#services">Services</a></li>
             <li><a href="/#about">Company</a></li>
             <li><a href="{{ route('portfolio') }}">Portfolio</a></li>
@@ -80,30 +84,25 @@
             <button class="user-btn" id="userDropdownBtn">
                 <div class="user-avatar">
                     @if(Auth::user()->profile_photo)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Admin" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Team">
                     @else
-                        {{ substr(Auth::user()->name ?? 'A', 0, 2) }}
+                        {{ substr(Auth::user()->name ?? 'TM', 0, 2) }}
                     @endif
                 </div>
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>{{ Auth::user()->name ?? 'Team' }}</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="dropdown-menu" id="userDropdownMenu">
-                <a href="{{ route('admin.dashboard') }}">
+                <a href="{{ route('team.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a href="{{ route('admin.briefs') }}">
-                    <i class="fas fa-file-alt"></i> Brief Client
+                <a href="{{ route('team.tasks') }}">
+                    <i class="fas fa-tasks"></i> My Tasks
                 </a>
-                <a href="{{ route('admin.payments') }}">
-                    <i class="fas fa-money-bill-wave"></i> Pembayaran
+                <a href="{{ route('team.calendar') }}">
+                    <i class="fas fa-calendar-alt"></i> Calendar
                 </a>
-                <a href="{{ route('admin.portfolios') }}">
-                    <i class="fas fa-folder-open"></i> Portfolio
-                </a>
-                <a href="{{ route('admin.tasks') }}">
-                    <i class="fas fa-user-circle"></i>Task
-                </a>
+              
                 <div class="divider"></div>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
                     <i class="fas fa-sign-out-alt"></i> Logout
@@ -180,8 +179,8 @@
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
-    background: var(--accent);
-    color: #000;
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: #fff;
     font-size: 0.6rem;
     padding: 2px 8px;
     border-radius: 20px;
@@ -272,7 +271,7 @@
     z-index: 999;
 }
 
-/* Garis border-bottom navbar sejajar dengan border-right sidebar */
+/* Memastikan garis sejajar */
 .app-sidebar {
     border-right: 1px solid var(--border);
 }
@@ -281,13 +280,11 @@
     border-bottom: 1px solid var(--border);
 }
 
-/* Memastikan pertemuan garis di pojok kiri atas mulus */
 @media (min-width: 769px) {
     .app-header {
         left: var(--sidebar-width);
     }
     
-    /* Menghilangkan border-radius yang mungkin muncul di pertemuan */
     .app-sidebar,
     .app-header {
         border-radius: 0;
@@ -297,6 +294,7 @@
 .header-left {
     display: flex;
     align-items: center;
+    gap: 16px;
 }
 
 .mobile-toggle {
@@ -306,6 +304,23 @@
     color: var(--text);
     font-size: 1.3rem;
     cursor: pointer;
+}
+
+.header-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.greeting {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.page-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--accent);
 }
 
 .header-center {
@@ -480,7 +495,7 @@
 }
 
 /* ==================== MAIN CONTENT ==================== */
-.admin-main {
+.team-main {
     margin-left: var(--sidebar-width);
     margin-top: var(--header-height);
     padding: 32px;
@@ -492,7 +507,6 @@
     .nav-menu {
         gap: 20px;
     }
-    
     .user-btn span {
         display: none;
     }
@@ -502,20 +516,16 @@
     .app-sidebar {
         transform: translateX(-100%);
     }
-    
     .app-sidebar.open {
         transform: translateX(0);
     }
-    
     .app-header {
         left: 0;
         padding: 0 20px;
     }
-    
     .mobile-toggle {
         display: block;
     }
-    
     .nav-menu {
         position: fixed;
         top: var(--header-height);
@@ -528,17 +538,17 @@
         transition: left 0.3s;
         border-bottom: 1px solid var(--border);
     }
-    
     .nav-menu.open {
         left: 0;
     }
-    
-    .admin-main {
+    .team-main {
         margin-left: 0;
         margin-top: var(--header-height);
         padding: 20px;
     }
-    
+    .header-title {
+        display: none;
+    }
     .btn-primary {
         display: none;
     }
@@ -548,7 +558,6 @@
     .header-right {
         gap: 10px;
     }
-    
     .user-btn span {
         display: none;
     }
@@ -613,9 +622,11 @@
     const mobileToggle = document.getElementById('mobileToggle');
     const sidebar = document.querySelector('.app-sidebar');
     
-    mobileToggle?.addEventListener('click', () => {
-        sidebar?.classList.toggle('open');
-    });
+    if (mobileToggle && sidebar) {
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+    }
     
     // Close sidebar on click outside (mobile)
     document.addEventListener('click', (e) => {

@@ -6,74 +6,61 @@
 <div class="admin-main">
     <div class="admin-content">
         <div class="page-header">
-            <h1><i class="fas fa-edit"></i> Edit Portfolio</h1>
-            <p>Edit data portfolio yang sudah ada</p>
+            <h1><i class="fas fa-plus-circle"></i> Tambah Portfolio</h1>
+            <p>Tambahkan portfolio baru ke landing page</p>
         </div>
 
         <div class="form-container">
-            <form action="{{ route('admin.portfolio.update', $portfolio->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.portfolio.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
                 
                 <div class="form-group">
                     <label>Judul Portfolio <span class="required">*</span></label>
-                    <input type="text" name="title" class="form-control" value="{{ old('title', $portfolio->title) }}" required>
+                    <input type="text" name="title" class="form-control" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Kategori <span class="required">*</span></label>
                         <select name="category" class="form-control" required>
-                            <option value="social" {{ $portfolio->category == 'social' ? 'selected' : '' }}>Social Media</option>
-                            <option value="web" {{ $portfolio->category == 'web' ? 'selected' : '' }}>Website & Apps</option>
-                            <option value="ads" {{ $portfolio->category == 'ads' ? 'selected' : '' }}>Digital Ads</option>
-                            <option value="brand" {{ $portfolio->category == 'brand' ? 'selected' : '' }}>Visual Branding</option>
-                            <option value="video" {{ $portfolio->category == 'video' ? 'selected' : '' }}>Photo & Video</option>
-                            <option value="seo" {{ $portfolio->category == 'seo' ? 'selected' : '' }}>SEO</option>
+                            <option value="social">Social Media</option>
+                            <option value="web">Website & Apps</option>
+                            <option value="ads">Digital Ads</option>
+                            <option value="brand">Visual Branding</option>
+                            <option value="video">Photo & Video</option>
+                            <option value="seo">SEO</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Label <span class="required">*</span></label>
-                        <input type="text" name="label" class="form-control" value="{{ old('label', $portfolio->label) }}" required>
+                        <input type="text" name="label" class="form-control" placeholder="Social Media, Website Dev, dll" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Deskripsi <span class="required">*</span></label>
-                    <textarea name="description" rows="5" class="form-control" required>{{ old('description', $portfolio->description) }}</textarea>
+                    <textarea name="description" rows="5" class="form-control" required></textarea>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Nama Client</label>
-                        <input type="text" name="client_name" class="form-control" value="{{ old('client_name', $portfolio->client_name) }}">
+                        <input type="text" name="client_name" class="form-control" placeholder="Nama brand/client">
                     </div>
                     <div class="form-group">
                         <label>Tahun</label>
-                        <input type="number" name="year" class="form-control" value="{{ old('year', $portfolio->year ?? date('Y')) }}">
+                        <input type="number" name="year" class="form-control" placeholder="2024" value="{{ date('Y') }}">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Gambar Utama</label>
-                        @if($portfolio->image)
-                            <div class="current-image">
-                                <img src="{{ asset('storage/' . $portfolio->image) }}" width="100">
-                                <p>Gambar saat ini</p>
-                            </div>
-                        @endif
                         <input type="file" name="image" class="form-control" accept="image/*">
                         <small class="form-hint">Ukuran: 800x600px, maks 2MB</small>
                     </div>
                     <div class="form-group">
                         <label>Thumbnail</label>
-                        @if($portfolio->thumbnail)
-                            <div class="current-image">
-                                <img src="{{ asset('storage/' . $portfolio->thumbnail) }}" width="100">
-                                <p>Thumbnail saat ini</p>
-                            </div>
-                        @endif
                         <input type="file" name="thumbnail" class="form-control" accept="image/*">
                         <small class="form-hint">Ukuran: 400x300px, maks 1MB</small>
                     </div>
@@ -83,25 +70,21 @@
                     <div class="form-group">
                         <label>Status</label>
                         <select name="status" class="form-control">
-                            <option value="published" {{ $portfolio->status == 'published' ? 'selected' : '' }}>Published</option>
-                            <option value="draft" {{ $portfolio->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Order</label>
-                        <input type="number" name="order" class="form-control" value="{{ old('order', $portfolio->order ?? 0) }}">
+                        <input type="number" name="order" class="form-control" placeholder="Urutan tampil" value="0">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Hasil / Statistik (JSON format)</label>
-                    <textarea name="results" rows="3" class="form-control" placeholder='{"engagement":"+320%","reach":"5M+"}'>{{ is_array($portfolio->results) ? json_encode($portfolio->results) : $portfolio->results }}</textarea>
-                    <small class="form-hint">Contoh: {"engagement":"+320%","reach":"5M+"}</small>
-                </div>
+              
 
                 <div class="form-actions">
                     <a href="{{ route('admin.portfolios') }}" class="btn-cancel">Batal</a>
-                    <button type="submit" class="btn-submit">Update Portfolio</button>
+                    <button type="submit" class="btn-submit">Simpan Portfolio</button>
                 </div>
             </form>
         </div>
@@ -112,7 +95,7 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 20px;
+    padding-top: 80px;
 }
 .admin-content {
     padding: 32px;
@@ -164,22 +147,12 @@
     font-size: 0.7rem;
     color: var(--text-secondary);
     margin-top: 4px;
+    display: block;
 }
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-}
-.current-image {
-    margin-bottom: 12px;
-}
-.current-image img {
-    border-radius: 8px;
-}
-.current-image p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 4px;
 }
 .form-actions {
     display: flex;
@@ -215,19 +188,10 @@
     filter: brightness(0.95);
 }
 @media (max-width: 768px) {
-    .admin-main {
-        margin-left: 0;
-    }
-    .admin-content {
-        padding: 20px;
-    }
-    .form-container {
-        padding: 24px;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
+    .admin-main { margin-left: 0; }
+    .admin-content { padding: 20px; }
+    .form-container { padding: 24px; }
+    .form-row { grid-template-columns: 1fr; gap: 16px; }
 }
 </style>
 @endsection

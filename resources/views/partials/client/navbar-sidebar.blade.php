@@ -1,41 +1,30 @@
-{{-- Sidebar Kiri Admin --}}
+{{-- Sidebar Kiri --}}
 <aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-brand">
         <div class="brand-logo">
             <img src="{{ asset('img/logo.png') }}" alt="diver.ent">
         </div>
         <div class="brand-name">diver.<span class="accent">ent</span></div>
-        <div class="brand-badge">Admin</div>
+        <div class="brand-badge">Client</div>
     </div>
 
     <nav class="sidebar-menu">
-        <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a href="{{ route('client.dashboard') }}" class="menu-item {{ request()->routeIs('client.dashboard') ? 'active' : '' }}">
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
-        <a href="{{ route('admin.briefs') }}" class="menu-item {{ request()->routeIs('admin.briefs*') ? 'active' : '' }}">
-            <i class="fas fa-file-alt"></i>
-            <span>Brief Client</span>
+        <a href="{{ route('client.create-project') }}" class="menu-item {{ request()->routeIs('client.create-project') ? 'active' : '' }}">
+            <i class="fas fa-handshake"></i>
+            <span>Ayo Kerjasama</span>
         </a>
-        <a href="{{ route('admin.payments') }}" class="menu-item {{ request()->routeIs('admin.payments*') ? 'active' : '' }}">
+        <a href="{{ route('client.projects') }}" class="menu-item {{ request()->routeIs('client.projects') ? 'active' : '' }}">
+            <i class="fas fa-history"></i>
+            <span>History Kerjasama</span>
+        </a>
+        <a href="{{ route('client.payments') }}" class="menu-item {{ request()->routeIs('client.payments') ? 'active' : '' }}">
             <i class="fas fa-money-bill-wave"></i>
             <span>Pembayaran</span>
         </a>
-        
-        <a href="{{ route('admin.teams') }}" class="menu-item {{ request()->routeIs('admin.teams*') ? 'active' : '' }}">
-            <i class="fas fa-user-friends"></i>
-            <span>Team</span>
-        </a>
-        <a href="{{ route('admin.tasks') }}" class="menu-item {{ request()->routeIs('admin.tasks*') ? 'active' : '' }}">
-            <i class="fas fa-check-square"></i>
-            <span>Task</span>
-        </a>
-        <a href="{{ route('admin.portfolios') }}" class="menu-item {{ request()->routeIs('admin.portfolios*') ? 'active' : '' }}">
-            <i class="fas fa-folder-open"></i>
-            <span>Portfolio</span>
-        </a>
-       
-     
     </nav>
 
     <div class="sidebar-footer">
@@ -53,7 +42,7 @@
     </div>
 </aside>
 
-{{-- Navbar Atas Admin --}}
+{{-- Navbar Atas --}}
 <header class="app-header">
     <div class="header-left">
         <button class="mobile-toggle" id="mobileToggle">
@@ -80,29 +69,26 @@
             <button class="user-btn" id="userDropdownBtn">
                 <div class="user-avatar">
                     @if(Auth::user()->profile_photo)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Admin" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Client" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                     @else
-                        {{ substr(Auth::user()->name ?? 'A', 0, 2) }}
+                        {{ substr(Auth::user()->name ?? 'C', 0, 2) }}
                     @endif
                 </div>
-                <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+                <span>{{ Auth::user()->name ?? 'Client' }}</span>
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="dropdown-menu" id="userDropdownMenu">
-                <a href="{{ route('admin.dashboard') }}">
+                <a href="{{ route('client.dashboard') }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a href="{{ route('admin.briefs') }}">
-                    <i class="fas fa-file-alt"></i> Brief Client
+                <a href="{{ route('client.create-project') }}">
+                    <i class="fas fa-handshake"></i> Ayo Kerjasama
                 </a>
-                <a href="{{ route('admin.payments') }}">
+                <a href="{{ route('client.projects') }}">
+                    <i class="fas fa-history"></i> History
+                </a>
+                <a href="{{ route('client.payments') }}">
                     <i class="fas fa-money-bill-wave"></i> Pembayaran
-                </a>
-                <a href="{{ route('admin.portfolios') }}">
-                    <i class="fas fa-folder-open"></i> Portfolio
-                </a>
-                <a href="{{ route('admin.tasks') }}">
-                    <i class="fas fa-user-circle"></i>Task
                 </a>
                 <div class="divider"></div>
                 <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
@@ -180,8 +166,8 @@
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
-    background: var(--accent);
-    color: #000;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
     font-size: 0.6rem;
     padding: 2px 8px;
     border-radius: 20px;
@@ -272,7 +258,7 @@
     z-index: 999;
 }
 
-/* Garis border-bottom navbar sejajar dengan border-right sidebar */
+/* Memastikan garis sejajar */
 .app-sidebar {
     border-right: 1px solid var(--border);
 }
@@ -281,13 +267,11 @@
     border-bottom: 1px solid var(--border);
 }
 
-/* Memastikan pertemuan garis di pojok kiri atas mulus */
 @media (min-width: 769px) {
     .app-header {
         left: var(--sidebar-width);
     }
     
-    /* Menghilangkan border-radius yang mungkin muncul di pertemuan */
     .app-sidebar,
     .app-header {
         border-radius: 0;
@@ -480,7 +464,7 @@
 }
 
 /* ==================== MAIN CONTENT ==================== */
-.admin-main {
+.app-main {
     margin-left: var(--sidebar-width);
     margin-top: var(--header-height);
     padding: 32px;
@@ -533,7 +517,7 @@
         left: 0;
     }
     
-    .admin-main {
+    .app-main {
         margin-left: 0;
         margin-top: var(--header-height);
         padding: 20px;

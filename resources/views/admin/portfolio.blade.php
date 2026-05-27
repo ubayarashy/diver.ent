@@ -10,6 +10,12 @@
             <p>Kelola portfolio yang ditampilkan di landing page</p>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="table-container">
             <table class="data-table">
                 <thead>
@@ -25,7 +31,7 @@
                 </thead>
                 <tbody>
                     @forelse($portfolios ?? [] as $index => $item)
-                    <tr>
+                    <tr id="portfolio-row-{{ $item->id }}">
                         <td>{{ $index + 1 }}</td>
                         <td>
                             @if($item->image)
@@ -52,7 +58,7 @@
                             <a href="{{ route('admin.portfolio.edit', $item->id) }}" class="btn-edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button onclick="deletePortfolio({{ $item->id }})" class="btn-delete">
+                            <button onclick="deletePortfolio({{ $item->id }}, '{{ addslashes($item->title) }}')" class="btn-delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -76,9 +82,8 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top:20px;
 }
-
 .admin-content {
     padding: 32px;
 }
@@ -183,6 +188,15 @@
     font-weight: 600;
 }
 
+.alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-left: 3px solid #10b981;
+}
+
 @media (max-width: 768px) {
     .admin-main {
         margin-left: 0;
@@ -194,20 +208,57 @@
 </style>
 
 <script>
-    function deletePortfolio(id) {
-        if (confirm('Apakah Anda yakin ingin menghapus portfolio ini?')) {
-            fetch(`/admin/portfolio/${id}`, {
+    function deletePortfolio(id, title) {
+        if (confirm(`Apakah Anda yakin ingin menghapus portfolio "${title}"?`)) {
+            // Tampilkan loading state pada tombol
+            const btn = event.target.closest('.btn-delete');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            
+            fetch(`/admin/portfolios/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 }
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      location.reload();
-                  }
-              });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hapus baris tabel
+                    const row = document.getElementById(`portfolio-row-${id}`);
+                    if (row) {
+                        row.remove();
+                    }
+                    // Tampilkan pesan sukses
+                    showAlert('success', 'Portfolio berhasil dihapus!');
+                } else {
+                    alert('Gagal menghapus portfolio: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menghapus portfolio');
+            })
+            .finally(() => {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            });
         }
     }
+    
+    function showAlert(type, message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.innerHTML = message;
+        const pageHeader = document.querySelector('.page-header');
+        pageHeader.insertAdjacentElement('afterend', alertDiv);
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 3000);
+    }
 </script>
+
 @endsection

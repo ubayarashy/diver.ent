@@ -22,4 +22,24 @@ class Brief extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function result()
+    {
+        return $this->hasOne(ProjectResult::class);
+    }
+
+    public function portfolio()
+    {
+        return $this->hasOne(Portfolio::class);
+    }
 }
