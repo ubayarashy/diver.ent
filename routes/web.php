@@ -41,6 +41,7 @@ Route::middleware(['auth'])->prefix('client')->name('client.')->group(function (
     
     // Payments
     Route::get('/payments', [ClientAreaController::class, 'payments'])->name('payments');
+    Route::post('/payments/{id}/upload-proof', [ClientAreaController::class, 'uploadPaymentProof'])->name('payments.upload-proof');
     
     // Profile
     Route::get('/profile', [ClientAreaController::class, 'profile'])->name('profile');

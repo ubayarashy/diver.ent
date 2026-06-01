@@ -659,27 +659,4 @@
     document.getElementById('reference_link').addEventListener('input', updateSummary);
     document.getElementById('phone').addEventListener('input', updateSummary);
 </script>
-
-<!-- Logout Modal -->
-<div id="logout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center;">
-        <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
-        <h3 style="margin-bottom: 12px;">Konfirmasi Keluar</h3>
-        <p style="color: var(--text-secondary); margin-bottom: 24px;">Apakah Anda yakin ingin keluar dari dashboard?</p>
-        <div style="display: flex; gap: 12px; justify-content: center;">
-            <button onclick="closeLogoutModal()" style="background: transparent; border: 1px solid var(--border); padding: 10px 24px; border-radius: 50px; cursor: pointer;">Batal</button>
-            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
-                @csrf
-                <button type="submit" style="background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: #fff; border: none; padding: 10px 24px; border-radius: 50px; cursor: pointer;">Keluar</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    function closeLogoutModal() {
-        document.getElementById('logout-modal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-</script>
 @endsection

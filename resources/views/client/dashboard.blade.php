@@ -483,35 +483,4 @@
         }
     }
 </style>
-
-<!-- Logout Modal -->
-<div id="logout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 32px; max-width: 400px; width: 90%; text-align: center;">
-        <div style="width: 64px; height: 64px; background: rgba(59,130,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-            <i class="fas fa-question-circle" style="font-size: 2rem; color: var(--accent);"></i>
-        </div>
-        <h3 style="margin-bottom: 12px;">Konfirmasi Keluar</h3>
-        <p style="color: var(--text-secondary); margin-bottom: 24px;">Apakah Anda yakin ingin keluar dari dashboard?</p>
-        <div style="display: flex; gap: 12px; justify-content: center;">
-            <button onclick="closeLogoutModal()" class="btn-outline" style="padding: 10px 24px;">Batal</button>
-            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
-                @csrf
-                <button type="submit" class="btn-primary" style="padding: 10px 24px;">Keluar</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    function openLogoutModal() {
-        document.getElementById('logout-modal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-    function closeLogoutModal() {
-        document.getElementById('logout-modal').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-    window.openLogoutModal = openLogoutModal;
-    window.closeLogoutModal = closeLogoutModal;
-</script>
 @endsection

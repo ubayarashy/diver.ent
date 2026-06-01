@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Test User', 'password' => bcrypt('password')]
         );
 
+        $this->call(InvoiceSeeder::class);
     }
 }

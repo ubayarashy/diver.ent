@@ -36,9 +36,9 @@
     </nav>
 
     <div class="sidebar-footer">
-        <form action="{{ route('logout') }}" method="POST">
+        <form action="{{ route('logout') }}" method="POST" id="logout-form-sidebar">
             @csrf
-            <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <button type="button" class="logout-btn" id="sidebar-logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
         </form>
     </div>
 </div>
@@ -155,3 +155,75 @@
     .sidebar-close { display: block; }
 }
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const logoutBtn = document.getElementById('sidebar-logout-btn');
+        const logoutForm = document.getElementById('logout-form-sidebar');
+        if (!logoutBtn || !logoutForm) {
+            return;
+        }
+
+        const logoutUrl = logoutForm.action;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+            || logoutForm.querySelector('input[name="_token"]')?.value;
+
+        logoutBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Konfirmasi Keluar',
+                text: 'Apakah Anda yakin ingin keluar?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3B82FF',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Keluar',
+                cancelButtonText: 'Batal',
+            }).then(async (result) => {
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Keluar...',
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading(),
+                });
+
+                try {
+                    const response = await fetch(logoutUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        credentials: 'same-origin',
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success && data.redirect) {
+                        window.location.href = data.redirect;
+                        return;
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Keluar',
+                        text: data.message || 'Logout gagal. Silakan coba lagi.',
+                    });
+                } catch {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Keluar',
+                        text: 'Terjadi kesalahan saat logout. Silakan coba lagi.',
+                    });
+                }
+            });
+        });
+    });
+</script>

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Brief; 
+use App\Models\Brief;
+use App\Models\Invoice;
+use Illuminate\Support\Facades\Storage;
 class ClientAreaController extends Controller
 {
     /**
@@ -159,8 +161,9 @@ class ClientAreaController extends Controller
     public function payments()
     {
         $user = Auth::user();
+        $this->ensureUserHasInvoices($user);
         $invoices = $this->getInvoices($user);
-        
+
         return view('client.payments', compact('invoices'));
     }
 
@@ -197,15 +200,25 @@ class ClientAreaController extends Controller
     public function uploadPaymentProof(Request $request, $id)
     {
         $request->validate([
-            'payment_proof' => 'required|image|max:2048'
+            'payment_proof' => 'required|image|max:2048',
         ]);
 
-        // TODO: Save payment proof and update invoice status
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment proof uploaded! Waiting for verification.'
+        $invoice = Invoice::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($invoice->payment_proof) {
+            Storage::disk('public')->delete($invoice->payment_proof);
+        }
+
+        $path = $request->file('payment_proof')->store('payment_proofs', 'public');
+
+        $invoice->update([
+            'payment_proof' => $path,
+            'status' => 'pending',
         ]);
+
+        return redirect()
+            ->route('client.payments')
+            ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi admin.');
     }
 
     // ==================== NOTIFICATIONS ====================
@@ -560,45 +573,72 @@ class ClientAreaController extends Controller
      */
     private function getInvoices($user)
     {
-        // TODO: Ambil dari database
-        return [
-            (object)[
-                'id' => 1,
+        return Invoice::query()
+            ->where('user_id', $user->id)
+            ->orderByDesc('due_date')
+            ->get();
+    }
+
+    /**
+     * Seed demo invoices for the user when none exist yet.
+     */
+    private function ensureUserHasInvoices(User $user): void
+    {
+        if (Invoice::where('user_id', $user->id)->exists()) {
+            return;
+        }
+
+        Storage::disk('public')->makeDirectory('payment_proofs');
+
+        $demoProofPath = null;
+        $source = public_path('img/logo.png');
+        if (is_file($source)) {
+            $demoProofPath = 'payment_proofs/demo-user-' . $user->id . '.png';
+            Storage::disk('public')->put($demoProofPath, file_get_contents($source));
+        }
+
+        $rows = [
+            [
                 'number' => 'INV-2026-001',
+                'description' => 'Website Development - Phase 1',
                 'amount' => 15000000,
-                'status' => 'paid',
+                'status' => 'lunas',
                 'due_date' => '2026-01-15',
                 'issue_date' => '2026-01-01',
-                'description' => 'Website Development - Phase 1'
+                'payment_proof' => $demoProofPath,
             ],
-            (object)[
-                'id' => 2,
+            [
                 'number' => 'INV-2026-002',
+                'description' => 'Social Media Management - March',
                 'amount' => 8500000,
-                'status' => 'paid',
+                'status' => 'diverifikasi',
                 'due_date' => '2026-02-20',
                 'issue_date' => '2026-02-01',
-                'description' => 'Social Media Management - March'
+                'payment_proof' => $demoProofPath,
             ],
-            (object)[
-                'id' => 3,
+            [
                 'number' => 'INV-2026-003',
+                'description' => 'Google Ads Campaign - May',
                 'amount' => 12500000,
                 'status' => 'pending',
                 'due_date' => '2026-05-30',
                 'issue_date' => '2026-05-01',
-                'description' => 'Google Ads Campaign - May'
+                'payment_proof' => $demoProofPath,
             ],
-            (object)[
-                'id' => 4,
+            [
                 'number' => 'INV-2026-004',
+                'description' => 'SEO Optimization - Package A',
                 'amount' => 5000000,
                 'status' => 'pending',
                 'due_date' => '2026-06-10',
                 'issue_date' => '2026-05-15',
-                'description' => 'SEO Optimization - Package A'
+                'payment_proof' => null,
             ],
         ];
+
+        foreach ($rows as $row) {
+            Invoice::create(array_merge($row, ['user_id' => $user->id]));
+        }
     }
 
     /**

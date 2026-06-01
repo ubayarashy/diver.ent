@@ -58,10 +58,13 @@
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
         </div>
-        <div class="sidebar-logout" onclick="openLogoutModal()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Keluar</span>
-        </div>
+        <form action="{{ route('logout') }}" method="POST" class="sidebar-logout-form" id="logout-form-sidebar">
+            @csrf
+            <button type="button" class="sidebar-logout" id="sidebar-logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Keluar</span>
+            </button>
+        </form>
     </div>
 </div>
 
@@ -270,6 +273,11 @@
     gap: 8px;
 }
 
+.sidebar-logout-form {
+    margin: 0;
+    width: 100%;
+}
+
 .sidebar-theme-toggle, .sidebar-logout {
     display: flex;
     align-items: center;
@@ -280,6 +288,14 @@
     transition: all 0.3s ease;
     color: var(--text-secondary);
     font-size: 0.9rem;
+}
+
+.sidebar-logout {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    text-align: left;
 }
 
 .sidebar-theme-toggle:hover, .sidebar-logout:hover {
@@ -421,6 +437,7 @@
 }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // Mobile menu toggle
     document.addEventListener('DOMContentLoaded', function() {
@@ -485,22 +502,70 @@
                 }
             }
         }
+
+        const logoutBtn = document.getElementById('sidebar-logout-btn');
+        const logoutForm = document.getElementById('logout-form-sidebar');
+        if (logoutBtn && logoutForm) {
+            const logoutUrl = logoutForm.action;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+                || logoutForm.querySelector('input[name="_token"]')?.value;
+
+            logoutBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Konfirmasi Keluar',
+                    text: 'Apakah Anda yakin ingin keluar?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3B82FF',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Keluar',
+                    cancelButtonText: 'Batal',
+                }).then(async (result) => {
+                    if (!result.isConfirmed) {
+                        return;
+                    }
+
+                    Swal.fire({
+                        title: 'Keluar...',
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading(),
+                    });
+
+                    try {
+                        const response = await fetch(logoutUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            credentials: 'same-origin',
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.success && data.redirect) {
+                            window.location.href = data.redirect;
+                            return;
+                        }
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Keluar',
+                            text: data.message || 'Logout gagal. Silakan coba lagi.',
+                        });
+                    } catch {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Keluar',
+                            text: 'Terjadi kesalahan saat logout. Silakan coba lagi.',
+                        });
+                    }
+                });
+            });
+        }
     });
-    
-    // Logout modal function
-    window.openLogoutModal = function() {
-        const modal = document.getElementById('logout-modal');
-        if (modal) {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    window.closeLogoutModal = function() {
-        const modal = document.getElementById('logout-modal');
-        if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    }
 </script>
