@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="stat-task-card in-progress">
-                <div class="stat-task-icon"><i class="fas fa-spinner fa-pulse"></i></div>
+                <div class="stat-task-icon"><i class="fas fa-spinner"></i></div>
                 <div class="stat-task-info">
                     <span class="stat-task-value">{{ $stats['in_progress'] }}</span>
                     <span class="stat-task-label">In Progress</span>
@@ -77,7 +77,6 @@
                         <th>Task / Project</th>
                         <th>Client</th>
                         <th>Team</th>
-                        <th>Kategori</th>
                         <th>Progress</th>
                         <th>Status</th>
                         <th>Deadline</th>
@@ -101,7 +100,6 @@
                                 <i class="fas fa-user"></i> {{ $task->assignedTo->name ?? 'Unassigned' }}
                             </span>
                         </td>
-                        <td><span class="category-badge">{{ $task->category ?? '-' }}</span></td>
                         <td>
                             <div class="progress-cell">
                                 <div class="progress-bar">

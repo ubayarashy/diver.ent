@@ -46,7 +46,7 @@
                         <td>{{ $payment->invoice_number }}</td>
                         <td>{{ $payment->brief->user->name ?? '-' }}</td>
                         <td>{{ $payment->brief->project_name }}</td>
-                        <td>Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
+                        <td>{{ number_format($payment->amount, 0, ',', '.') }}</td>
                         <td>
                             @if($payment->payment_proof)
                                 <a href="{{ asset('storage/' . $payment->payment_proof) }}" target="_blank" class="btn-link">

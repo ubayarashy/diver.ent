@@ -273,7 +273,16 @@
         font-size: 1.1rem;
         font-weight: 700;
         color: var(--accent);
+        flex : 1;
     }
+
+    .invoice-status {
+        flex : 1;
+    }
+
+    .invoice-info {
+        flex : 1;
+    }    
 
     .status-badge {
         padding: 4px 12px;

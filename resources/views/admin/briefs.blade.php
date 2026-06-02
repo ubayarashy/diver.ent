@@ -108,7 +108,7 @@
                         </td>
                         <td>
                             @if($brief->budget)
-                                Rp {{ number_format($brief->budget, 0, ',', '.') }}
+                                {{ number_format($brief->budget, 0, ',', '.') }}
                             @else
                                 -
                             @endif

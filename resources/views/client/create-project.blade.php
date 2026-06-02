@@ -141,7 +141,7 @@
                         <i class="fas fa-arrow-left"></i> Kembali
                     </button>
                     <button type="button" class="btn-next" id="nextBtn">
-                        Lanjut <i class="fas fa-arrow-right"></i>
+                        Lanjut<i class="fas fa-arrow-right" style="margin-left:8px;"></i>
                     </button>
                     <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">
                         <i class="fas fa-paper-plane"></i> Kirim Brief

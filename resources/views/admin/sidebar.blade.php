@@ -73,7 +73,6 @@
         <button class="theme-btn" id="themeToggleHeader">
             <i class="fas fa-moon"></i>
         </button>
-        <a href="/#cta-bottom" class="btn-primary">Get In Touch</a>
         
         @auth
         <div class="user-dropdown">
