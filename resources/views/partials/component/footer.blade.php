@@ -47,6 +47,3 @@
     </div>
 </footer>
 
-{{-- Floating Widgets --}}
-<div class="wa-float" id="wa-float" aria-label="Chat via WhatsApp">💬</div>
-<div class="chat-widget" aria-label="Live Chat">🗨️</div>

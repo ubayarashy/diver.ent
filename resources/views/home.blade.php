@@ -902,7 +902,7 @@
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-camera"></i></div>
-                <h3>Fotografi</h3>
+                <h3>Photografy</h3>
                 <p>Fotografi produk, commercial, portrait, dan event dengan hasil berkualitas tinggi.</p>
                 <a href="{{ route('service.fp') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
             </div>

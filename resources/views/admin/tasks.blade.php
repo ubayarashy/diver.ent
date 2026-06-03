@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <!-- Tabel Task -->
+        <!-- Tabel Task - Kolom Deadline DIHAPUS -->
         <div class="task-table-container">
             <table class="task-table">
                 <thead>
@@ -79,7 +79,6 @@
                         <th>Team</th>
                         <th>Progress</th>
                         <th>Status</th>
-                        <th>Deadline</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -93,13 +92,13 @@
                                 <br>
                                 <small class="project-name">{{ $task->brief->project_name ?? '-' }}</small>
                             </div>
-                        </td>
+                         </td>
                         <td>{{ $task->brief->user->name ?? '-' }}</td>
                         <td>
                             <span class="team-badge">
                                 <i class="fas fa-user"></i> {{ $task->assignedTo->name ?? 'Unassigned' }}
                             </span>
-                        </td>
+                         </td>
                         <td>
                             <div class="progress-cell">
                                 <div class="progress-bar">
@@ -107,7 +106,7 @@
                                 </div>
                                 <span class="progress-text">{{ $task->progress }}%</span>
                             </div>
-                        </td>
+                         </td>
                         <td>
                             <span class="status-badge status-{{ $task->status }}">
                                 @if($task->status == 'pending')
@@ -122,17 +121,7 @@
                                     <i class="fas fa-check-circle"></i> Completed
                                 @endif
                             </span>
-                        </td>
-                        <td class="deadline-cell {{ $task->deadline && $task->deadline < now() ? 'deadline-overdue' : '' }}">
-                            @if($task->deadline)
-                                <i class="fas fa-calendar-alt"></i> {{ $task->deadline->format('d M Y') }}
-                                @if($task->deadline < now() && $task->status != 'completed')
-                                    <br><small class="overdue-text">Overdue!</small>
-                                @endif
-                            @else
-                                -
-                            @endif
-                        </td>
+                         </td>
                         <td>
                             <div class="action-buttons">
                                 <button class="btn-view" onclick="viewTask({{ $task->id }})" title="Detail">
@@ -145,7 +134,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                        </td>
+                         </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -361,14 +350,6 @@
     color: var(--accent);
 }
 
-.category-badge {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-}
-
 .progress-cell {
     display: flex;
     align-items: center;
@@ -411,19 +392,7 @@
 .status-review { background: rgba(139,92,246,0.15); color: #8b5cf6; }
 .status-completed { background: rgba(16,185,129,0.15); color: #10b981; }
 
-.deadline-cell {
-    font-size: 0.75rem;
-}
-
-.deadline-overdue {
-    color: #ef4444;
-}
-
-.overdue-text {
-    font-size: 0.65rem;
-    color: #ef4444;
-}
-
+/* Action Buttons */
 .action-buttons {
     display: flex;
     gap: 8px;
@@ -680,10 +649,10 @@
         }).then(response => response.json())
           .then(data => {
               if (data.success) {
-                  showToast('Task berhasil diassign', 'success');
+                  alert('Task berhasil diassign');
                   setTimeout(() => location.reload(), 1000);
               } else {
-                  showToast('Gagal mengassign task', 'error');
+                  alert('Gagal mengassign task');
               }
           });
     }
@@ -699,25 +668,11 @@
             }).then(response => response.json())
               .then(data => {
                   if (data.success) {
-                      showToast(data.message, 'success');
+                      alert(data.message);
                       setTimeout(() => location.reload(), 1000);
                   }
               });
         }
-    }
-    
-    function showToast(message, type) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed; bottom: 20px; right: 20px;
-            background: ${type === 'success' ? '#10b981' : '#ef4444'};
-            color: white; padding: 12px 20px;
-            border-radius: 12px; z-index: 9999;
-            animation: fadeIn 0.3s ease;
-        `;
-        toast.innerHTML = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
     }
     
     // Close modal on backdrop click

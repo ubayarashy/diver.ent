@@ -31,7 +31,7 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Status</span>
-                        <span class="detail-value">
+                        <span class="detail-value status-field">
                             <select id="statusSelect" data-id="{{ $brief->id }}" class="status-select">
                                 <option value="pending" {{ $brief->status == 'pending' ? 'selected' : '' }}>⏳ Menunggu</option>
                                 <option value="contacted" {{ $brief->status == 'contacted' ? 'selected' : '' }}>📞 Akan Dihubungi</option>
@@ -63,7 +63,7 @@
                     @if($brief->budget)
                     <div class="detail-item">
                         <span class="detail-label">Budget</span>
-                        <span class="detail-value">Rp {{ number_format($brief->budget, 0, ',', '.') }}</span>
+                        <span class="detail-value highlight-value">Rp {{ number_format($brief->budget, 0, ',', '.') }}</span>
                     </div>
                     @endif
                     @if($brief->timeline)
@@ -87,13 +87,14 @@
             @if($brief->reference_link)
             <div class="detail-section">
                 <h3><i class="fas fa-link"></i> Referensi</h3>
-                <a href="{{ $brief->reference_link }}" target="_blank" class="reference-link">
-                    <i class="fas fa-external-link-alt"></i> {{ $brief->reference_link }}
-                </a>
+                <div class="detail-value">
+                    <a href="{{ $brief->reference_link }}" target="_blank" class="reference-link">
+                        <i class="fas fa-external-link-alt"></i> {{ $brief->reference_link }}
+                    </a>
+                </div>
             </div>
             @endif
 
-            <!-- ==================== SECTION PEMBAYARAN (BARU) ==================== -->
             @php
                 $payment = App\Models\Payment::where('brief_id', $brief->id)->first();
             @endphp
@@ -109,10 +110,10 @@
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Jumlah Pembayaran</span>
-                                <span class="detail-value">Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}</span>
+                                <span class="detail-value highlight-value">Rp {{ number_format($payment->amount ?? 0, 0, ',', '.') }}</span>
                             </div>
                             <div class="detail-item">
-                                <span class="detail-label">Status</span>
+                                <span class="detail-label">Status Pembayaran</span>
                                 <span class="detail-value">
                                     @if($payment->status == 'paid')
                                         <span class="status-badge status-success">✓ Lunas</span>
@@ -181,6 +182,21 @@
     </div>
 </div>
 
+<div id="logout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center;">
+        <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
+        <h3>Konfirmasi Keluar</h3>
+        <p>Apakah Anda yakin ingin keluar?</p>
+        <div style="display: flex; gap: 12px;">
+            <button onclick="closeLogoutModal()" class="btn-outline">Batal</button>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-primary">Keluar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <style>
 .admin-main {
     margin-left: 280px;
@@ -241,51 +257,72 @@
     color: var(--accent);
 }
 
+/* Susunan Grid Utama */
 .detail-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 
 .detail-item {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px; /* Jarak antara Label dan Kotak isi */
 }
 
+/* Style Label (Teks Polos Bersih di Atas Kotak) */
 .detail-label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    padding-left: 4px;
 }
 
+/* Style VALUE (Kotak Isian Berwarna Gelap Sesuai Request) */
 .detail-value {
-    font-size: 0.9rem;
-    font-weight: 500;
+    background: rgba(255, 255, 255, 0.03); /* Kotak background gelap */
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.highlight-value {
+    color: var(--accent);
 }
 
 .category-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .cat-tag {
-    background: rgba(59, 130, 255, 0.1);
+    background: rgba(59, 130, 255, 0.12);
     color: var(--accent);
     padding: 4px 12px;
-    border-radius: 20px;
+    border-radius: 50px;
     font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .detail-description {
-    background: var(--bg);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
     padding: 20px;
     border-radius: 12px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--text-secondary);
+    color: var(--text);
+    min-height: 80px;
 }
 
 .reference-link {
@@ -299,6 +336,23 @@
 
 .reference-link:hover {
     text-decoration: underline;
+}
+
+/* Status Dropdown agar presisi di dalam kotak */
+.status-field {
+    padding: 0 14px !important;
+}
+
+.status-select {
+    width: 100%;
+    height: 48px;
+    background: transparent !important;
+    border: none !important;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
 }
 
 /* Payment Section Styles */
@@ -324,15 +378,16 @@
     gap: 8px;
     background: var(--accent);
     color: #000;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.8rem;
+    transition: transform 0.2s;
 }
 
 .btn-proof:hover {
-    opacity: 0.9;
+    transform: translateY(-2px);
 }
 
 .payment-actions {
@@ -347,7 +402,7 @@
     background: #10b981;
     color: white;
     border: none;
-    padding: 8px 20px;
+    padding: 10px 24px;
     border-radius: 40px;
     cursor: pointer;
     font-weight: 600;
@@ -360,7 +415,7 @@
     background: #ef4444;
     color: white;
     border: none;
-    padding: 8px 20px;
+    padding: 10px 24px;
     border-radius: 40px;
     cursor: pointer;
     font-weight: 600;
@@ -370,30 +425,18 @@
 }
 
 .status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
-.status-success {
-    background: rgba(16,185,129,0.1);
-    color: #10b981;
-}
-
-.status-warning {
-    background: rgba(245,158,11,0.1);
-    color: #f59e0b;
-}
-
-.status-danger {
-    background: rgba(239,68,68,0.1);
-    color: #ef4444;
-}
+.status-success { color: #10b981; }
+.status-warning { color: #f59e0b; }
+.status-danger { color: #ef4444; }
 
 .no-payment {
-    background: var(--bg);
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--border);
+    padding: 24px;
     border-radius: 12px;
     text-align: center;
     color: var(--text-secondary);
@@ -402,7 +445,6 @@
 .no-payment .hint {
     font-size: 0.8rem;
     margin-top: 8px;
-    color: var(--text-secondary);
 }
 
 .detail-actions {
@@ -413,15 +455,16 @@
 }
 
 .btn-wa, .btn-delete {
-    padding: 12px 24px;
+    padding: 12px 28px;
     border-radius: 40px;
     border: none;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     text-decoration: none;
+    transition: all 0.2s ease;
 }
 
 .btn-wa {
@@ -429,38 +472,33 @@
     color: white;
 }
 
+.btn-wa:hover {
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transform: translateY(-2px);
+}
+
 .btn-delete {
     background: #ef4444;
     color: white;
 }
 
-.status-select {
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    cursor: pointer;
+.btn-delete:hover {
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
-    .admin-main {
-        margin-left: 0;
-    }
-    .admin-content {
-        padding: 20px;
-    }
-    .detail-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .payment-actions {
-        flex-direction: column;
-    }
-    .btn-verify-payment, .btn-reject-payment {
-        width: 100%;
-        justify-content: center;
-    }
+    .admin-main { margin-left: 0; }
+    .admin-content { padding: 20px; }
+    .detail-grid { grid-template-columns: 1fr; gap: 16px; }
+    .payment-actions { flex-direction: column; }
+    .btn-verify-payment, .btn-reject-payment { width: 100%; justify-content: center; }
+}
+
+.status-select option {
+    background-color: var(--surface) !important; /* Mengikuti warna background gelap/terang website */
+    color: var(--text) !important;           /* Mengikuti warna teks tema */
+    padding: 10px;
 }
 </style>
 
@@ -484,7 +522,6 @@
             const data = await response.json();
             if (data.success) {
                 showToast(data.message);
-                // Reload page to update payment section
                 setTimeout(() => location.reload(), 1000);
             }
         });

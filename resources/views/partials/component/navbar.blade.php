@@ -17,7 +17,7 @@
                         <h4>Layanan Kami</h4>
                         <a href="{{ route('service.smm') }}"><i class="fab fa-instagram"></i> Social Media Management</a>
                         <a href="{{ route('service.vp') }}"><i class="fas fa-video"></i> Videography</a>
-                        <a href="{{ route('service.fp') }}"><i class="fas fa-camera"></i> Fotografi</a>
+                        <a href="{{ route('service.fp') }}"><i class="fas fa-camera"></i> Photografy</a>
                         <a href="{{ route('service.dc') }}"><i class="fas fa-chart-line"></i> Digital Ads</a>
                     </div>
                 </div>

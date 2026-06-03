@@ -10,7 +10,6 @@
             <p>Isi brief project Anda, tim kami akan segera menghubungi</p>
         </div>
 
-        <!-- Step Progress -->
         <div class="step-progress">
             <div class="step-item" id="step1Item">
                 <div class="step-number">1</div>
@@ -30,12 +29,10 @@
             </div>
         </div>
 
-        <!-- Form Card -->
         <div class="form-card">
             <form id="briefForm">
                 @csrf
                 
-                <!-- STEP 1: Pilih Layanan -->
                 <div class="form-step" id="step1">
                     <div class="form-group">
                         <label>Pilih Layanan yang Dibutuhkan <span class="required">*</span></label>
@@ -70,7 +67,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 2: Detail Proyek -->
                 <div class="form-step" id="step2">
                     <div class="form-group">
                         <label>Nama Proyek / Brand <span class="required">*</span></label>
@@ -86,7 +82,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 3: Budget -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
                         <label>Estimasi Budget</label>
@@ -103,7 +98,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 4: Konfirmasi -->
                 <div class="form-step" id="step4">
                     <div class="summary-card">
                         <h3><i class="fas fa-clipboard-list"></i> Ringkasan Brief</h3>
@@ -135,22 +129,20 @@
                     <div id="submitFeedback"></div>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <div class="form-navigation">
                     <button type="button" class="btn-prev" id="prevBtn" style="display: none;">
-                        <i class="fas fa-arrow-left"></i> Kembali
+                         Kembali
                     </button>
                     <button type="button" class="btn-next" id="nextBtn">
-                        Lanjut<i class="fas fa-arrow-right" style="margin-left:8px;"></i>
+                        Lanjut
                     </button>
                     <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">
-                        <i class="fas fa-paper-plane"></i> Kirim Brief
+                         Kirim Brief
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- Back to Landing -->
         <div class="back-link">
             <a href="{{ route('home') }}" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Kembali ke Landing Page
@@ -159,7 +151,6 @@
     </div>
 </div>
 
-<!-- Logout Modal -->
 <div id="logout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
     <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center;">
         <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
@@ -369,7 +360,14 @@ input, textarea {
     border-radius: 12px;
     color: var(--text);
     font-size: 0.95rem;
+    font-family: inherit !important; /* Paksa samakan font ketikan */
     transition: all 0.3s ease;
+}
+
+/* Samakan font placeholder khusus textarea agar tidak monospace */
+textarea::placeholder {
+    font-family: inherit !important;
+    font-size: 0.95rem;
 }
 
 input:focus, textarea:focus {

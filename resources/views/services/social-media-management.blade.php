@@ -117,12 +117,12 @@
         <div class="platform-grid reveal">
             @php
             $platforms = [
-                ['icon' => '📸', 'name' => 'Instagram', 'badge' => 'Best Seller', 'bclass' => 'badge-top', 'desc' => 'Kelola akun Instagram Anda secara profesional dan efektif. Dapatkan visibilitas yang maksimal.'],
-                ['icon' => '🎵', 'name' => 'TikTok', 'badge' => 'Trending', 'bclass' => 'badge-trending', 'desc' => 'Manfaatkan kekuatan TikTok yang trending untuk menjangkau generasi muda yang dinamis.'],
-                ['icon' => '▶️', 'name' => 'YouTube', 'badge' => 'Top Choice', 'bclass' => 'badge-best', 'desc' => 'Tingkatkan kehadiran di YouTube dengan konten video berkualitas tinggi yang relevan.'],
-                ['icon' => '👤', 'name' => 'Facebook', 'badge' => '', 'bclass' => '', 'desc' => 'Dominasi pasar Anda di Facebook dengan strategi pengelolaan sesuai tujuan bisnis.'],
-                ['icon' => '💼', 'name' => 'LinkedIn', 'badge' => '', 'bclass' => '', 'desc' => 'Bangun profile perusahaan yang lebih profesional dan terpercaya dengan strategi terkini.'],
-                ['icon' => '✖️', 'name' => 'X (Twitter)', 'badge' => '', 'bclass' => '', 'desc' => 'Bangun hubungan yang lebih dekat dengan pelanggan melalui pengelolaan khusus di X.'],
+                ['icon' => 'fab fa-instagram', 'name' => 'Instagram', 'badge' => 'Best Seller', 'bclass' => 'badge-top', 'desc' => 'Kelola akun Instagram Anda secara profesional dan efektif. Dapatkan visibilitas yang maksimal.'],
+                ['icon' => 'fab fa-tiktok', 'name' => 'TikTok', 'badge' => 'Trending', 'bclass' => 'badge-trending', 'desc' => 'Manfaatkan kekuatan TikTok yang trending untuk menjangkau generasi muda yang dinamis.'],
+                ['icon' => 'fab fa-youtube', 'name' => 'YouTube', 'badge' => 'Top Choice', 'bclass' => 'badge-best', 'desc' => 'Tingkatkan kehadiran di YouTube dengan konten video berkualitas tinggi yang relevan.'],
+                ['icon' => 'fab fa-facebook', 'name' => 'Facebook', 'badge' => '', 'bclass' => '', 'desc' => 'Dominasi pasar Anda di Facebook dengan strategi pengelolaan sesuai tujuan bisnis.'],
+                ['icon' => 'fab fa-linkedin', 'name' => 'LinkedIn', 'badge' => '', 'bclass' => '', 'desc' => 'Bangun profile perusahaan yang lebih profesional dan terpercaya dengan strategi terkini.'],
+                ['icon' => 'fab fa-twitter', 'name' => 'X (Twitter)', 'badge' => '', 'bclass' => '', 'desc' => 'Bangun hubungan yang lebih dekat dengan pelanggan melalui pengelolaan khusus di X.'],
             ];
             @endphp
             @foreach($platforms as $platform)
@@ -130,7 +130,9 @@
                 @if($platform['badge'])
                 <span class="service-badge {{ $platform['bclass'] }}">{{ $platform['badge'] }}</span>
                 @endif
-                <span class="platform-icon">{{ $platform['icon'] }}</span>
+                <div class="platform-icon-wrapper">
+                    <i class="{{ $platform['icon'] }} platform-icon"></i>
+                </div>
                 <h3>Jasa Kelola {{ $platform['name'] }}</h3>
                 <p>{{ $platform['desc'] }}</p>
                 <a href="#" class="platform-link">Selengkapnya →</a>
@@ -151,19 +153,19 @@
         <div class="process-grid reveal">
             <div class="process-card">
                 <div class="process-number">01</div>
-                <h3>Analisis & Strategi</h3>
+                <h3><i class="fas fa-chart-line"></i> Analisis & Strategi</h3>
                 <p>Menyusun strategi efektif berdasarkan tujuan bisnis, target audiens, dan tren industri.</p>
             </div>
             <div class="process-connector">→</div>
             <div class="process-card">
                 <div class="process-number">02</div>
-                <h3>Manajemen Media Sosial</h3>
+                <h3><i class="fas fa-hashtag"></i> Manajemen Media Sosial</h3>
                 <p>Mengelola pembuatan konten kreatif, iklan, dan mengelola interaksi secara profesional.</p>
             </div>
             <div class="process-connector">→</div>
             <div class="process-card">
                 <div class="process-number">03</div>
-                <h3>Evaluasi & Optimalisasi</h3>
+                <h3><i class="fas fa-chart-simple"></i> Evaluasi & Optimalisasi</h3>
                 <p>Memberikan insight dengan koordinasi rutin, dan terus mengoptimalkan hasil.</p>
             </div>
         </div>
@@ -180,17 +182,19 @@
         <div class="why-grid reveal">
             @php
             $whyItems = [
-                ['icon' => '🎨', 'title' => 'Konten Up-to-Date', 'desc' => 'Konten dengan desain visual profesional dan trending yang disesuaikan dengan brand Anda.'],
-                ['icon' => '📦', 'title' => 'Paket Lengkap', 'desc' => 'Kami mengelola semua mulai dari konten, ads, engagement, admin pada media sosial Anda.'],
-                ['icon' => '💎', 'title' => 'Hemat Waktu & Biaya', 'desc' => 'Fokus pada pengembangan bisnis inti Anda, serahkan pengelolaan media sosial kepada ahlinya.'],
-                ['icon' => '👥', 'title' => 'Tim Profesional', 'desc' => 'Proyek Anda akan ditangani secara profesional oleh tim ahli yang berpengalaman di bidangnya.'],
-                ['icon' => '💬', 'title' => 'Komunikasi Rutin', 'desc' => 'Dengan timeline pekerjaan yang jelas, tim kami akan berkomunikasi secara rutin untuk koordinasi.'],
-                ['icon' => '📊', 'title' => 'Laporan & Optimisasi', 'desc' => 'Tidak hanya reporting yang transparan, namun kami juga memberikan strategi optimisasi.'],
+                ['icon' => 'fas fa-palette', 'title' => 'Konten Up-to-Date', 'desc' => 'Konten dengan desain visual profesional dan trending yang disesuaikan dengan brand Anda.'],
+                ['icon' => 'fas fa-box', 'title' => 'Paket Lengkap', 'desc' => 'Kami mengelola semua mulai dari konten, ads, engagement, admin pada media sosial Anda.'],
+                ['icon' => 'fas fa-clock', 'title' => 'Hemat Waktu & Biaya', 'desc' => 'Fokus pada pengembangan bisnis inti Anda, serahkan pengelolaan media sosial kepada ahlinya.'],
+                ['icon' => 'fas fa-users', 'title' => 'Tim Profesional', 'desc' => 'Proyek Anda akan ditangani secara profesional oleh tim ahli yang berpengalaman di bidangnya.'],
+                ['icon' => 'fas fa-comments', 'title' => 'Komunikasi Rutin', 'desc' => 'Dengan timeline pekerjaan yang jelas, tim kami akan berkomunikasi secara rutin untuk koordinasi.'],
+                ['icon' => 'fas fa-chart-line', 'title' => 'Laporan & Optimisasi', 'desc' => 'Tidak hanya reporting yang transparan, namun kami juga memberikan strategi optimisasi.'],
             ];
             @endphp
             @foreach($whyItems as $item)
             <div class="why-card">
-                <div class="why-icon">{{ $item['icon'] }}</div>
+                <div class="why-icon-wrapper">
+                    <i class="{{ $item['icon'] }} why-icon"></i>
+                </div>
                 <h3>{{ $item['title'] }}</h3>
                 <p>{{ $item['desc'] }}</p>
             </div>
@@ -199,20 +203,6 @@
     </div>
 </section>
 
-{{-- Trusted Clients --}}
-<div class="client-logos">
-    <div class="logo-track">
-        <span>Bank OCBC</span><span>Instax Fujifilm</span><span>Kominfo</span>
-        <span>NAV Karaoke</span><span>BINUS University</span><span>Universitas Terbuka</span>
-        <span>RS Onkology</span><span>Perawatku</span><span>Essenza</span>
-        <span>Triv</span><span>Labore</span><span>SIP Atomic</span>
-        {{-- Duplicate for infinite scroll --}}
-        <span>Bank OCBC</span><span>Instax Fujifilm</span><span>Kominfo</span>
-        <span>NAV Karaoke</span><span>BINUS University</span><span>Universitas Terbuka</span>
-        <span>RS Onkology</span><span>Perawatku</span><span>Essenza</span>
-        <span>Triv</span><span>Labore</span><span>SIP Atomic</span>
-    </div>
-</div>
 
 {{-- Case Study / Testimonial --}}
 <section class="smm-case" id="smm-case">
@@ -270,3 +260,581 @@
 @include('partials.component.modals')
 
 @endsection
+
+<style>
+/* ===== Social Media Management Page Styles ===== */
+/* Menggunakan sistem warna diver.ent: Accent: #00D2FF */
+
+/* Hero Section */
+.smm-hero {
+    padding: 120px 0 60px;
+    position: relative;
+}
+
+.hero-tag {
+    display: inline-block;
+    background: rgba(0, 210, 255, 0.12);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.smm-hero h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+}
+
+.highlight {
+    color: var(--accent);
+}
+
+.smm-hero p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-nav {
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.breadcrumb-nav a:hover {
+    color: var(--accent);
+}
+
+.breadcrumb-nav span {
+    margin: 0 8px;
+}
+
+/* Stats Bar */
+.smm-stats-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 0;
+    margin-bottom: 60px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-pill {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.stat-pill strong {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+.stat-divider {
+    color: var(--border);
+}
+
+/* Features Grid */
+.smm-features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.section-tag {
+    display: inline-block;
+    background: rgba(0, 210, 255, 0.12);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: var(--font-display);
+}
+
+.section-desc {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.smm-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.check-icon {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Visual Mockup */
+.smm-visual-card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.2);
+}
+
+.visual-mockup {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.mockup-header {
+    background: var(--surface-alt);
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.mockup-body {
+    padding: 24px;
+    background: var(--surface);
+}
+
+.mockup-stat-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.mockup-stat {
+    flex: 1;
+}
+
+.ms-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ms-value {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 5px 0 8px;
+}
+
+.ms-bar {
+    background: var(--border);
+    border-radius: 10px;
+    height: 6px;
+    overflow: hidden;
+}
+
+.ms-fill {
+    background: var(--accent);
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Platform Grid */
+.smm-platforms {
+    padding: 60px 0;
+}
+
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.platform-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    position: relative;
+    text-align: center;
+}
+
+.platform-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+/* UNIFIED ICON STYLES */
+.platform-icon-wrapper,
+.why-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.platform-icon,
+.why-icon {
+    font-size: 2.8rem;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    color: var(--accent);
+}
+
+.platform-card:hover .platform-icon,
+.why-card:hover .why-icon {
+    transform: scale(1.08);
+}
+
+.platform-card h3,
+.why-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-display);
+}
+
+.platform-card p,
+.why-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.platform-link {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.platform-link:hover {
+    opacity: 0.8;
+}
+
+/* Badge styling */
+.service-badge {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    background: var(--accent);
+    color: #0A192F;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 30px;
+}
+
+.badge-top, .badge-trending, .badge-best {
+    background: var(--accent);
+}
+
+/* Process Section */
+.smm-process {
+    padding: 60px 0;
+    background: var(--surface-alt);
+}
+
+.process-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.process-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+    border: 1px solid var(--border);
+}
+
+.process-card h3 i {
+    color: var(--accent);
+    margin-right: 8px;
+}
+
+.process-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+}
+
+.process-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.process-card p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.process-connector {
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+/* Why Choose Us Grid */
+.smm-why {
+    padding: 60px 0;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.why-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.why-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+/* Client Logos */
+.client-logos {
+    overflow: hidden;
+    padding: 40px 0;
+    background: var(--surface-alt);
+    margin: 40px 0;
+}
+
+.logo-track {
+    display: flex;
+    gap: 2rem;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+}
+
+.logo-track span {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Case Study Grid */
+.smm-case {
+    padding: 60px 0;
+}
+
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.case-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.case-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.case-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.case-client {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent);
+}
+
+.case-result {
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(0, 210, 255, 0.12);
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: var(--accent);
+}
+
+.case-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.case-metrics {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.case-metric {
+    flex: 1;
+    text-align: center;
+}
+
+.cm-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.cm-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* CTA Bottom */
+.cta-bottom {
+    padding: 60px 0;
+    text-align: center;
+    background: linear-gradient(135deg, var(--surface), var(--surface-alt));
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .smm-features-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .smm-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .process-connector {
+        display: none;
+    }
+    
+    .process-grid {
+        flex-direction: column;
+    }
+    
+    .process-card {
+        width: 100%;
+    }
+    
+    .mockup-stat-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .smm-hero {
+        padding: 80px 0 40px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .platform-grid, .why-grid, .case-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-ctas {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-primary, .btn-outline {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .platform-icon,
+    .why-icon {
+        font-size: 2.2rem;
+    }
+}
+
+/* Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: reveal 0.6s forwards;
+}
+
+@keyframes reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>

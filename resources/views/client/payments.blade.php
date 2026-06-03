@@ -65,21 +65,19 @@
                         </div>
                     </div>
                     
-                    @if(!$payment || $payment->status != 'paid')
                     <div class="invoice-actions">
+                        @if(!$payment || $payment->status != 'paid')
                         <button class="btn-pay" onclick="openPaymentModal({{ $brief->id }}, {{ $brief->budget ?? 0 }})">
                             <i class="fas fa-upload"></i> Upload Bukti Pembayaran
                         </button>
+                        @endif
+                        
+                        @if($payment && $payment->payment_proof)
+                        <button class="btn-view-proof" onclick="viewProof('{{ asset('storage/' . $payment->payment_proof) }}')">
+                            <i class="fas fa-image"></i> Lihat Bukti Pembayaran
+                        </button>
+                        @endif
                     </div>
-                    @endif
-                    
-                    @if($payment && $payment->payment_proof)
-                    <div class="invoice-proof">
-                        <small><i class="fas fa-paperclip"></i> Bukti pembayaran: 
-                            <a href="{{ asset('storage/' . $payment->payment_proof) }}" target="_blank">Lihat Bukti</a>
-                        </small>
-                    </div>
-                    @endif
                 </div>
                 @endforeach
             </div>
@@ -132,7 +130,7 @@
     </div>
 </div>
 
-<!-- Payment Modal -->
+<!-- Payment Modal (Upload) -->
 <div id="paymentModal" class="payment-modal">
     <div class="payment-modal-content">
         <div class="payment-modal-header">
@@ -156,6 +154,27 @@
                 <button type="submit" class="btn-submit">Upload</button>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Preview Modal (Lihat Bukti) - POPUP TIDAK PINDAH TAB -->
+<div id="previewModal" class="preview-modal">
+    <div class="preview-modal-content">
+        <div class="preview-modal-header">
+            <h3><i class="fas fa-receipt"></i> Bukti Pembayaran</h3>
+            <button class="close-preview" onclick="closePreviewModal()">&times;</button>
+        </div>
+        <div class="preview-image-container">
+            <img id="previewImage" src="" alt="Bukti Pembayaran">
+        </div>
+        <div class="preview-modal-footer">
+            <button class="btn-download" onclick="downloadImage()">
+                <i class="fas fa-download"></i> Download
+            </button>
+            <button class="btn-close-preview" onclick="closePreviewModal()">
+                <i class="fas fa-times"></i> Tutup
+            </button>
+        </div>
     </div>
 </div>
 
@@ -273,15 +292,15 @@
         font-size: 1.1rem;
         font-weight: 700;
         color: var(--accent);
-        flex : 1;
+        flex: 1;
     }
 
     .invoice-status {
-        flex : 1;
+        flex: 1;
     }
 
     .invoice-info {
-        flex : 1;
+        flex: 1;
     }    
 
     .status-badge {
@@ -306,36 +325,276 @@
         color: #3b82f6;
     }
 
+    /* ============ TOMBOL YANG DIPERBAIKI ============ */
     .invoice-actions {
         margin-top: 16px;
         padding-top: 16px;
         border-top: 1px solid var(--border);
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
     }
 
     .btn-pay {
-        background: var(--accent);
-        color: #000;
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-pay:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
+    }
+
+    /* Tombol Lihat Bukti - LEBIH BESAR & MENARIK */
+    .btn-view-proof {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-view-proof:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Preview Modal - POPUP */
+    .preview-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(8px);
+        z-index: 1001;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .preview-modal-content {
+        background: var(--surface);
+        border-radius: 24px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow: hidden;
+        animation: zoomIn 0.3s ease;
+        cursor: default;
+    }
+
+    @keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .preview-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .preview-modal-header h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .close-preview {
+        background: none;
+        border: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: all 0.2s;
+        line-height: 1;
+    }
+
+    .close-preview:hover {
+        color: #ef4444;
+        transform: rotate(90deg);
+    }
+
+    .preview-image-container {
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0f0f0f;
+        max-height: 60vh;
+        overflow: auto;
+    }
+
+    .preview-image-container img {
+        max-width: 100%;
+        max-height: 55vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .preview-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+    }
+
+    .btn-download {
+        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        color: white;
         border: none;
         padding: 10px 20px;
         border-radius: 40px;
         font-weight: 600;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         transition: all 0.3s;
     }
 
-    .btn-pay:hover {
+    .btn-download:hover {
         transform: translateY(-2px);
     }
 
-    .invoice-proof {
-        margin-top: 12px;
-        font-size: 0.7rem;
+    .btn-close-preview {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s;
+    }
+
+    .btn-close-preview:hover {
+        border-color: #ef4444;
+        color: #ef4444;
+    }
+
+    /* Payment Modal */
+    .payment-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .payment-modal-content {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        width: 90%;
+        max-width: 450px;
+        padding: 28px;
+    }
+
+    .payment-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .payment-modal-header h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
         color: var(--text-secondary);
     }
 
-    .invoice-proof a {
-        color: var(--accent);
-        text-decoration: none;
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--text);
+    }
+
+    .payment-modal-footer {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 24px;
+    }
+
+    .btn-cancel {
+        background: transparent;
+        border: 1px solid var(--border);
+        padding: 10px 20px;
+        border-radius: 40px;
+        cursor: pointer;
+    }
+
+    .btn-submit {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
     }
 
     .empty-state {
@@ -469,93 +728,6 @@
         font-weight: 500;
     }
 
-    .payment-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(8px);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .payment-modal-content {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        width: 90%;
-        max-width: 450px;
-        padding: 28px;
-    }
-
-    .payment-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
-    }
-
-    .payment-modal-header h3 {
-        font-size: 1.3rem;
-        font-weight: 700;
-    }
-
-    .close-modal {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: var(--text-secondary);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-
-    .form-input {
-        width: 100%;
-        padding: 12px;
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        color: var(--text);
-    }
-
-    .payment-modal-footer {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 24px;
-    }
-
-    .btn-cancel {
-        background: transparent;
-        border: 1px solid var(--border);
-        padding: 10px 20px;
-        border-radius: 40px;
-        cursor: pointer;
-    }
-
-    .btn-submit {
-        background: var(--accent);
-        color: #000;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 40px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
     @media (max-width: 768px) {
         .app-main {
             margin-left: 0;
@@ -582,30 +754,22 @@
         .empty-state {
             padding: 40px 20px;
         }
-        .empty-icon {
-            font-size: 3rem;
+        .btn-pay, .btn-view-proof {
+            padding: 10px 18px;
+            font-size: 0.8rem;
         }
-        .empty-state h3 {
-            font-size: 1.1rem;
+        .preview-modal-content {
+            width: 95%;
         }
-    }
-
-    @media (max-width: 480px) {
-        .bank-item {
-            flex-direction: column;
-            text-align: center;
-        }
-        .bank-owner {
-            margin-left: 0;
-        }
-        .bank-icon {
-            margin: 0 auto;
+        .preview-modal-header h3 {
+            font-size: 1rem;
         }
     }
 </style>
 
 <script>
     let currentBriefId = null;
+    let currentImageUrl = null;
 
     function openPaymentModal(briefId, amount) {
         currentBriefId = briefId;
@@ -620,6 +784,44 @@
         document.body.style.overflow = 'auto';
         document.getElementById('paymentForm').reset();
     }
+
+    // Fungsi untuk lihat bukti - TAMPIL DI POPUP, BUKAN TAB BARU
+    function viewProof(imageUrl) {
+        currentImageUrl = imageUrl;
+        const previewImg = document.getElementById('previewImage');
+        previewImg.src = imageUrl;
+        document.getElementById('previewModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePreviewModal() {
+        document.getElementById('previewModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.getElementById('previewImage').src = '';
+    }
+
+    function downloadImage() {
+        if (currentImageUrl) {
+            const link = document.createElement('a');
+            link.href = currentImageUrl;
+            link.download = 'bukti_pembayaran.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+
+    // Tutup preview modal dengan klik ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (document.getElementById('previewModal').style.display === 'flex') {
+                closePreviewModal();
+            }
+            if (document.getElementById('paymentModal').style.display === 'flex') {
+                closePaymentModal();
+            }
+        }
+    });
 
     document.getElementById('paymentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -665,6 +867,12 @@
     document.getElementById('paymentModal').addEventListener('click', (e) => {
         if (e.target === document.getElementById('paymentModal')) {
             closePaymentModal();
+        }
+    });
+
+    document.getElementById('previewModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('previewModal')) {
+            closePreviewModal();
         }
     });
 </script>
