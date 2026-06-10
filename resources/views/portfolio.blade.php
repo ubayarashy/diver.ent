@@ -339,43 +339,7 @@
         </div>
 
         {{-- Portfolio Detail Cards --}}
-        <div class="portfolio-details reveal" style="margin-top:64px;">
-            <h2 class="section-title" style="font-size:1.8rem;margin-bottom:32px;">
-                <i class="fas fa-chart-line"></i> Project Highlights
-            </h2>
-            <div class="detail-grid">
-                @foreach($portfolios->take(6) as $item)
-                <div class="detail-card">
-                    @if($item->thumbnail && file_exists(public_path('storage/' . $item->thumbnail)))
-                        <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->title }}" class="detail-image">
-                    @else
-                        <div class="detail-placeholder" style="background: linear-gradient(135deg, {{ $item->getCategoryColor() }}, #0d0d1a);">
-                            <i class="{{ $item->getCategoryIcon() }}" style="font-size: 2rem; opacity: 0.3; color: white;"></i>
-                        </div>
-                    @endif
-                    <div class="detail-content">
-                        <span class="detail-label">{{ $item->label }}</span>
-                        <h3>{{ $item->title }}</h3>
-                        <p>{{ Str::limit($item->description, 120) }}</p>
-                        <div class="detail-tags">
-                            <span><i class="fas fa-user"></i> {{ $item->client_name ?? 'Confidential' }}</span>
-                            <span><i class="fas fa-calendar"></i> {{ $item->year ?? date('Y') }}</span>
-                        </div>
-                        @if($item->results && is_array($item->results))
-                        <div class="results-stats">
-                            @foreach($item->results as $key => $value)
-                            <div class="result-stat">
-                                <div class="value">{{ $value }}</div>
-                                <div class="label">{{ ucfirst(str_replace('_', ' ', $key)) }}</div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
+    
         @else
         <div class="empty-portfolio reveal">
             <i class="fas fa-image"></i>

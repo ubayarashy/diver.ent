@@ -1,12 +1,11 @@
 @extends('layouts.app')
-
 @section('content')
 @include('partials.client.navbar-sidebar')
 
 <div class="app-main">
     <div class="app-content">
         <div class="page-header">
-            <h1><i class="fas fa-handshake"></i> Ayo Kerjasama</h1>
+            <h1>Ayo Kerjasama</h1>
             <p>Isi brief project Anda, tim kami akan segera menghubungi</p>
         </div>
 
@@ -32,7 +31,6 @@
         <div class="form-card">
             <form id="briefForm">
                 @csrf
-                
                 <div class="form-step" id="step1">
                     <div class="form-group">
                         <label>Pilih Layanan yang Dibutuhkan <span class="required">*</span></label>
@@ -100,53 +98,27 @@
 
                 <div class="form-step" id="step4">
                     <div class="summary-card">
-                        <h3><i class="fas fa-clipboard-list"></i> Ringkasan Brief</h3>
-                        <div class="summary-item">
-                            <span class="summary-label">Layanan Dipilih</span>
-                            <span class="summary-value" id="summaryServices">—</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Nama Proyek</span>
-                            <span class="summary-value" id="summaryProject">—</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Deskripsi</span>
-                            <span class="summary-value" id="summaryDesc">—</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Timeline</span>
-                            <span class="summary-value" id="summaryTimeline">—</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Budget</span>
-                            <span class="summary-value" id="summaryBudget">—</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Referensi</span>
-                            <span class="summary-value" id="summaryReference">—</span>
-                        </div>
+                        <h3>Ringkasan Brief</h3>
+                        <div class="summary-item"><span class="summary-label">Layanan Dipilih</span><span class="summary-value" id="summaryServices">—</span></div>
+                        <div class="summary-item"><span class="summary-label">Nama Proyek</span><span class="summary-value" id="summaryProject">—</span></div>
+                        <div class="summary-item"><span class="summary-label">Deskripsi</span><span class="summary-value" id="summaryDesc">—</span></div>
+                        <div class="summary-item"><span class="summary-label">Timeline</span><span class="summary-value" id="summaryTimeline">—</span></div>
+                        <div class="summary-item"><span class="summary-label">Budget</span><span class="summary-value" id="summaryBudget">—</span></div>
+                        <div class="summary-item"><span class="summary-label">Referensi</span><span class="summary-value" id="summaryReference">—</span></div>
                     </div>
                     <div id="submitFeedback"></div>
                 </div>
 
                 <div class="form-navigation">
-                    <button type="button" class="btn-prev" id="prevBtn" style="display: none;">
-                         Kembali
-                    </button>
-                    <button type="button" class="btn-next" id="nextBtn">
-                        Lanjut
-                    </button>
-                    <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">
-                         Kirim Brief
-                    </button>
+                    <button type="button" class="btn-prev" id="prevBtn" style="display: none;">Kembali</button>
+                    <button type="button" class="btn-next" id="nextBtn">Lanjut</button>
+                    <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">Kirim Brief</button>
                 </div>
             </form>
         </div>
 
         <div class="back-link">
-            <a href="{{ route('home') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali ke Landing Page
-            </a>
+            <a href="{{ route('home') }}" class="btn-back">Kembali ke Landing Page</a>
         </div>
     </div>
 </div>
@@ -156,7 +128,7 @@
         <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
         <h3>Konfirmasi Keluar</h3>
         <p>Apakah Anda yakin ingin keluar?</p>
-        <div style="display: flex; gap: 12px;">
+        <div style="display: flex; gap: 12px; justify-content: center;">
             <button onclick="closeLogoutModal()" class="btn-outline">Batal</button>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -167,39 +139,54 @@
 </div>
 
 <style>
-/* Hanya style untuk form, tanpa style .client-main */
-.app-content {
-    max-width: 800px;
+/* ===== LAYOUT UTAMA ===== */
+.app-main {
+    margin-left: 280px;
+    min-height: 100vh;
+    background: var(--bg);
 }
 
+.app-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 48px;
+}
+
+/* ===== PAGE HEADER ===== */
 .page-header {
-    margin-bottom: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 10px;
 }
 
 .page-header h1 {
     font-family: var(--font-display);
     font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -1px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     margin-bottom: 8px;
 }
 
 .page-header p {
     color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
-/* Step Progress */
+/* ===== STEP PROGRESS ===== */
 .step-progress {
     display: flex;
     justify-content: space-between;
     margin-bottom: 48px;
     position: relative;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .step-progress::before {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 20px;
     left: 0;
     right: 0;
     height: 2px;
@@ -215,23 +202,24 @@
 }
 
 .step-number {
-    width: 48px;
-    height: 48px;
-    background: var(--bg);
+    width: 40px;
+    height: 40px;
+    background: var(--surface);
     border: 2px solid var(--border);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     font-weight: 700;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
 .step-item.active .step-number {
     background: var(--accent);
     border-color: var(--accent);
-    color: #fff;
+    color: #000;
 }
 
 .step-item.completed .step-number {
@@ -241,7 +229,7 @@
 }
 
 .step-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     font-weight: 500;
 }
@@ -251,7 +239,7 @@
     font-weight: 600;
 }
 
-/* Form Card */
+/* ===== FORM CARD ===== */
 .form-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -270,17 +258,18 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== FORM GROUP ===== */
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 600;
     font-size: 0.9rem;
 }
@@ -293,33 +282,36 @@
 .form-hint {
     font-size: 0.7rem;
     color: var(--text-secondary);
-    margin-top: 6px;
+    margin-top: 8px;
 }
 
+/* ===== SERVICES GRID ===== */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 20px;
     margin-top: 16px;
 }
 
 .service-card {
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 24px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    text-align: center;
 }
 
 .service-card:hover {
     border-color: var(--accent);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
 }
 
 .service-card.selected {
-    background: rgba(59, 130, 255, 0.08);
+    background: rgba(59, 130, 255, 0.06);
     border-color: var(--accent);
 }
 
@@ -328,14 +320,15 @@
 }
 
 .service-icon {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
+    font-size: 2rem;
+    margin-bottom: 14px;
     color: var(--accent);
 }
 
 .service-name {
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
 }
 
 .service-desc {
@@ -350,29 +343,31 @@
     color: var(--accent);
     opacity: 0;
     transition: opacity 0.3s;
+    font-size: 1rem;
 }
 
+/* ===== INPUT STYLES ===== */
 input, textarea {
     width: 100%;
     padding: 14px 18px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     color: var(--text);
-    font-size: 0.95rem;
-    font-family: inherit !important; /* Paksa samakan font ketikan */
+    font-size: 0.9rem;
+    font-family: inherit;
     transition: all 0.3s ease;
 }
 
-/* Samakan font placeholder khusus textarea agar tidak monospace */
-textarea::placeholder {
-    font-family: inherit !important;
-    font-size: 0.95rem;
+textarea {
+    resize: vertical;
+    font-family: inherit;
 }
 
 input:focus, textarea:focus {
     outline: none;
     border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 255, 0.1);
 }
 
 .budget-wrapper {
@@ -386,27 +381,29 @@ input:focus, textarea:focus {
     transform: translateY(-50%);
     color: var(--accent);
     font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .budget-wrapper input {
-    padding-left: 50px;
+    padding-left: 48px;
 }
 
+/* ===== FORM NAVIGATION ===== */
 .form-navigation {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 32px;
+    margin-top: 36px;
 }
 
 .btn-prev, .btn-next, .btn-submit {
-    padding: 12px 28px;
-    border-radius: 50px;
+    padding: 12px 32px;
+    border-radius: 40px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .btn-prev {
@@ -418,30 +415,37 @@ input:focus, textarea:focus {
 .btn-prev:hover {
     border-color: var(--accent);
     color: var(--accent);
+    transform: translateX(-2px);
 }
 
 .btn-next, .btn-submit {
-    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-    color: #fff;
+    background: var(--accent);
+    color: #000;
+    margin-left: auto;
 }
 
 .btn-next:hover, .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
+    opacity: 0.9;
+    box-shadow: 0 8px 20px rgba(59, 130, 255, 0.25);
 }
 
+/* ===== SUMMARY CARD ===== */
 .summary-card {
     background: var(--bg);
-    border: 1px solid var(--accent);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
 }
 
 .summary-card h3 {
     font-family: var(--font-display);
     font-size: 1.1rem;
+    font-weight: 700;
     margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
 }
 
 .summary-item {
@@ -449,6 +453,7 @@ input:focus, textarea:focus {
     justify-content: space-between;
     padding: 12px 0;
     border-bottom: 1px solid var(--border);
+    gap: 20px;
 }
 
 .summary-item:last-child {
@@ -458,23 +463,30 @@ input:focus, textarea:focus {
 .summary-label {
     color: var(--text-secondary);
     font-size: 0.85rem;
+    min-width: 110px;
 }
 
 .summary-value {
     font-weight: 600;
     text-align: right;
     font-size: 0.85rem;
+    word-break: break-word;
+    max-width: 60%;
 }
 
+/* ===== ALERT SUCCESS ===== */
 .alert-success {
-    background: rgba(16, 185, 129, 0.1);
-    border-left: 4px solid #10b981;
+    background: rgba(16, 185, 129, 0.08);
+    border-left: 3px solid #10b981;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 14px;
+    color: var(--text);
 }
 
+/* ===== BACK LINK ===== */
 .back-link {
     text-align: center;
+    margin-top: 16px;
 }
 
 .btn-back {
@@ -482,44 +494,105 @@ input:focus, textarea:focus {
     align-items: center;
     gap: 8px;
     background: transparent;
-    border: 1px solid var(--border);
+    border: none;
     color: var(--text-secondary);
-    padding: 10px 24px;
-    border-radius: 50px;
+    padding: 8px 16px;
+    border-radius: 40px;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     transition: all 0.3s ease;
 }
 
 .btn-back:hover {
-    border-color: var(--accent);
     color: var(--accent);
+    transform: translateX(-3px);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .app-main {
+        margin-left: 0;
+    }
+    .app-content {
+        padding: 32px 24px;
+    }
+}
+
 @media (max-width: 768px) {
     .app-content {
-        padding: 0;
+        padding: 24px 20px;
     }
     .form-card {
         padding: 24px;
     }
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
     }
     .step-label {
         font-size: 0.65rem;
     }
     .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 0.85rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+    .step-progress::before {
+        top: 17px;
     }
     .summary-item {
         flex-direction: column;
-        text-align: right;
-        gap: 4px;
+        gap: 6px;
     }
+    .summary-value {
+        text-align: left;
+        max-width: 100%;
+    }
+    .form-navigation {
+        flex-direction: column;
+    }
+    .btn-next, .btn-submit, .btn-prev {
+        justify-content: center;
+        width: 100%;
+    }
+    .btn-next {
+        margin-left: 0;
+    }
+}
+
+/* ===== BUTTON OUTLINE UNTUK MODAL ===== */
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }
 </style>
 
@@ -568,9 +641,11 @@ input:focus, textarea:focus {
 
     function updateSummary() {
         const services = selectedServices.length > 0 ? selectedServices.join(', ') : '—';
-        document.getElementById('summaryServices').innerHTML = services !== '—' ? 
-            `<div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end;">${selectedServices.map(s => `<span style="background: rgba(59,130,255,0.1); padding: 4px 10px; border-radius: 50px; font-size: 0.7rem;">${s}</span>`).join('')}</div>` : '—';
-        
+        if (selectedServices.length > 0) {
+            document.getElementById('summaryServices').innerHTML = `<div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end;">${selectedServices.map(s => `<span style="background: rgba(59,130,255,0.1); padding: 4px 10px; border-radius: 50px; font-size: 0.7rem;">${s}</span>`).join('')}</div>`;
+        } else {
+            document.getElementById('summaryServices').innerHTML = '—';
+        }
         document.getElementById('summaryProject').innerText = document.getElementById('project_name').value || '—';
         let desc = document.getElementById('description').value || '—';
         document.getElementById('summaryDesc').innerText = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
@@ -603,10 +678,8 @@ input:focus, textarea:focus {
         } else if (step === 2 || step === 3) {
             if (step === 2) {
                 step2.classList.add('active-step');
-                step3.classList.remove('active-step');
             } else {
                 step3.classList.add('active-step');
-                step2.classList.remove('active-step');
             }
             prevBtn.style.display = 'flex';
             nextBtn.style.display = 'flex';
@@ -658,7 +731,7 @@ input:focus, textarea:focus {
         
         const submitButton = submitBtn;
         submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Mengirim...';
+        submitButton.innerHTML = 'Mengirim...';
         
         const budgetRaw = document.getElementById('budget').value;
         const budgetNumber = budgetRaw ? parseInt(budgetRaw.replace(/\D/g, '')) : null;
@@ -682,12 +755,7 @@ input:focus, textarea:focus {
             const data = await response.json();
             
             if (data.success) {
-                document.getElementById('submitFeedback').innerHTML = `
-                    <div class="alert-success">
-                        <strong><i class="fas fa-check-circle"></i> ${data.message}</strong><br><br>
-                        ✅ Tim kami akan segera menghubungi Anda maksimal 1x24 jam.
-                    </div>
-                `;
+                document.getElementById('submitFeedback').innerHTML = `<div class="alert-success"><strong>✓ ${data.message}</strong><br><br>Tim kami akan segera menghubungi Anda maksimal 1x24 jam.</div>`;
                 document.querySelectorAll('input, textarea, .service-card').forEach(el => {
                     el.style.pointerEvents = 'none';
                 });
@@ -696,12 +764,12 @@ input:focus, textarea:focus {
             } else {
                 alert('Gagal mengirim brief. Silakan coba lagi.');
                 submitButton.disabled = false;
-                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Brief';
+                submitButton.innerHTML = 'Kirim Brief';
             }
         } catch(err) {
             alert('Terjadi kesalahan. Periksa koneksi Anda.');
             submitButton.disabled = false;
-            submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Brief';
+            submitButton.innerHTML = 'Kirim Brief';
         }
     });
 

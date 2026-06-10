@@ -1,15 +1,12 @@
 @extends('layouts.app')
-
 @section('content')
 @include('partials.client.navbar-sidebar')
 
 <div class="app-main">
     <div class="app-content">
         <div class="page-header">
-            <div class="page-title">
-                <h1><i class="fas fa-history"></i> History Kerjasama</h1>
-                <p>Daftar brief yang sudah Anda kirimkan ke diver.ent</p>
-            </div>
+            <h1>History Kerjasama</h1>
+            <p>Daftar brief yang sudah Anda kirimkan ke diver.ent</p>
         </div>
 
         @php
@@ -17,40 +14,41 @@
         @endphp
 
         @if($briefs->count() > 0)
-            <div class="briefs-grid">
+            <div class="briefs-list">
                 @foreach($briefs as $brief)
                 <div class="brief-card">
                     <div class="brief-card-header">
-                        <div class="brief-project-name">
-                            <i class="fas fa-folder-open"></i> {{ $brief->project_name }}
+                        <div class="brief-title">
+                            <span class="brief-icon"><i class="fas fa-file-alt"></i></span>
+                            <h3>{{ $brief->project_name }}</h3>
                         </div>
                         <div class="brief-status">
                             @if($brief->status == 'pending')
-                                <span class="status-badge status-pending"><i class="fas fa-hourglass-half"></i> Menunggu</span>
+                                <span class="status-badge status-pending">Menunggu</span>
                             @elseif($brief->status == 'contacted')
-                                <span class="status-badge status-contacted"><i class="fas fa-phone-alt"></i> Akan Dihubungi</span>
+                                <span class="status-badge status-contacted">Akan Dihubungi</span>
                             @elseif($brief->status == 'approved')
-                                <span class="status-badge status-approved"><i class="fas fa-check-circle"></i> Disetujui</span>
+                                <span class="status-badge status-approved">Disetujui</span>
                             @else
-                                <span class="status-badge status-rejected"><i class="fas fa-times-circle"></i> Ditolak</span>
+                                <span class="status-badge status-rejected">Ditolak</span>
                             @endif
                         </div>
                     </div>
                     <div class="brief-card-body">
                         <div class="brief-meta">
-                            <span><i class="fas fa-calendar-alt"></i> {{ $brief->created_at->format('d M Y H:i') }}</span>
+                            <span class="meta-date"><i class="fas fa-calendar-alt"></i> {{ $brief->created_at->format('d M Y H:i') }}</span>
                             @if($brief->budget)
-                            <span><i class="fas fa-money-bill-wave"></i> Rp {{ number_format($brief->budget, 0, ',', '.') }}</span>
+                            <span class="meta-budget"><i class="fas fa-money-bill-wave"></i> Rp {{ number_format($brief->budget, 0, ',', '.') }}</span>
                             @endif
                         </div>
                         <div class="brief-categories">
                             @foreach($brief->categories as $cat)
-                            <span class="cat-tag"><i class="fas fa-tag"></i> {{ $cat }}</span>
+                            <span class="cat-tag">{{ $cat }}</span>
                             @endforeach
                         </div>
                         @if($brief->description)
                         <div class="brief-description">
-                            <i class="fas fa-quote-left"></i> {{ $brief->description }}
+                            <i class="fas fa-quote-left"></i> {{ Str::limit($brief->description, 200) }}
                         </div>
                         @endif
                     </div>
@@ -62,215 +60,285 @@
                 <div class="empty-icon"><i class="fas fa-inbox"></i></div>
                 <h3>Belum Ada History</h3>
                 <p>Kamu belum mengirimkan brief kerjasama apapun.</p>
-                <a href="{{ route('client.create-project') }}" class="btn-primary">
-                    <i class="fas fa-handshake"></i> Ayo Kerjasama
-                </a>
+                <a href="{{ route('client.create-project') }}" class="btn-primary">Ayo Kerjasama</a>
             </div>
         @endif
     </div>
 </div>
 
 <style>
-    .client-main {
-        flex: 1;
-        margin-left: 280px;
-        min-height: 100vh;
-    }
+.app-main {
+    margin-left: 280px;
+    min-height: 100vh;
+    background: var(--bg);
+    padding-top: 10px;
+}
 
-    .client-content {
-        padding: 40px;
-        max-width: 1200px;
-    }
+.app-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 48px;
+}
 
-    .page-header {
-        margin-bottom: 32px;
-    }
+.page-header {
+    margin-bottom: 32px;
+}
 
-    .page-title h1 {
-        font-family: var(--font-display);
-        font-size: 2rem;
-        font-weight: 800;
-        letter-spacing: -1px;
-        margin-bottom: 8px;
-    }
+.page-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
 
-    .page-title p {
-        color: var(--text-secondary);
-    }
+.page-header p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
 
-    .briefs-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+.briefs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-    .brief-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
+.brief-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
 
-    .brief-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-2px);
-    }
+.brief-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
 
+.brief-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: rgba(59, 130, 255, 0.02);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.brief-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brief-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(59, 130, 255, 0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+.brief-title h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.brief-card-body {
+    padding: 20px 24px;
+}
+
+.brief-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 14px;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+.brief-meta i {
+    margin-right: 4px;
+    width: 14px;
+    color: var(--accent);
+    opacity: 0.6;
+}
+
+.meta-date, .meta-budget {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.brief-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.cat-tag {
+    background: rgba(59, 130, 255, 0.08);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.65rem;
+    font-weight: 500;
+}
+
+.brief-description {
+    background: var(--bg);
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 8px;
+    border-left: 2px solid var(--accent);
+}
+
+.brief-description i {
+    color: var(--accent);
+    margin-right: 8px;
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.status-badge {
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.12);
+    color: #f59e0b;
+}
+
+.status-contacted {
+    background: rgba(59, 130, 255, 0.12);
+    color: var(--accent);
+}
+
+.status-approved {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+}
+
+.status-rejected {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    opacity: 0.4;
+}
+
+.empty-state h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+@media (max-width: 992px) {
+    .app-main {
+        margin-left: 0;
+    }
+    .app-content {
+        padding: 32px 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-content {
+        padding: 24px 20px;
+    }
     .brief-card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 24px;
-        background: rgba(59, 130, 255, 0.03);
-        border-bottom: 1px solid var(--border);
-        flex-wrap: wrap;
-        gap: 12px;
+        flex-direction: column;
+        align-items: flex-start;
     }
-
-    .brief-project-name {
-        font-weight: 700;
-        font-size: 1rem;
-    }
-
-    .brief-project-name i {
-        color: var(--accent);
-        margin-right: 8px;
-    }
-
-    .status-badge {
-        padding: 6px 14px;
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .status-pending {
-        background: rgba(245, 158, 11, 0.15);
-        color: #f59e0b;
-    }
-
-    .status-contacted {
-        background: rgba(59, 130, 255, 0.15);
-        color: var(--accent);
-    }
-
-    .status-approved {
-        background: rgba(16, 185, 129, 0.15);
-        color: #10b981;
-    }
-
-    .status-rejected {
-        background: rgba(239, 68, 68, 0.15);
-        color: #ef4444;
-    }
-
-    .brief-card-body {
-        padding: 24px;
-    }
-
     .brief-meta {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 16px;
-        font-size: 0.75rem;
-        color: var(--text-secondary);
-    }
-
-    .brief-categories {
-        display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 8px;
-        margin-bottom: 16px;
     }
+    .brief-title h3 {
+        font-size: 0.95rem;
+    }
+}
 
-    .cat-tag {
-        background: rgba(59, 130, 255, 0.08);
-        color: var(--accent);
-        padding: 4px 12px;
-        border-radius: 50px;
-        font-size: 0.7rem;
-        font-weight: 500;
-    }
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
 
-    .brief-description {
-        background: var(--bg);
-        padding: 16px;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        color: var(--text-secondary);
-        line-height: 1.6;
-        margin-top: 16px;
-    }
-
-    .brief-description i {
-        color: var(--accent);
-        margin-right: 8px;
-        opacity: 0.5;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 80px 20px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-    }
-
-    .empty-icon {
-        font-size: 4rem;
-        margin-bottom: 20px;
-        color: var(--text-secondary);
-        opacity: 0.5;
-    }
-
-    .empty-state h3 {
-        font-family: var(--font-display);
-        font-size: 1.3rem;
-        margin-bottom: 8px;
-    }
-
-    .empty-state p {
-        color: var(--text-secondary);
-        margin-bottom: 24px;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-        color: #fff;
-        padding: 12px 28px;
-        border-radius: 50px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
-    }
-
-    @media (max-width: 768px) {
-        .client-main {
-            margin-left: 0;
-        }
-        .client-content {
-            padding: 20px;
-        }
-        .brief-card-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .brief-meta {
-            flex-direction: column;
-            gap: 8px;
-        }
-    }
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
+
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    function reveal() {
+        reveals.forEach(el => {
+            const windowHeight = window.innerHeight;
+            const revealTop = el.getBoundingClientRect().top;
+            const revealPoint = 100;
+            if (revealTop < windowHeight - revealPoint) {
+                el.classList.add('active');
+            }
+        });
+    }
+    window.addEventListener('scroll', reveal);
+    window.addEventListener('load', reveal);
+</script>
 @endsection
