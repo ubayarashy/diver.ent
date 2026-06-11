@@ -6,17 +6,17 @@
 @include('partials.component.navbar')
 
 <style>
-    /* Smooth Scroll Behavior */
+    /* ========== SMOOTH SCROLL ========== */
     html {
         scroll-behavior: smooth;
         scroll-padding-top: 80px;
     }
 
-    /* Elegant Reveal - Lebih halus dan mewah */
+    /* ========== REVEAL ANIMATION (HALUS) ========== */
     .reveal {
         opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.9s ease, transform 0.9s ease;
+        transform: translateY(24px);
+        transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
     .reveal.active {
@@ -24,16 +24,16 @@
         transform: translateY(0);
     }
 
-    .reveal-delay-1 { transition-delay: 0.15s; }
-    .reveal-delay-2 { transition-delay: 0.3s; }
-    .reveal-delay-3 { transition-delay: 0.45s; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
 
-    /* Hero Section */
+    /* ========== HERO SECTION ========== */
     .hero {
         min-height: 90vh;
         display: flex;
         align-items: center;
-        padding: 100px 0 80px;
+        padding: 120px 0 80px;
         position: relative;
         overflow: hidden;
     }
@@ -45,53 +45,57 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(ellipse at 20% 50%, rgba(59,130,255,0.06) 0%, transparent 60%);
+        background: radial-gradient(ellipse at 30% 50%, rgba(59,130,255,0.05) 0%, transparent 70%);
         pointer-events: none;
     }
 
     .hero-content {
-        max-width: 800px;
+        max-width: 720px;
         position: relative;
         z-index: 2;
     }
 
     .hero-tag {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background: rgba(59, 130, 255, 0.1);
         color: var(--accent);
-        padding: 6px 14px;
+        padding: 6px 16px;
         border-radius: 40px;
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.7rem;
+        font-weight: 600;
         margin-bottom: 28px;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
     }
 
     .hero h1 {
-        font-size: clamp(2.5rem, 7vw, 5rem);
+        font-size: clamp(2.5rem, 7vw, 4.8rem);
         font-weight: 700;
-        line-height: 1.1;
-        margin-bottom: 24px;
+        line-height: 1.15;
+        margin-bottom: 20px;
         font-family: var(--font-display);
         letter-spacing: -1px;
     }
 
     .hero .highlight {
         color: var(--accent);
+        position: relative;
+        display: inline-block;
     }
 
     .hero p {
         font-size: 1.05rem;
         color: var(--text-secondary);
-        margin-bottom: 32px;
-        max-width: 560px;
-        line-height: 1.6;
+        margin-bottom: 36px;
+        max-width: 540px;
+        line-height: 1.65;
     }
 
     .hero-ctas {
         display: flex;
         gap: 16px;
-        margin-bottom: 60px;
+        margin-bottom: 48px;
         flex-wrap: wrap;
     }
 
@@ -104,12 +108,12 @@
         flex-wrap: wrap;
     }
 
-    .hero-media span {
+    .hero-media span:first-child {
         color: var(--text-secondary);
         font-size: 0.7rem;
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
     }
 
     .media-logos {
@@ -119,46 +123,50 @@
     }
 
     .media-logos span {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: 500;
-        opacity: 0.5;
+        opacity: 0.4;
+        letter-spacing: 0.5px;
     }
 
-    /* Section Common */
+    /* ========== SECTION UMUM ========== */
     section {
-        padding: 100px 0;
+        padding: 90px 0;
     }
 
     .section-tag {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background: rgba(59, 130, 255, 0.1);
         color: var(--accent);
-        padding: 5px 12px;
+        padding: 5px 14px;
         border-radius: 40px;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
     }
 
     .section-title {
-        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
         font-weight: 700;
         margin-bottom: 16px;
         font-family: var(--font-display);
-        letter-spacing: -0.5px;
+        letter-spacing: -0.4px;
+        line-height: 1.25;
     }
 
     .section-desc {
         color: var(--text-secondary);
         font-size: 1rem;
         max-width: 600px;
-        line-height: 1.6;
+        line-height: 1.65;
         margin-bottom: 48px;
     }
 
-    /* Why Choose Us */
+    /* ========== WHY CHOOSE US (TABEL) ========== */
     .why-us {
         background: var(--surface);
     }
@@ -167,56 +175,63 @@
         width: 100%;
         border-collapse: collapse;
         background: var(--bg);
-        border-radius: 16px;
+        border-radius: 24px;
         overflow: hidden;
     }
 
     .comparison-table th,
     .comparison-table td {
-        padding: 18px 24px;
+        padding: 20px 28px;
         text-align: left;
         border-bottom: 1px solid var(--border);
     }
 
     .comparison-table th {
-        background: var(--surface-card);
+        background: rgba(59, 130, 255, 0.03);
         font-weight: 600;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
     }
 
     .comparison-table tr:last-child td {
         border-bottom: none;
     }
 
+    .comparison-table td:first-child,
+    .comparison-table th:first-child {
+        font-weight: 600;
+    }
+
     .check {
         color: var(--accent);
+        margin-right: 8px;
     }
 
     .cross {
         color: #ef4444;
+        margin-right: 8px;
     }
 
-    /* Three Pillars - Tanpa animasi berlebihan */
+    /* ========== THREE PILLARS ========== */
     .pillars-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-        margin-top: 48px;
+        gap: 32px;
+        margin-top: 24px;
     }
 
     .pillar-card {
         background: var(--surface-card);
         border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 40px 32px;
+        border-radius: 28px;
+        padding: 40px 28px;
         text-align: center;
-        transition: all 0.4s ease;
+        transition: all 0.35s ease;
     }
 
     .pillar-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-6px);
         border-color: var(--accent);
     }
 
@@ -227,58 +242,36 @@
     }
 
     .pillar-card h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 16px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 14px;
         font-family: var(--font-display);
     }
 
     .pillar-card p {
         color: var(--text-secondary);
-        line-height: 1.6;
+        line-height: 1.65;
         font-size: 0.85rem;
     }
 
-   
-
-    .logo-track {
-        display: flex;
-        gap: 48px;
-        animation: scrollLogos 25s linear infinite;
-        width: max-content;
-    }
-
-    .logo-track span {
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        font-weight: 500;
-        opacity: 0.6;
-        white-space: nowrap;
-    }
-
-    @keyframes scrollLogos {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-
-    /* Portfolio Section */
+    /* ========== PORTFOLIO ========== */
     .portfolio-filters {
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
-        margin-bottom: 40px;
+        margin-bottom: 44px;
     }
 
     .filter-btn {
         background: transparent;
         border: 1px solid var(--border);
         padding: 8px 22px;
-        border-radius: 40px;
+        border-radius: 50px;
         color: var(--text-secondary);
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.25s ease;
         font-weight: 500;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .filter-btn.active,
@@ -290,13 +283,13 @@
 
     .portfolio-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 28px;
     }
 
     .portfolio-item {
         position: relative;
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
         cursor: pointer;
         aspect-ratio: 4/3;
@@ -308,6 +301,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: transform 0.4s ease;
+    }
+
+    .portfolio-item:hover .portfolio-thumb {
+        transform: scale(1.02);
     }
 
     .overlay {
@@ -316,9 +314,9 @@
         left: 0;
         right: 0;
         background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-        padding: 24px;
+        padding: 28px 24px;
         transform: translateY(100%);
-        transition: transform 0.4s ease;
+        transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
 
     .portfolio-item:hover .overlay {
@@ -328,16 +326,16 @@
     .overlay h4 {
         font-size: 1rem;
         font-weight: 600;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
         color: #fff;
     }
 
     .overlay span {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         color: var(--accent);
     }
 
-    /* Services Section - 4 Layanan Elegan */
+    /* ========== SERVICES SECTION ========== */
     .services-section {
         background: var(--surface);
     }
@@ -345,22 +343,22 @@
     .services-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
-        margin-top: 48px;
+        gap: 28px;
+        margin-top: 24px;
     }
 
     .service-card {
         background: var(--bg);
         border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 32px 24px;
-        transition: all 0.4s ease;
+        border-radius: 24px;
+        padding: 36px 24px;
+        transition: all 0.35s ease;
         position: relative;
         text-align: center;
     }
 
     .service-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-5px);
         border-color: var(--accent);
     }
 
@@ -369,23 +367,23 @@
         top: 16px;
         right: 16px;
         padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.6rem;
-        font-weight: 600;
+        border-radius: 50px;
+        font-size: 0.55rem;
+        font-weight: 700;
         text-transform: uppercase;
         background: var(--accent);
         color: #000;
     }
 
     .service-icon {
-        font-size: 2rem;
-        margin-bottom: 20px;
+        font-size: 2.2rem;
+        margin-bottom: 22px;
         color: var(--accent);
     }
 
     .service-card h3 {
         font-size: 1.1rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 12px;
         font-family: var(--font-display);
     }
@@ -393,32 +391,32 @@
     .service-card p {
         color: var(--text-secondary);
         font-size: 0.8rem;
-        line-height: 1.6;
+        line-height: 1.65;
         margin-bottom: 20px;
     }
 
     .service-link {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         color: var(--accent);
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.7rem;
+        font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s;
+        transition: gap 0.25s ease;
     }
 
     .service-link:hover {
-        gap: 10px;
+        gap: 12px;
     }
 
-    /* About Section */
+    /* ========== ABOUT SECTION ========== */
     .about-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 60px;
+        gap: 64px;
         align-items: center;
-        margin-top: 48px;
+        margin-top: 24px;
     }
 
     .about-stats {
@@ -431,27 +429,37 @@
     .stat-item {
         background: var(--surface-card);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
+        border-radius: 20px;
+        padding: 24px 20px;
         text-align: center;
+        transition: all 0.25s ease;
+    }
+
+    .stat-item:hover {
+        border-color: var(--accent);
     }
 
     .stat-number {
         font-size: 2.2rem;
-        font-weight: 700;
+        font-weight: 800;
         color: var(--accent);
         font-family: var(--font-display);
         margin-bottom: 8px;
+        letter-spacing: -0.5px;
     }
 
     .stat-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
     }
 
     .about-visual {
-        background: linear-gradient(135deg, var(--surface-card), var(--surface));
-        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(59,130,255,0.03), rgba(59,130,255,0.01));
+        border-radius: 32px;
         min-height: 380px;
         display: flex;
         align-items: center;
@@ -459,35 +467,37 @@
         border: 1px solid var(--border);
     }
 
-    /* Testimonials */
+    /* ========== TESTIMONIALS ========== */
     .testimonials {
         background: var(--surface);
     }
 
     .testimonial-carousel {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 24px;
-        margin-top: 48px;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 28px;
+        margin-top: 24px;
     }
 
     .testimonial-card {
         background: var(--bg);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 28px;
+        border-radius: 24px;
+        padding: 32px;
+        transition: all 0.3s ease;
     }
 
     .testimonial-card:hover {
         border-color: var(--accent);
+        transform: translateY(-3px);
     }
 
     .testimonial-quote {
         font-size: 0.85rem;
         line-height: 1.7;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
         color: var(--text-secondary);
-        font-style: italic;
+        font-style: normal;
     }
 
     .testimonial-author {
@@ -499,57 +509,66 @@
     .testimonial-avatar {
         width: 48px;
         height: 48px;
-        background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        background: linear-gradient(135deg, var(--accent), rgba(59,130,255,0.6));
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
+        font-weight: 700;
         color: #fff;
+        font-size: 0.9rem;
     }
 
     .author-name {
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 4px;
         font-size: 0.9rem;
     }
 
     .author-role {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    /* FAQ Section - Baru */
+    /* ========== FAQ SECTION ========== */
     .faq-section {
         background: var(--bg);
     }
 
     .faq-grid {
-        max-width: 800px;
+        max-width: 760px;
         margin: 0 auto;
     }
 
     .faq-item {
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 16px;
+        border-radius: 20px;
         margin-bottom: 16px;
         overflow: hidden;
+        transition: all 0.25s ease;
+    }
+
+    .faq-item:hover {
+        border-color: var(--accent);
     }
 
     .faq-question {
         width: 100%;
-        padding: 20px 24px;
+        padding: 20px 28px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         background: none;
         border: none;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         color: var(--text);
         cursor: pointer;
-        transition: all 0.3s;
+        transition: color 0.2s;
     }
 
     .faq-question:hover {
@@ -557,8 +576,8 @@
     }
 
     .faq-icon {
-        font-size: 1.2rem;
-        transition: transform 0.3s;
+        font-size: 0.9rem;
+        transition: transform 0.3s ease;
     }
 
     .faq-item.active .faq-icon {
@@ -568,13 +587,13 @@
     .faq-answer {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s ease;
-        padding: 0 24px;
+        transition: max-height 0.4s ease-out;
+        padding: 0 28px;
     }
 
     .faq-item.active .faq-answer {
-        max-height: 300px;
-        padding: 0 24px 20px;
+        max-height: 200px;
+        padding: 0 28px 20px 28px;
     }
 
     .faq-answer p {
@@ -583,7 +602,7 @@
         line-height: 1.7;
     }
 
-    /* CTA Bottom */
+    /* ========== CTA BOTTOM ========== */
     .cta-bottom {
         text-align: center;
         padding: 100px 0;
@@ -604,22 +623,23 @@
 
     .cta-bottom .hero-ctas {
         justify-content: center;
+        margin-bottom: 0;
     }
 
-    /* Media Coverage */
+    /* ========== MEDIA COVERAGE ========== */
     .media-coverage {
         text-align: center;
-        padding: 50px 0;
+        padding: 48px 0;
         border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
     }
 
     .media-coverage p {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 2.5px;
         color: var(--text-secondary);
-        margin-bottom: 20px;
+        margin-bottom: 24px;
     }
 
     .media-row {
@@ -632,63 +652,69 @@
     .media-row span {
         font-family: var(--font-display);
         font-weight: 600;
-        font-size: 0.9rem;
-        opacity: 0.5;
+        font-size: 0.85rem;
+        opacity: 0.4;
+        letter-spacing: 0.5px;
     }
 
-    /* Buttons */
+    /* ========== BUTTONS ========== */
     .btn-primary {
         background: linear-gradient(135deg, var(--accent), var(--accent-hover));
         color: #fff;
-        padding: 12px 28px;
+        padding: 12px 30px;
         border-radius: 50px;
         font-weight: 600;
         font-size: 0.85rem;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        transition: all 0.3s;
+        gap: 10px;
+        transition: all 0.3s ease;
         text-decoration: none;
+        border: none;
+        cursor: pointer;
     }
 
     .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(59, 130, 255, 0.25);
     }
 
     .btn-outline {
         background: transparent;
         border: 1px solid var(--border);
         color: var(--text);
-        padding: 12px 28px;
+        padding: 12px 30px;
         border-radius: 50px;
         font-weight: 600;
         font-size: 0.85rem;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        transition: all 0.3s;
+        gap: 10px;
+        transition: all 0.3s ease;
         text-decoration: none;
+        cursor: pointer;
     }
 
     .btn-outline:hover {
         border-color: var(--accent);
         color: var(--accent);
+        transform: translateY(-2px);
     }
 
-    /* Responsive */
+    /* ========== RESPONSIVE ========== */
     @media (max-width: 1024px) {
         section {
-            padding: 80px 0;
+            padding: 70px 0;
         }
         .services-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
         }
         .pillars-grid {
-            gap: 20px;
+            gap: 24px;
         }
         .about-grid {
-            gap: 40px;
+            gap: 48px;
         }
     }
 
@@ -697,7 +723,7 @@
             padding: 60px 0;
         }
         .hero {
-            padding: 80px 0 60px;
+            padding: 100px 0 60px;
         }
         .hero-ctas {
             gap: 12px;
@@ -710,6 +736,7 @@
         }
         .about-grid {
             grid-template-columns: 1fr;
+            gap: 40px;
         }
         .portfolio-grid {
             grid-template-columns: 1fr;
@@ -719,18 +746,24 @@
         }
         .comparison-table th,
         .comparison-table td {
-            padding: 12px 16px;
-            font-size: 0.8rem;
+            padding: 14px 18px;
+            font-size: 0.75rem;
         }
         .about-stats {
-            gap: 12px;
+            gap: 16px;
         }
         .stat-number {
             font-size: 1.8rem;
         }
         .faq-question {
-            font-size: 0.9rem;
-            padding: 16px 20px;
+            font-size: 0.85rem;
+            padding: 16px 22px;
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 22px 16px 22px;
+        }
+        .media-row {
+            gap: 28px;
         }
     }
 </style>
@@ -768,37 +801,39 @@
             <h2 class="section-title">Mengapa diver.ent?</h2>
             <p class="section-desc">Perbandingan layanan kami dengan agensi digital marketing lainnya.</p>
         </div>
-        <table class="comparison-table reveal">
-            <thead>
-                <tr>
-                    <th>Aspek</th>
-                    <th>diver.ent ✦</th>
-                    <th>Agensi Lain</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Kelengkapan Layanan</td>
-                    <td><i class="fas fa-check-circle check"></i> Terfokus & Spesialis</td>
-                    <td><i class="fas fa-times-circle cross"></i> Generalis</td>
-                </tr>
-                <tr>
-                    <td>Tim Dedicated & Responsif</td>
-                    <td><i class="fas fa-check-circle check"></i> Tim khusus per klien</td>
-                    <td><i class="fas fa-times-circle cross"></i> Shared resource</td>
-                </tr>
-                <tr>
-                    <td>Komunikasi & Reporting Rutin</td>
-                    <td><i class="fas fa-check-circle check"></i> Weekly report & meeting</td>
-                    <td><i class="fas fa-times-circle cross"></i> Monthly / on-request</td>
-                </tr>
-                <tr>
-                    <td>Track Record & Sertifikasi</td>
-                    <td><i class="fas fa-check-circle check"></i> Google & Meta Certified</td>
-                    <td><i class="fas fa-times-circle cross"></i> Tidak tersertifikasi</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="reveal">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspek</th>
+                        <th>diver.ent ✦</th>
+                        <th>Agensi Lain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kelengkapan Layanan</td>
+                        <td><i class="fas fa-check-circle check"></i> Terfokus & Spesialis</td>
+                        <td><i class="fas fa-times-circle cross"></i> Generalis</td>
+                    </tr>
+                    <tr>
+                        <td>Tim Dedicated & Responsif</td>
+                        <td><i class="fas fa-check-circle check"></i> Tim khusus per klien</td>
+                        <td><i class="fas fa-times-circle cross"></i> Shared resource</td>
+                    </tr>
+                    <tr>
+                        <td>Komunikasi & Reporting Rutin</td>
+                        <td><i class="fas fa-check-circle check"></i> Weekly report & meeting</td>
+                        <td><i class="fas fa-times-circle cross"></i> Monthly / on-request</td>
+                    </tr>
+                    <tr>
+                        <td>Track Record & Sertifikasi</td>
+                        <td><i class="fas fa-check-circle check"></i> Google & Meta Certified</td>
+                        <td><i class="fas fa-times-circle cross"></i> Tidak tersertifikasi</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
 
@@ -829,9 +864,6 @@
         </div>
     </div>
 </section>
-
-{{-- Client Logo Carousel --}}
-
 
 {{-- Portfolio --}}
 <section class="portfolio-section" id="portfolio">
@@ -872,7 +904,7 @@
             </div>
             @endforeach
         </div>
-        <div style="text-align:center;margin-top:40px;" class="reveal">
+        <div style="text-align:center; margin-top: 48px;" class="reveal">
             <a href="{{ route('portfolio') }}" class="btn-outline"><i class="fas fa-arrow-right"></i> See All Portfolio</a>
         </div>
     </div>
@@ -902,7 +934,7 @@
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-camera"></i></div>
-                <h3>Fotografi</h3>
+                <h3>Photography</h3>
                 <p>Fotografi produk, commercial, portrait, dan event dengan hasil berkualitas tinggi.</p>
                 <a href="{{ route('service.fp') }}" class="service-link">Pelajari <i class="fas fa-arrow-right"></i></a>
             </div>
@@ -945,8 +977,7 @@
                 </div>
             </div>
             <div class="about-visual reveal">
-                <i class="fas fa-users" style="font-size: 64px; opacity: 0.15; color: var(--accent);"></i>
-                <span style="margin-left: 16px; opacity:0.15;">Tim diver.ent</span>
+                <i class="fas fa-users" style="font-size: 64px; opacity: 0.1; color: var(--accent);"></i>
             </div>
         </div>
     </div>
@@ -973,7 +1004,7 @@
             @endphp
             @foreach($testimonials as $t)
             <div class="testimonial-card">
-                <div class="testimonial-quote"><i class="fas fa-quote-left" style="color: var(--accent); margin-right: 8px; opacity: 0.5;"></i> "{{ $t['q'] }}"</div>
+                <div class="testimonial-quote"><i class="fas fa-quote-left" style="color: var(--accent); margin-right: 8px; opacity: 0.4;"></i> "{{ $t['q'] }}"</div>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">{{ $t['init'] }}</div>
                     <div>
@@ -1097,7 +1128,7 @@
         reveals.forEach(el => {
             const windowHeight = window.innerHeight;
             const revealTop = el.getBoundingClientRect().top;
-            const revealPoint = 100;
+            const revealPoint = 120;
             if (revealTop < windowHeight - revealPoint) {
                 el.classList.add('active');
             }

@@ -6,8 +6,15 @@
 <div class="admin-main">
     <div class="admin-content">
         <div class="page-header">
-            <h1><i class="fas fa-folder-open"></i> Manajemen Portfolio</h1>
-            <p>Kelola portfolio yang ditampilkan di landing page</p>
+            <div class="header-left">
+                <h1><i class="fas fa-folder-open"></i> Manajemen Portfolio</h1>
+                <p>Kelola portfolio yang ditampilkan di landing page</p>
+            </div>
+            <div class="header-right">
+                <a href="{{ route('admin.portfolio.create') }}" class="btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Portfolio
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
@@ -67,8 +74,10 @@
                     <tr>
                         <td colspan="7" style="text-align: center; padding: 40px;">
                             <i class="fas fa-folder-open" style="font-size: 48px; opacity: 0.3;"></i>
-                            <p>Belum ada portfolio. Silakan tambah portfolio baru.</p>
-                            <a href="{{ route('admin.portfolio.create') }}" class="btn-primary">+ Tambah Portfolio</a>
+                            <p style="margin-top: 16px;">Belum ada portfolio. Silakan tambah portfolio baru.</p>
+                            <a href="{{ route('admin.portfolio.create') }}" class="btn-primary" style="margin-top: 16px; display: inline-flex;">
+                                <i class="fas fa-plus"></i> Tambah Portfolio
+                            </a>
                         </td>
                     </tr>
                     @endforelse
@@ -82,25 +91,36 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top:20px;
+    padding-top: 20px;
 }
+
 .admin-content {
     padding: 32px;
 }
 
 .page-header {
     margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.page-header h1 {
+.header-left h1 {
     font-family: var(--font-display);
     font-size: 1.8rem;
     font-weight: 800;
     margin-bottom: 8px;
 }
 
-.page-header p {
+.header-left p {
     color: var(--text-secondary);
+}
+
+.header-right {
+    display: flex;
+    gap: 12px;
 }
 
 .table-container {
@@ -133,6 +153,7 @@
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .badge-draft {
@@ -141,6 +162,7 @@
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .badge-category {
@@ -149,6 +171,7 @@
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .btn-edit, .btn-delete {
@@ -166,6 +189,7 @@
 
 .btn-edit:hover {
     background: rgba(59, 130, 255, 0.1);
+    transform: scale(1.05);
 }
 
 .btn-delete {
@@ -174,6 +198,7 @@
 
 .btn-delete:hover {
     background: rgba(239, 68, 68, 0.1);
+    transform: scale(1.05);
 }
 
 .btn-primary {
@@ -186,6 +211,15 @@
     align-items: center;
     gap: 8px;
     font-weight: 600;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.95);
+    box-shadow: 0 4px 12px rgba(59, 130, 255, 0.3);
 }
 
 .alert-success {
@@ -195,6 +229,18 @@
     border-radius: 12px;
     margin-bottom: 20px;
     border-left: 3px solid #10b981;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -203,6 +249,25 @@
     }
     .admin-content {
         padding: 20px;
+    }
+    
+    .page-header {
+        flex-direction: column;
+    }
+    
+    .header-right {
+        width: 100%;
+    }
+    
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 12px;
+        font-size: 0.85rem;
     }
 }
 </style>
@@ -232,6 +297,24 @@
                     if (row) {
                         row.remove();
                     }
+                    
+                    // Cek apakah masih ada data di tabel
+                    const tbody = document.querySelector('.data-table tbody');
+                    if (tbody.children.length === 0) {
+                        // Tampilkan pesan kosong
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-folder-open" style="font-size: 48px; opacity: 0.3;"></i>
+                                    <p style="margin-top: 16px;">Belum ada portfolio. Silakan tambah portfolio baru.</p>
+                                    <a href="{{ route('admin.portfolio.create') }}" class="btn-primary" style="margin-top: 16px; display: inline-flex;">
+                                        <i class="fas fa-plus"></i> Tambah Portfolio
+                                    </a>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    
                     // Tampilkan pesan sukses
                     showAlert('success', 'Portfolio berhasil dihapus!');
                 } else {

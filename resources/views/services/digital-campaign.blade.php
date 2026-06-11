@@ -1,292 +1,118 @@
 @extends('layouts.app')
-
 @section('content')
-
 @include('partials.component.announcement')
 @include('partials.component.navbar')
-
-{{-- Hero Section --}}
-<section class="smm-hero" id="dc-hero">
-    <div class="container">
-        <div class="smm-hero-content reveal">
-            <nav class="breadcrumb-nav" aria-label="breadcrumb">
-                <a href="/">Home</a> <span>/</span> <a href="/#services">Services</a> <span>/</span> <span class="active">Digital Campaign / Ads</span>
-            </nav>
-            <span class="hero-tag">📈 Certified Ads Partner</span>
-            <h1>Jasa <span class="highlight">Digital Campaign</span> & Ads</h1>
-            <p>Tingkatkan penjualan & popularitas brand Anda melalui iklan digital di Meta Ads, Google Ads, dan TikTok Ads. Strategi berbasis data, konten kreatif, dan optimasi berkelanjutan.</p>
-            <div class="hero-ctas">
-                <a href="#dc-benefits" class="btn-primary">Keuntungan Iklan →</a>
-                <a href="#dc-platforms" class="btn-outline">Lihat Platform</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- Stats Bar --}}
-<div class="smm-stats-bar">
-    <div class="container">
-        <div class="stats-row reveal">
-            <div class="stat-pill"><strong>500+</strong> Campaigns</div>
-            <div class="stat-divider">•</div>
-            <div class="stat-pill"><strong>Google</strong> Certified</div>
-            <div class="stat-divider">•</div>
-            <div class="stat-pill"><strong>Meta</strong> Certified</div>
-            <div class="stat-divider">•</div>
-            <div class="stat-pill"><strong>TikTok</strong> Partner</div>
-        </div>
-    </div>
-</div>
-
-{{-- Process / How it Works --}}
-<section class="smm-features" id="dc-process">
-    <div class="container">
-        <div class="smm-features-grid">
-            <div class="smm-features-text reveal">
-                <span class="section-tag">Jasa Iklan Digital</span>
-                <h2 class="section-title">Tingkatkan Penjualan & Popularitas Brand 📈</h2>
-                <p class="section-desc">Kami merancang, menjalankan, dan mengoptimasi kampanye iklan digital agar brand Anda menjangkau lebih banyak audiens dan menghasilkan konversi maksimal.</p>
-
-                <div class="dc-steps">
-                    <div class="dc-step">
-                        <div class="dc-step-num">1</div>
-                        <div>
-                            <h4>Analisis Strategi Terbaik 🎯</h4>
-                            <p>Kami merancang strategi iklan digital terbaik agar brand Anda menjangkau lebih banyak audiens.</p>
-                        </div>
-                    </div>
-                    <div class="dc-step">
-                        <div class="dc-step-num">2</div>
-                        <div>
-                            <h4>Buat Campaign yang Kreatif 🔥</h4>
-                            <p>Kami bantu membuat konten iklan kreatif agar campaign Anda lebih menonjol dan efektif.</p>
-                        </div>
-                    </div>
-                    <div class="dc-step">
-                        <div class="dc-step-num">3</div>
-                        <div>
-                            <h4>Optimasi Konversi & Penjualan</h4>
-                            <p>Optimasi iklan berjalan untuk mendapatkan konversi tinggi dengan laporan yang transparan.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="smm-features-visual reveal">
-                <div class="smm-visual-card">
-                    <div class="visual-mockup">
-                        <div class="mockup-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <div class="mockup-body">
-                            <div class="dc-dashboard">
-                                <div class="dc-dash-header">
-                                    <span class="dc-dash-title">Campaign Dashboard</span>
-                                    <span class="dc-dash-status">● Live</span>
-                                </div>
-                                <div class="mockup-stat-row">
-                                    <div class="mockup-stat">
-                                        <span class="ms-label">CTR</span>
-                                        <span class="ms-value">4.8%</span>
-                                        <div class="ms-bar"><div class="ms-fill" style="width:80%"></div></div>
-                                    </div>
-                                    <div class="mockup-stat">
-                                        <span class="ms-label">ROAS</span>
-                                        <span class="ms-value">5.2x</span>
-                                        <div class="ms-bar"><div class="ms-fill" style="width:90%"></div></div>
-                                    </div>
-                                </div>
-                                <div class="mockup-stat-row">
-                                    <div class="mockup-stat">
-                                        <span class="ms-label">CPC</span>
-                                        <span class="ms-value">Rp 850</span>
-                                        <div class="ms-bar"><div class="ms-fill" style="width:65%"></div></div>
-                                    </div>
-                                    <div class="mockup-stat">
-                                        <span class="ms-label">Conversions</span>
-                                        <span class="ms-value">+320%</span>
-                                        <div class="ms-bar"><div class="ms-fill" style="width:85%"></div></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- Ad Platforms --}}
-<section class="smm-platforms" id="dc-platforms">
-    <div class="container">
-        <div class="reveal">
-            <span class="section-tag">Platform Iklan</span>
-            <h2 class="section-title">Pilihan Platform Digital Ads</h2>
-            <p class="section-desc">Kami mengelola kampanye iklan di berbagai platform untuk menjangkau audiens yang tepat.</p>
-        </div>
-        <div class="platform-grid reveal">
-            @php
-            $adPlatforms = [
-                ['icon' => '📘', 'name' => 'Meta Ads', 'badge' => 'Best Seller', 'bclass' => 'badge-top', 'desc' => 'Jangkau audiens di Facebook & Instagram dengan targeting presisi berdasarkan demografi, minat, dan perilaku.', 'budget' => 'Min. Rp 500.000/bulan'],
-                ['icon' => '🎵', 'name' => 'TikTok Ads', 'badge' => 'Trending', 'bclass' => 'badge-trending', 'desc' => 'Manfaatkan platform dengan pertumbuhan tercepat untuk menjangkau generasi muda yang dinamis.', 'budget' => 'Min. Rp 500.000/bulan'],
-                ['icon' => '🔍', 'name' => 'Google Ads', 'badge' => 'Top Choice', 'bclass' => 'badge-best', 'desc' => 'Tampilkan bisnis Anda di halaman pertama Google saat calon pelanggan mencari produk/jasa Anda.', 'budget' => 'Min. Rp 500.000/bulan'],
-                ['icon' => '▶️', 'name' => 'YouTube Ads', 'badge' => '', 'bclass' => '', 'desc' => 'Video ads yang ditampilkan sebelum atau selama konten YouTube untuk meningkatkan awareness brand.', 'budget' => 'Budget fleksibel'],
-                ['icon' => '🛒', 'name' => 'Marketplace Ads', 'badge' => '', 'bclass' => '', 'desc' => 'Promosikan produk di Shopee, Tokopedia, dan marketplace lainnya untuk meningkatkan penjualan.', 'budget' => 'Budget fleksibel'],
-                ['icon' => '💼', 'name' => 'LinkedIn Ads', 'badge' => '', 'bclass' => '', 'desc' => 'Platform terbaik untuk B2B marketing, lead generation, dan recruitment campaign profesional.', 'budget' => 'Budget fleksibel'],
-            ];
-            @endphp
-            @foreach($adPlatforms as $platform)
-            <div class="platform-card">
-                @if($platform['badge'])
-                <span class="service-badge {{ $platform['bclass'] }}">{{ $platform['badge'] }}</span>
-                @endif
-                <span class="platform-icon">{{ $platform['icon'] }}</span>
-                <h3>{{ $platform['name'] }}</h3>
-                <p>{{ $platform['desc'] }}</p>
-                <span class="dc-budget">{{ $platform['budget'] }}</span>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- Benefits / Features --}}
-<section class="smm-why" id="dc-benefits">
-    <div class="container">
-        <div class="reveal">
-            <span class="section-tag">Features & Benefits</span>
-            <h2 class="section-title">Keuntungan Iklan Dikelola <span class="highlight">diver.ent</span></h2>
-        </div>
-        <div class="why-grid reveal">
-            @php
-            $benefits = [
-                ['icon' => '🔬', 'title' => 'Iklan Dengan Riset & Data', 'desc' => 'Setiap campaign dirancang dari riset mendalam, tren industri, dan target bisnis Anda.'],
-                ['icon' => '🎨', 'title' => 'Pembuatan Konten Iklan', 'desc' => 'Pembuatan konten iklan yang menarik sekaligus fokus mendorong hasil nyata.'],
-                ['icon' => '⚡', 'title' => 'Optimasi Berkelanjutan', 'desc' => 'Memberikan hasil analisis untuk digunakan dalam mengambil keputusan bisnis.'],
-                ['icon' => '📊', 'title' => 'Monitoring & Evaluasi', 'desc' => 'Performa iklan dipantau berkala untuk menjaga efektivitas & efisiensi budget.'],
-                ['icon' => '📋', 'title' => 'Laporan Transparan', 'desc' => 'Laporan rutin berisi insight jelas (CTR, CPC, CPM, ROAS) untuk mendukung strategi berikutnya.'],
-                ['icon' => '👨‍💻', 'title' => 'Tim Berpengalaman', 'desc' => 'Ditangani oleh advertiser profesional bersertifikasi dengan pengalaman lintas industri.'],
-            ];
-            @endphp
-            @foreach($benefits as $item)
-            <div class="why-card">
-                <div class="why-icon">{{ $item['icon'] }}</div>
-                <h3>{{ $item['title'] }}</h3>
-                <p>{{ $item['desc'] }}</p>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- Case Studies --}}
-<section class="smm-case" id="dc-case">
-    <div class="container">
-        <div class="reveal">
-            <span class="section-tag">Studi Kasus</span>
-            <h2 class="section-title">Dari Traffic ke Penjualan</h2>
-            <p class="section-desc">Semua lewat iklan digital yang terukur dan teroptimasi.</p>
-        </div>
-        <div class="dc-case-grid reveal">
-            @php
-            $dcCases = [
-                ['client' => 'E-Commerce Brand', 'campaign' => 'Meta Ads + Google Ads', 'desc' => 'Campaign untuk meningkatkan traffic dan penjualan melalui Instagram Ads dan Google Search Ads.', 'roas' => '5.2x', 'ctr' => '4.8%', 'conv' => '+320%'],
-                ['client' => 'Education Platform', 'campaign' => 'Google Ads', 'desc' => 'Campaign untuk promosi pendaftaran webinar dan kelas offline melalui Google Ads.', 'roas' => '3.8x', 'ctr' => '6.2%', 'conv' => '+210%'],
-                ['client' => 'F&B Restaurant', 'campaign' => 'Meta Ads + TikTok Ads', 'desc' => 'Pembuatan konten dan optimasi iklan untuk meningkatkan kunjungan dan brand awareness.', 'roas' => '4.5x', 'ctr' => '5.1%', 'conv' => '+275%'],
-                ['client' => 'Property Developer', 'campaign' => 'Google Ads', 'desc' => 'Optimasi pencarian lokal dan lead generation melalui Google Search & Display Ads.', 'roas' => '6.1x', 'ctr' => '3.9%', 'conv' => '+180%'],
-            ];
-            @endphp
-            @foreach($dcCases as $case)
-            <div class="dc-case-card">
-                <div class="dc-case-top">
-                    <span class="dc-case-client">{{ $case['client'] }}</span>
-                    <span class="dc-case-platform">{{ $case['campaign'] }}</span>
-                </div>
-                <p class="case-desc">{{ $case['desc'] }}</p>
-                <div class="dc-case-metrics">
-                    <div class="dc-metric">
-                        <span class="dc-metric-val">{{ $case['roas'] }}</span>
-                        <span class="dc-metric-lbl">ROAS</span>
-                    </div>
-                    <div class="dc-metric">
-                        <span class="dc-metric-val">{{ $case['ctr'] }}</span>
-                        <span class="dc-metric-lbl">CTR</span>
-                    </div>
-                    <div class="dc-metric">
-                        <span class="dc-metric-val">{{ $case['conv'] }}</span>
-                        <span class="dc-metric-lbl">Conversion</span>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- Trusted Clients --}}
-<div class="client-logos">
-    <div class="logo-track">
-        <span>Kata AI</span><span>The Lab</span><span>TokoCuan</span>
-        <span>NMR Brand</span><span>Azkhal</span><span>Nigaya</span>
-        <span>Animasi Studio</span><span>Yamani</span><span>Cokelat Holic</span>
-        <span>Balm Gallery</span><span>Andalusia</span><span>BFI Syariah</span>
-        {{-- Duplicate for infinite scroll --}}
-        <span>Kata AI</span><span>The Lab</span><span>TokoCuan</span>
-        <span>NMR Brand</span><span>Azkhal</span><span>Nigaya</span>
-        <span>Animasi Studio</span><span>Yamani</span><span>Cokelat Holic</span>
-        <span>Balm Gallery</span><span>Andalusia</span><span>BFI Syariah</span>
-    </div>
-</div>
-
-{{-- FAQ Section --}}
-<section class="dc-faq" id="dc-faq">
-    <div class="container">
-        <div class="reveal">
-            <span class="section-tag">FAQ</span>
-            <h2 class="section-title">Frequently Asked Questions</h2>
-        </div>
-        <div class="faq-grid reveal">
-            @php
-            $faqs = [
-                ['q' => 'Apa itu layanan Digital Campaign di diver.ent?', 'a' => 'Layanan Digital Campaign diver.ent adalah strategi pemasaran berbayar untuk meningkatkan visibilitas brand, traffic, dan penjualan melalui platform seperti Meta Ads, TikTok Ads, dan Google Ads.'],
-                ['q' => 'Bagaimana cara kerja layanan iklan di diver.ent?', 'a' => 'Kami memulai dengan memahami target market Anda, menyusun strategi kampanye yang paling relevan, membuat materi iklan, menjalankan campaign, dan terus mengoptimalkannya agar hasil maksimal.'],
-                ['q' => 'Apakah saya perlu menyiapkan materi iklan sendiri?', 'a' => 'Tidak harus. Tim diver.ent dapat membantu mulai dari pembuatan konsep, copywriting, hingga desain atau video ads. Jika Anda sudah memiliki materi, kami juga bisa langsung mengoptimalkan.'],
-                ['q' => 'Apakah ada minimum budget iklan?', 'a' => 'Ya, minimum budget iklan tiap platform adalah Rp 500.000/bulan untuk Meta Ads, TikTok Ads, dan Google Ads.'],
-                ['q' => 'Apakah saya bisa melihat hasil dan performa iklan?', 'a' => 'Tentu. Kami menyediakan laporan performa mingguan/bulanan yang meliputi metrik utama seperti CTR, CPC, CPM, ROAS, dan jumlah leads atau konversi.'],
-                ['q' => 'Berapa lama waktu untuk melihat hasilnya?', 'a' => 'Hasil awal biasanya bisa terlihat dalam 3–7 hari, namun optimasi maksimal biasanya terjadi dalam 2–4 minggu tergantung pada platform dan objektif iklan.'],
-            ];
-            @endphp
-            @foreach($faqs as $index => $faq)
-            <div class="faq-item" id="faq-{{ $index }}">
-                <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-                    <span>{{ $faq['q'] }}</span>
-                    <span class="faq-toggle">+</span>
-                </button>
-                <div class="faq-answer">
-                    <p>{{ $faq['a'] }}</p>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- CTA Bottom --}}
-<section class="cta-bottom" id="dc-cta">
-    <div class="container reveal">
-        <span class="section-tag">Mulai Sekarang</span>
-        <h2 class="section-title">Siap Tingkatkan Penjualan dengan Digital Ads?</h2>
-        <p class="section-desc">Konsultasikan kebutuhan iklan digital bisnis Anda. Gratis, tanpa komitmen.</p>
-        <div class="hero-ctas">
-            <a href="https://wa.me/6281234567890?text=Halo%20diver.ent%2C%20saya%20ingin%20konsultasi%20Digital%20Campaign" target="_blank" class="btn-primary">Konsultasi Gratis →</a>
-            <a href="/" class="btn-outline">Kembali ke Home</a>
-        </div>
-    </div>
-</section>
-
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow-x: hidden; }
+.container { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+.smm-hero { padding: 100px 0 60px; background: var(--bg); position: relative; }
+.hero-tag { display: inline-block; background: rgba(59,130,255,0.1); color: var(--accent); padding: 6px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 600; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
+.smm-hero h1 { font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; font-family: var(--font-display); letter-spacing: -0.02em; }
+.highlight { color: var(--accent); position: relative; display: inline-block; }
+.smm-hero p { font-size: 1rem; color: var(--text-secondary); max-width: 550px; margin-bottom: 2rem; line-height: 1.6; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.breadcrumb-nav { margin-bottom: 1.5rem; font-size: 0.8rem; color: var(--text-secondary); }
+.breadcrumb-nav a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+.breadcrumb-nav a:hover { color: var(--accent); }
+.breadcrumb-nav span { margin: 0 8px; }
+.breadcrumb-nav .active { color: var(--accent); }
+.smm-stats-bar { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1rem 0; margin-bottom: 60px; width: 100%; }
+.stats-row { display: flex; justify-content: center; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
+.stat-pill { font-size: 0.85rem; color: var(--text-secondary); letter-spacing: 0.3px; }
+.stat-pill strong { color: var(--accent); font-size: 1rem; font-weight: 700; }
+.stat-divider { color: var(--border); opacity: 0.5; }
+.smm-features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 60px; }
+.section-tag { display: inline-block; background: rgba(59,130,255,0.1); color: var(--accent); padding: 4px 12px; border-radius: 30px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.8px; margin-bottom: 1rem; text-transform: uppercase; }
+.section-title { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; font-family: var(--font-display); letter-spacing: -0.02em; line-height: 1.25; }
+.section-desc { color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.95rem; }
+.smm-checklist { display: flex; flex-direction: column; gap: 0.75rem; }
+.check-item { display: flex; align-items: flex-start; gap: 10px; }
+.check-icon { color: var(--accent); font-weight: bold; font-size: 1rem; }
+.smm-visual-card { background: var(--surface); border-radius: 24px; border: 1px solid var(--border); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.smm-visual-card:hover { transform: translateY(-4px); box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1); }
+.visual-mockup { overflow: hidden; }
+.mockup-header { background: var(--surface-alt); padding: 12px 16px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+.mockup-body { padding: 28px; background: var(--surface); }
+.mockup-stat-row { display: flex; gap: 24px; margin-bottom: 24px; }
+.mockup-stat { flex: 1; }
+.ms-label { font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 500; }
+.ms-value { display: block; font-size: 1.4rem; font-weight: 700; color: var(--accent); margin: 6px 0 10px; }
+.ms-bar { background: var(--border); border-radius: 20px; height: 4px; overflow: hidden; }
+.ms-fill { background: var(--accent); height: 100%; border-radius: 20px; }
+.smm-platforms { padding: 60px 0; background: var(--surface); width: 100%; }
+.platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.platform-card { background: var(--bg); border-radius: 20px; padding: 2rem 1.8rem; transition: all 0.3s ease; border: 1px solid var(--border); position: relative; text-align: center; cursor: pointer; }
+.platform-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 12px 30px -10px rgba(0,0,0,0.08); }
+.platform-icon { font-size: 2.5rem; margin-bottom: 1.2rem; display: inline-block; color: var(--accent); }
+.platform-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; font-weight: 600; }
+.platform-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; }
+.dc-budget { display: inline-block; font-size: 0.7rem; color: var(--accent); font-weight: 600; background: rgba(59,130,255,0.1); padding: 4px 12px; border-radius: 30px; }
+.service-badge { position: absolute; top: -10px; right: 20px; background: var(--accent); color: #000; font-size: 0.6rem; font-weight: 700; padding: 4px 14px; border-radius: 30px; text-transform: uppercase; letter-spacing: 0.5px; }
+.smm-process { padding: 60px 0; background: var(--bg); width: 100%; }
+.process-grid { display: flex; justify-content: center; align-items: stretch; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.process-card { background: var(--surface); border-radius: 20px; padding: 2rem; text-align: center; flex: 1; min-width: 240px; border: 1px solid var(--border); transition: all 0.3s ease; }
+.process-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.process-number { font-size: 2.2rem; font-weight: 800; color: var(--accent); opacity: 0.4; margin-bottom: 0.75rem; font-family: monospace; letter-spacing: 2px; }
+.process-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; font-weight: 600; }
+.process-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; }
+.process-connector { font-size: 1.2rem; color: var(--accent); display: flex; align-items: center; opacity: 0.4; font-weight: 300; }
+.smm-why { padding: 60px 0; background: var(--surface); width: 100%; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; margin-top: 2rem; }
+.why-card { background: var(--bg); border-radius: 20px; padding: 2rem 1.8rem; transition: all 0.3s ease; border: 1px solid var(--border); text-align: center; cursor: pointer; }
+.why-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 12px 30px -10px rgba(0,0,0,0.08); }
+.why-icon { font-size: 2.2rem; margin-bottom: 1rem; display: inline-block; color: var(--accent); }
+.why-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; font-weight: 600; }
+.why-card p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; }
+.case-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; margin-top: 2rem; }
+.case-card { background: var(--bg); border-radius: 20px; padding: 1.8rem; border: 1px solid var(--border); transition: all 0.3s ease; cursor: pointer; }
+.case-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 30px -10px rgba(0,0,0,0.08); }
+.case-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+.case-client { font-weight: 700; font-size: 1rem; color: var(--accent); letter-spacing: -0.2px; }
+.case-result { font-weight: 600; font-size: 0.7rem; background: rgba(59,130,255,0.1); padding: 4px 12px; border-radius: 30px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+.case-desc { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.2rem; }
+.case-metrics { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.case-metric { flex: 1; text-align: center; }
+.cm-label { font-size: 0.6rem; color: var(--text-secondary); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.cm-value { font-size: 1rem; font-weight: 700; color: var(--accent); }
+.dc-faq { padding: 60px 0; background: var(--bg); width: 100%; }
+.faq-grid { max-width: 800px; margin: 2rem auto 0; }
+.faq-item { background: var(--surface); border-radius: 16px; margin-bottom: 1rem; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s ease; }
+.faq-item:hover { border-color: var(--accent); }
+.faq-question { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.5rem; background: transparent; border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: var(--text); transition: color 0.2s; }
+.faq-question:hover { color: var(--accent); }
+.faq-toggle { font-size: 1.1rem; transition: transform 0.3s; font-weight: 400; }
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 1.5rem; }
+.faq-item.open .faq-answer { max-height: 180px; padding: 0 1.5rem 1.2rem; }
+.faq-answer p { color: var(--text-secondary); line-height: 1.65; font-size: 0.85rem; }
+.cta-bottom { padding: 70px 0; text-align: center; background: linear-gradient(135deg, var(--surface), var(--bg)); width: 100%; border-top: 1px solid var(--border); }
+.cta-bottom .section-title { max-width: 600px; margin-left: auto; margin-right: auto; }
+.cta-bottom .section-desc { margin-left: auto; margin-right: auto; max-width: 500px; }
+.btn-primary { background: var(--accent); color: #000; padding: 12px 32px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; }
+.btn-primary:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 8px 20px rgba(59,130,255,0.2); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 12px 32px; border-radius: 40px; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.3s ease; cursor: pointer; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+@media (max-width: 1200px) { .why-grid, .case-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 992px) { .smm-features-grid { grid-template-columns: 1fr; gap: 2rem; } .process-connector { display: none; } .process-grid { flex-direction: column; } .process-card { width: 100%; } .container { padding: 0 32px; } .why-grid, .case-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .smm-hero { padding: 80px 0 40px; } .smm-hero h1 { font-size: 2rem; } .section-title { font-size: 1.5rem; } .hero-ctas { flex-direction: column; align-items: stretch; } .btn-primary, .btn-outline { justify-content: center; } .stats-row { gap: 1rem; } .container { padding: 0 20px; } .why-grid, .case-grid { grid-template-columns: 1fr; } .platform-grid { grid-template-columns: 1fr; } }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+</style>
+<section class="smm-hero"><div class="container"><div class="smm-hero-content reveal"><nav class="breadcrumb-nav"><a href="/">Home</a><span>/</span><a href="/#services">Services</a><span>/</span><span class="active">Digital Campaign</span></nav><span class="hero-tag">Certified Ads Partner</span><h1>Jasa <span class="highlight">Digital Campaign</span> & Ads</h1><p>Tingkatkan penjualan dan popularitas brand Anda melalui iklan digital di Meta Ads, Google Ads, dan TikTok Ads. Strategi berbasis data, konten kreatif, dan optimasi berkelanjutan.</p><div class="hero-ctas"><a href="#dc-benefits" class="btn-primary">Keuntungan Iklan</a><a href="#dc-platforms" class="btn-outline">Lihat Platform</a></div></div></div></section>
+<div class="smm-stats-bar"><div class="container"><div class="stats-row reveal"><div class="stat-pill"><strong>500+</strong> Campaigns</div><div class="stat-divider">•</div><div class="stat-pill"><strong>Google</strong> Certified</div><div class="stat-divider">•</div><div class="stat-pill"><strong>Meta</strong> Certified</div><div class="stat-divider">•</div><div class="stat-pill"><strong>TikTok</strong> Partner</div></div></div></div>
+<section class="smm-features"><div class="container"><div class="smm-features-grid"><div class="smm-features-text reveal"><span class="section-tag">Why Digital Campaign</span><h2 class="section-title">Tingkatkan Penjualan & <span class="highlight">Popularitas Brand</span></h2><p class="section-desc">Kami merancang, menjalankan, dan mengoptimasi kampanye iklan digital agar brand Anda menjangkau lebih banyak audiens dan menghasilkan konversi maksimal.</p><div class="smm-checklist"><div class="check-item"><span class="check-icon">—</span><p><strong>Strategi iklan digital terbaik</strong> agar brand Anda menjangkau lebih banyak audiens.</p></div><div class="check-item"><span class="check-icon">—</span><p>Membuat <strong>konten iklan kreatif</strong> agar campaign lebih menonjol dan efektif.</p></div><div class="check-item"><span class="check-icon">—</span><p><strong>Optimasi iklan berjalan</strong> untuk konversi tinggi dengan laporan transparan.</p></div></div></div><div class="smm-features-visual reveal"><div class="smm-visual-card"><div class="visual-mockup"><div class="mockup-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div><div class="mockup-body"><div class="mockup-stat-row"><div class="mockup-stat"><span class="ms-label">CTR</span><span class="ms-value">4.8%</span><div class="ms-bar"><div class="ms-fill" style="width:80%"></div></div></div><div class="mockup-stat"><span class="ms-label">ROAS</span><span class="ms-value">5.2x</span><div class="ms-bar"><div class="ms-fill" style="width:90%"></div></div></div></div><div class="mockup-stat-row"><div class="mockup-stat"><span class="ms-label">CPC</span><span class="ms-value">Rp 850</span><div class="ms-bar"><div class="ms-fill" style="width:65%"></div></div></div><div class="mockup-stat"><span class="ms-label">Conversions</span><span class="ms-value">+320%</span><div class="ms-bar"><div class="ms-fill" style="width:85%"></div></div></div></div></div></div></div></div></div></div></section>
+<section class="smm-platforms" id="dc-platforms"><div class="container"><div class="reveal"><span class="section-tag">Ad Platforms</span><h2 class="section-title">Pilihan Platform Digital Ads</h2><p class="section-desc">Kami mengelola kampanye iklan di berbagai platform untuk menjangkau audiens yang tepat.</p></div><div class="platform-grid reveal">@php $platforms = [['icon' => 'fab fa-facebook', 'name' => 'Meta Ads', 'badge' => 'Best Seller', 'desc' => 'Jangkau audiens di Facebook & Instagram dengan targeting presisi berdasarkan demografi, minat, dan perilaku.', 'budget' => 'Min. Rp 500.000/bulan'],['icon' => 'fab fa-tiktok', 'name' => 'TikTok Ads', 'badge' => 'Trending', 'desc' => 'Manfaatkan platform dengan pertumbuhan tercepat untuk menjangkau generasi muda yang dinamis.', 'budget' => 'Min. Rp 500.000/bulan'],['icon' => 'fab fa-google', 'name' => 'Google Ads', 'badge' => 'Top Choice', 'desc' => 'Tampilkan bisnis Anda di halaman pertama Google saat calon pelanggan mencari produk atau jasa Anda.', 'budget' => 'Min. Rp 500.000/bulan'],['icon' => 'fab fa-youtube', 'name' => 'YouTube Ads', 'badge' => '', 'desc' => 'Video ads yang ditampilkan sebelum atau selama konten YouTube untuk meningkatkan awareness brand.', 'budget' => 'Budget fleksibel'],['icon' => 'fas fa-store', 'name' => 'Marketplace Ads', 'badge' => '', 'desc' => 'Promosikan produk di Shopee, Tokopedia, dan marketplace lainnya untuk meningkatkan penjualan.', 'budget' => 'Budget fleksibel'],['icon' => 'fab fa-linkedin', 'name' => 'LinkedIn Ads', 'badge' => '', 'desc' => 'Platform terbaik untuk B2B marketing, lead generation, dan recruitment campaign profesional.', 'budget' => 'Budget fleksibel']]; @endphp @foreach($platforms as $p)<div class="platform-card">@if($p['badge'])<span class="service-badge">{{ $p['badge'] }}</span>@endif<i class="{{ $p['icon'] }} platform-icon"></i><h3>{{ $p['name'] }}</h3><p>{{ $p['desc'] }}</p><span class="dc-budget">{{ $p['budget'] }}</span></div>@endforeach</div></div></section>
+<section class="smm-process"><div class="container"><div class="reveal"><span class="section-tag">How It Works</span><h2 class="section-title">Proses Kampanye Iklan</h2><p class="section-desc">Alur kerja yang terstruktur untuk hasil kampanye yang optimal.</p></div><div class="process-grid reveal"><div class="process-card"><div class="process-number">01</div><h3>Analisis & Strategi</h3><p>Analisis target audiens, riset kompetitor, dan penyusunan strategi campaign yang tepat sasaran.</p></div><div class="process-connector">→</div><div class="process-card"><div class="process-number">02</div><h3>Eksekusi & Optimasi</h3><p>Pelaksanaan campaign dengan monitoring berkala dan optimasi berdasarkan data performa.</p></div><div class="process-connector">→</div><div class="process-card"><div class="process-number">03</div><h3>Reporting & Evaluasi</h3><p>Laporan transparan berisi insight dan rekomendasi untuk strategi berikutnya.</p></div></div></div></section>
+<section class="smm-why" id="dc-benefits"><div class="container"><div class="reveal"><span class="section-tag">Features & Benefits</span><h2 class="section-title">Keuntungan Iklan Dikelola <span class="highlight">diver.ent</span></h2><p class="section-desc">Setiap campaign dirancang dengan pendekatan profesional untuk hasil maksimal.</p></div><div class="why-grid reveal">@php $benefits = [['icon' => 'fas fa-chart-line', 'title' => 'Iklan Dengan Riset & Data', 'desc' => 'Setiap campaign dirancang dari riset mendalam, tren industri, dan target bisnis Anda.'],['icon' => 'fas fa-paint-brush', 'title' => 'Pembuatan Konten Iklan', 'desc' => 'Pembuatan konten iklan yang menarik sekaligus fokus mendorong hasil nyata.'],['icon' => 'fas fa-sync-alt', 'title' => 'Optimasi Berkelanjutan', 'desc' => 'Memberikan hasil analisis untuk digunakan dalam mengambil keputusan bisnis.'],['icon' => 'fas fa-chart-bar', 'title' => 'Monitoring & Evaluasi', 'desc' => 'Performa iklan dipantau berkala untuk menjaga efektivitas dan efisiensi budget.'],['icon' => 'fas fa-file-alt', 'title' => 'Laporan Transparan', 'desc' => 'Laporan rutin berisi insight jelas untuk mendukung strategi berikutnya.'],['icon' => 'fas fa-users', 'title' => 'Tim Berpengalaman', 'desc' => 'Ditangani oleh advertiser profesional bersertifikasi dengan pengalaman lintas industri.']]; @endphp @foreach($benefits as $b)<div class="why-card"><i class="{{ $b['icon'] }} why-icon"></i><h3>{{ $b['title'] }}</h3><p>{{ $b['desc'] }}</p></div>@endforeach</div></div></section>
+<section class="smm-why"><div class="container"><div class="reveal"><span class="section-tag">Case Studies</span><h2 class="section-title">Dari Traffic ke Penjualan</h2><p class="section-desc">Semua lewat iklan digital yang terukur dan teroptimasi.</p></div><div class="case-grid reveal">@php $cases = [['client' => 'E-Commerce Brand', 'campaign' => 'Meta Ads + Google Ads', 'desc' => 'Campaign untuk meningkatkan traffic dan penjualan melalui Instagram Ads dan Google Search Ads.', 'roas' => '5.2x', 'ctr' => '4.8%', 'conv' => '+320%'],['client' => 'Education Platform', 'campaign' => 'Google Ads', 'desc' => 'Campaign untuk promosi pendaftaran webinar dan kelas offline melalui Google Ads.', 'roas' => '3.8x', 'ctr' => '6.2%', 'conv' => '+210%'],['client' => 'F&B Restaurant', 'campaign' => 'Meta Ads + TikTok Ads', 'desc' => 'Pembuatan konten dan optimasi iklan untuk meningkatkan kunjungan dan brand awareness.', 'roas' => '4.5x', 'ctr' => '5.1%', 'conv' => '+275%']]; @endphp @foreach($cases as $c)<div class="case-card"><div class="case-header"><span class="case-client">{{ $c['client'] }}</span><span class="case-result">{{ $c['campaign'] }}</span></div><p class="case-desc">{{ $c['desc'] }}</p><div class="case-metrics"><div class="case-metric"><span class="cm-label">ROAS</span><span class="cm-value">{{ $c['roas'] }}</span></div><div class="case-metric"><span class="cm-label">CTR</span><span class="cm-value">{{ $c['ctr'] }}</span></div><div class="case-metric"><span class="cm-label">Conversion</span><span class="cm-value">{{ $c['conv'] }}</span></div></div></div>@endforeach</div></div></section>
+<section class="dc-faq" id="dc-faq"><div class="container"><div class="reveal"><span class="section-tag">FAQ</span><h2 class="section-title">Pertanyaan Umum</h2><p class="section-desc">Informasi yang sering ditanyakan tentang layanan digital campaign kami.</p></div><div class="faq-grid reveal">@php $faqs = [['q' => 'Apa itu layanan Digital Campaign di diver.ent?', 'a' => 'Layanan Digital Campaign diver.ent adalah strategi pemasaran berbayar untuk meningkatkan visibilitas brand, traffic, dan penjualan melalui platform seperti Meta Ads, TikTok Ads, dan Google Ads.'],['q' => 'Bagaimana cara kerja layanan iklan di diver.ent?', 'a' => 'Kami memulai dengan memahami target market Anda, menyusun strategi kampanye yang paling relevan, membuat materi iklan, menjalankan campaign, dan terus mengoptimalkannya.'],['q' => 'Apakah saya perlu menyiapkan materi iklan sendiri?', 'a' => 'Tidak harus. Tim diver.ent dapat membantu mulai dari pembuatan konsep, copywriting, hingga desain atau video ads.'],['q' => 'Apakah ada minimum budget iklan?', 'a' => 'Ya, minimum budget iklan tiap platform adalah Rp 500.000 per bulan untuk Meta Ads, TikTok Ads, dan Google Ads.'],['q' => 'Apakah saya bisa melihat hasil dan performa iklan?', 'a' => 'Tentu. Kami menyediakan laporan performa mingguan atau bulanan yang meliputi metrik utama seperti CTR, CPC, CPM, ROAS, dan jumlah leads.'],['q' => 'Berapa lama waktu untuk melihat hasilnya?', 'a' => 'Hasil awal biasanya terlihat dalam 3 hingga 7 hari, optimasi maksimal dalam 2 hingga 4 minggu.']]; @endphp @foreach($faqs as $faq)<div class="faq-item"><button class="faq-question" onclick="this.parentElement.classList.toggle('open')"><span>{{ $faq['q'] }}</span><span class="faq-toggle">+</span></button><div class="faq-answer"><p>{{ $faq['a'] }}</p></div></div>@endforeach</div></div></section>
+<section class="cta-bottom"><div class="container reveal"><span class="section-tag">Start Now</span><h2 class="section-title">Siap Tingkatkan Penjualan dengan Digital Ads?</h2><p class="section-desc">Konsultasikan kebutuhan iklan digital bisnis Anda. Gratis, tanpa komitmen.</p><div class="hero-ctas" style="justify-content: center;"><a href="https://wa.me/6281234567890" target="_blank" class="btn-primary">Konsultasi Gratis</a><a href="/" class="btn-outline">Kembali ke Home</a></div></div></section>
 @include('partials.component.footer')
 @include('partials.component.modals')
-
+<script>const reveals=document.querySelectorAll('.reveal');function reveal(){reveals.forEach(el=>{const windowHeight=window.innerHeight;const revealTop=el.getBoundingClientRect().top;const revealPoint=100;if(revealTop<windowHeight-revealPoint){el.classList.add('active');}});}window.addEventListener('scroll',reveal);window.addEventListener('load',reveal);document.querySelectorAll('.faq-item').forEach(item=>{const question=item.querySelector('.faq-question');question.addEventListener('click',()=>{item.classList.toggle('open');});});</script>
 @endsection

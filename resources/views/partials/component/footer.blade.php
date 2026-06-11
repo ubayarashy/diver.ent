@@ -30,9 +30,9 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="https://wa.me/6281234567890" target="_blank">📱 +62 812-3456-7890</a>
-                <a href="mailto:hello@diverent.co.id">✉️ hello@diverent.co.id</a>
-                <p style="margin-top:8px;">📍 Medan, Sumatera Utara, Indonesia</p>
+                <a href="https://wa.me/6281234567890" target="_blank"> +62 812-3456-7890</a>
+                <a href="mailto:hello@diverent.co.id">hello@diverent.co.id</a>
+                <p style="margin-top:8px;"> Medan, Sumatera Utara, Indonesia</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -47,6 +47,3 @@
     </div>
 </footer>
 
-{{-- Floating Widgets --}}
-<div class="wa-float" id="wa-float" aria-label="Chat via WhatsApp">💬</div>
-<div class="chat-widget" aria-label="Live Chat">🗨️</div>
