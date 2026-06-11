@@ -84,6 +84,7 @@
                         <th>Kategori</th>
                         <th>Budget</th>
                         <th>Tanggal</th>
+                        <th>Contact</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -96,6 +97,7 @@
                             <div class="client-info">
                                 <strong>{{ $brief->user->name ?? 'Unknown' }}</strong>
                                 <small>{{ $brief->user->email ?? '-' }}</small>
+                                <small>{{ $brief->user->contact ?? '-' }}</small>
                             </div>
                         </td>
                         <td class="project-name">{{ $brief->project_name }}</td>
@@ -114,6 +116,7 @@
                             @endif
                         </td>
                         <td>{{ $brief->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $brief->user->phone ?? '-' }}</td>
                         <td>
                             <select class="status-select" data-id="{{ $brief->id }}" data-status="{{ $brief->status }}">
                                 <option value="pending" {{ $brief->status == 'pending' ? 'selected' : '' }}>⏳ Menunggu</option>
@@ -121,7 +124,7 @@
                                 <option value="approved" {{ $brief->status == 'approved' ? 'selected' : '' }}>✅ Disetujui</option>
                                 <option value="rejected" {{ $brief->status == 'rejected' ? 'selected' : '' }}>❌ Ditolak</option>
                             </select>
-                         </td>
+                        </td>
                         <td>
                             <div class="action-buttons">
                                 <button class="btn-view" onclick="viewBrief({{ $brief->id }})" title="Detail">

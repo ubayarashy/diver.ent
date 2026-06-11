@@ -84,6 +84,10 @@
                         <label>Timeline / Deadline</label>
                         <input type="text" id="timeline" placeholder="Contoh: 2 minggu, 1 bulan, flexible">
                     </div>
+                       <div class="form-group">
+                        <label>Contact Information <span class="required">*</span></label>
+                        <input type="text" id="contact" placeholder="Contoh: +62xxxxxxxxxx">
+                    </div>            
                 </div>
 
                 <!-- STEP 3: Budget -->
@@ -92,7 +96,7 @@
                         <label>Estimasi Budget</label>
                         <div class="budget-wrapper">
                             <span class="budget-prefix">Rp</span>
-                            <input type="text" id="budget" placeholder="1.000.000" oninput="formatRupiah(this)">
+                            <input type="number" id="budget" placeholder="1.000.000" oninput="formatRupiah(this)">
                         </div>
                         <p class="form-hint">Kosongkan jika belum tahu</p>
                     </div>
@@ -122,6 +126,10 @@
                         <div class="summary-item">
                             <span class="summary-label">Timeline</span>
                             <span class="summary-value" id="summaryTimeline">—</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Contact</span>
+                            <span class="summary-value" id="summaryContact">—</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-label">Budget</span>
@@ -577,8 +585,8 @@ input:focus, textarea:focus {
         let desc = document.getElementById('description').value || '—';
         document.getElementById('summaryDesc').innerText = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
         document.getElementById('summaryTimeline').innerText = document.getElementById('timeline').value || '—';
-        const budgetRaw = document.getElementById('budget').value;
-        document.getElementById('summaryBudget').innerText = budgetRaw ? 'Rp ' + budgetRaw : '—';
+        const contactRaw = document.getElementByID('contact').value;
+        document.getElementById('summaryBudget').innerText = document.getElementById('budget').value ? 'Rp ' + document.getElementById('budget').value : '—';
         document.getElementById('summaryReference').innerText = document.getElementById('reference_link').value || '—';
     }
 
@@ -714,6 +722,7 @@ input:focus, textarea:focus {
     document.getElementById('timeline').addEventListener('input', updateSummary);
     document.getElementById('budget').addEventListener('input', updateSummary);
     document.getElementById('reference_link').addEventListener('input', updateSummary);
+    document.getElementById('contact').addEventListener('input', updateSummary);
 
     function closeLogoutModal() {
         document.getElementById('logout-modal').style.display = 'none';
