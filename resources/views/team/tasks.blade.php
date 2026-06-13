@@ -1,16 +1,14 @@
 @extends('layouts.app')
-
 @section('content')
 @include('partials.team.navbar')
 
 <div class="team-main">
     <div class="team-content">
         <div class="page-header">
-            <h1><i class="fas fa-tasks"></i> My Tasks</h1>
+            <h1>My Tasks</h1>
             <p>Daftar semua task yang ditugaskan kepada Anda</p>
         </div>
 
-        <!-- Filter Status -->
         <div class="filter-section">
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">Semua</button>
@@ -84,7 +82,7 @@
                             @else
                                 -
                             @endif
-                         </td>
+                        </td>
                         <td>
                             <div class="action-buttons">
                                 <a href="{{ route('team.task.detail', $task->id) }}" class="btn-detail" title="Detail">
@@ -94,7 +92,7 @@
                                     <i class="fas fa-play"></i>
                                 </button>
                             </div>
-                         </td>
+                        </td>
                     </tr>
                     @empty
                     <tr>
@@ -108,9 +106,34 @@
             </table>
         </div>
 
-        <div class="pagination">
-            {{ $tasks->links() }}
+        @if($tasks->hasPages())
+        <div class="pagination-container">
+            <div class="pagination-info">
+                Menampilkan {{ $tasks->firstItem() }} - {{ $tasks->lastItem() }} dari {{ $tasks->total() }} data
+            </div>
+            <div class="pagination">
+                @if ($tasks->onFirstPage())
+                    <span class="page-link disabled"><i class="fas fa-chevron-left"></i></span>
+                @else
+                    <a href="{{ $tasks->previousPageUrl() }}" class="page-link"><i class="fas fa-chevron-left"></i></a>
+                @endif
+
+                @foreach ($tasks->getUrlRange(1, $tasks->lastPage()) as $page => $url)
+                    @if ($page == $tasks->currentPage())
+                        <span class="page-link active">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" class="page-link">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($tasks->hasMorePages())
+                    <a href="{{ $tasks->nextPageUrl() }}" class="page-link"><i class="fas fa-chevron-right"></i></a>
+                @else
+                    <span class="page-link disabled"><i class="fas fa-chevron-right"></i></span>
+                @endif
+            </div>
         </div>
+        @endif
     </div>
 </div>
 
@@ -118,21 +141,24 @@
 .team-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 20px;
+    background: var(--bg);
 }
 
 .team-content {
-    padding: 24px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 40px;
 }
 
 .page-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .page-header h1 {
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     margin-bottom: 6px;
 }
 
@@ -141,7 +167,6 @@
     font-size: 0.85rem;
 }
 
-/* Filter Section */
 .filter-section {
     display: flex;
     justify-content: space-between;
@@ -160,12 +185,13 @@
 .filter-btn {
     background: transparent;
     border: 1px solid var(--border);
-    padding: 6px 16px;
+    padding: 6px 18px;
     border-radius: 40px;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     font-size: 0.75rem;
+    font-weight: 500;
 }
 
 .filter-btn:hover, .filter-btn.active {
@@ -180,12 +206,13 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 40px;
-    padding: 6px 16px;
+    padding: 6px 18px;
 }
 
 .search-box i {
     color: var(--text-secondary);
     margin-right: 8px;
+    font-size: 0.8rem;
 }
 
 .search-box input {
@@ -194,10 +221,9 @@
     color: var(--text);
     outline: none;
     font-size: 0.8rem;
-    width: 200px;
+    width: 220px;
 }
 
-/* Tasks Table */
 .tasks-table {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -208,6 +234,7 @@
 .data-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 800px;
 }
 
 .data-table th,
@@ -218,9 +245,12 @@
 }
 
 .data-table th {
-    background: rgba(59, 130, 255, 0.05);
+    background: rgba(59, 130, 255, 0.03);
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
 }
 
 .data-table tr:hover td {
@@ -229,82 +259,40 @@
 
 .task-desc {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
     margin-top: 4px;
 }
 
-/* Status Badges */
-.badge-pending {
-    background: rgba(245, 158, 11, 0.1);
-    color: #f59e0b;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.badge-in_progress {
-    background: rgba(59, 130, 255, 0.1);
-    color: #3b82f6;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.badge-review {
-    background: rgba(139, 92, 246, 0.1);
-    color: #8b5cf6;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.badge-revision {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
+.badge-pending,
+.badge-in_progress,
+.badge-review,
+.badge-revision,
 .badge-completed {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
 }
 
-/* Progress Bar */
+.badge-pending { background: rgba(245, 158, 11, 0.12); color: #f59e0b; }
+.badge-in_progress { background: rgba(59, 130, 255, 0.12); color: var(--accent); }
+.badge-review { background: rgba(139, 92, 246, 0.12); color: #8b5cf6; }
+.badge-revision { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.badge-completed { background: rgba(16, 185, 129, 0.12); color: #10b981; }
+
 .progress-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .progress-bar {
     width: 80px;
-    height: 6px;
+    height: 5px;
     background: var(--border);
     border-radius: 3px;
     overflow: hidden;
@@ -320,15 +308,15 @@
 .progress-text {
     font-size: 0.7rem;
     color: var(--text-secondary);
+    min-width: 35px;
 }
 
-/* Deadline */
 .deadline {
     font-size: 0.75rem;
     color: var(--text-secondary);
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .deadline-overdue {
@@ -336,29 +324,34 @@
 }
 
 .overdue-badge {
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.12);
     color: #ef4444;
-    padding: 2px 6px;
-    border-radius: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
     font-size: 0.6rem;
-    margin-left: 6px;
+    font-weight: 500;
+    margin-left: 4px;
 }
 
-/* Action Buttons */
 .action-buttons {
     display: flex;
     gap: 8px;
 }
 
 .btn-detail, .btn-start {
-    background: rgba(59, 130, 255, 0.1);
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 255, 0.08);
     color: var(--accent);
-    padding: 6px 10px;
     border-radius: 8px;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
 }
 
 .btn-detail:hover, .btn-start:hover {
@@ -367,11 +360,11 @@
 }
 
 .btn-start:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
-/* Empty State */
 .empty-table {
     text-align: center;
     padding: 60px !important;
@@ -381,27 +374,83 @@
 .empty-table i {
     font-size: 3rem;
     margin-bottom: 12px;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 .empty-table p {
     font-size: 0.85rem;
 }
 
-/* Pagination */
-.pagination {
-    margin-top: 24px;
+.pagination-container {
+    margin-top: 28px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+.pagination-info {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.page-link.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.page-link.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none;
+}
+
+@media (max-width: 992px) {
     .team-main {
         margin-left: 0;
     }
     .team-content {
-        padding: 16px 20px;
+        padding: 24px 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-content {
+        padding: 20px;
     }
     .filter-section {
         flex-direction: column;
@@ -410,6 +459,10 @@
     .search-box input {
         width: 100%;
     }
+    .pagination-container {
+        flex-direction: column;
+        align-items: center;
+    }
     .data-table th,
     .data-table td {
         padding: 10px 12px;
@@ -417,12 +470,16 @@
     }
     .action-buttons {
         flex-direction: column;
+        gap: 4px;
+    }
+    .btn-detail, .btn-start {
+        width: 28px;
+        height: 28px;
     }
 }
 </style>
 
 <script>
-    // Filter by status
     const filterButtons = document.querySelectorAll('.filter-btn');
     const searchInput = document.getElementById('searchTask');
     const tableRows = document.querySelectorAll('#tasksTableBody tr');
@@ -433,7 +490,7 @@
         const search = searchInput ? searchInput.value.toLowerCase() : '';
         
         tableRows.forEach(row => {
-            if (row.querySelector('td')) {
+            if (row.querySelector('td') && !row.querySelector('.empty-table')) {
                 const rowStatus = row.getAttribute('data-status');
                 const taskName = row.querySelector('td:first-child strong')?.innerText.toLowerCase() || '';
                 const projectName = row.querySelector('td:nth-child(2)')?.innerText.toLowerCase() || '';
@@ -458,7 +515,6 @@
         searchInput.addEventListener('keyup', filterTable);
     }
     
-    // Update task status via AJAX
     async function updateTaskStatus(taskId, status) {
         try {
             const response = await fetch(`/team/task/${taskId}/status`, {
@@ -484,11 +540,13 @@
     function showToast(message, type) {
         const toast = document.createElement('div');
         toast.style.cssText = `
-            position: fixed; bottom: 20px; right: 20px;
+            position: fixed; bottom: 24px; right: 24px;
             background: ${type === 'success' ? '#10b981' : '#ef4444'};
             color: white; padding: 12px 20px;
             border-radius: 12px; z-index: 9999;
+            font-size: 0.85rem;
             animation: fadeIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         `;
         toast.innerHTML = message;
         document.body.appendChild(toast);

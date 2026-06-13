@@ -100,6 +100,15 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
         // ==================== DASHBOARD ====================
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
+        // ==================== USER MANAGEMENT (TAMBAHKAN INI) ====================
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
+        Route::post('/users/store', [AdminController::class, 'storeUser'])->name('users.store');
+        Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+        Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
+        Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
+        Route::get('/users/{id}', [AdminController::class, 'showUser'])->name('users.show');
+
         // ==================== BRIEF MANAGEMENT ====================
         Route::get('/briefs', [AdminBriefController::class, 'index'])->name('briefs');
         Route::get('/briefs/{id}', [AdminBriefController::class, 'show'])->name('brief-detail');
@@ -111,6 +120,7 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
         Route::get('/payments', [AdminController::class, 'payments'])->name('payments');
         Route::post('/payments/{id}/verify', [AdminController::class, 'verifyPayment'])->name('payment.verify');
         Route::post('/payments/{id}/reject', [AdminController::class, 'rejectPayment'])->name('payment.reject');
+        Route::get('/payments/export/pdf', [AdminController::class, 'exportPaymentsPDF'])->name('payments.export-pdf');
 
         // ==================== CLIENT MANAGEMENT ====================
         Route::get('/clients', [AdminController::class, 'clients'])->name('clients');

@@ -6,8 +6,17 @@
 <div class="admin-main">
     <div class="admin-content">
         <div class="page-header">
-            <h1><i class="fas fa-money-bill-wave"></i> Manajemen Pembayaran</h1>
-            <p>Kelola verifikasi bukti pembayaran dari client</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1><i class="fas fa-money-bill-wave"></i> Manajemen Pembayaran</h1>
+                    <p>Kelola verifikasi bukti pembayaran dari client</p>
+                </div>
+                <div>
+                    <a href="{{ route('admin.payments.export-pdf') }}" class="btn-export" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- Stats -->
@@ -46,7 +55,7 @@
                         <td>{{ $payment->invoice_number }}</td>
                         <td>{{ $payment->brief->user->name ?? '-' }}</td>
                         <td>{{ $payment->brief->project_name }}</td>
-                        <td>{{ number_format($payment->amount, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($payment->amount, 0, ',', '.') }}</td>
                         <td>
                             @if($payment->payment_proof)
                                 <a href="{{ asset('storage/' . $payment->payment_proof) }}" target="_blank" class="btn-link">
@@ -99,10 +108,10 @@
 
 <style>
     .admin-main {
-    margin-left: 280px;
-    min-height: 100vh;
-    padding-top:20px;
-}
+        margin-left: 280px;
+        min-height: 100vh;
+        padding-top:20px;
+    }
     
     .admin-content {
         padding: 32px;
@@ -235,6 +244,27 @@
         gap: 6px;
     }
     
+    .btn-export {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-export:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+    
     .text-center {
         text-align: center;
     }
@@ -275,6 +305,10 @@
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+        }
+        .page-header {
+            flex-direction: column;
+            gap: 15px;
         }
     }
 </style>

@@ -10,7 +10,7 @@ class Brief extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'project_name', 'categories', 'budget', 'description', 'status','phone'
+        'user_id', 'project_name', 'categories', 'budget', 'description', 'status','contact'
     ];
 
     protected $casts = [

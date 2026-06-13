@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Brief;
 use App\Models\Payment;
@@ -61,11 +62,17 @@ class ClientAreaController extends Controller
             'target_audience' => 'nullable|string',
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Project submitted successfully! Waiting for admin review.',
-            'redirect' => route('client.projects')
+        // Simpan ke database
+        $brief = Brief::create([
+            'user_id' => Auth::id(),
+            'project_name' => $request->project_name,
+            'categories' => json_encode($request->services ?? []),
+            'budget' => $request->budget,
+            'description' => $request->custom_request,
+            'status' => 'pending',
         ]);
+
+        return redirect()->route('client.projects')->with('success', 'Project berhasil diajukan! Menunggu review admin.');
     }
 
     // ==================== MY PROJECTS ====================
@@ -99,10 +106,7 @@ class ClientAreaController extends Controller
         $brief = Brief::where('user_id', Auth::id())->findOrFail($id);
         $brief->update(['status' => 'revision']);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Revision request sent to team!'
-        ]);
+        return redirect()->back()->with('success', 'Permintaan revisi telah dikirim ke tim!');
     }
 
     public function approveProject($id)
@@ -110,10 +114,7 @@ class ClientAreaController extends Controller
         $brief = Brief::where('user_id', Auth::id())->findOrFail($id);
         $brief->update(['status' => 'waiting_approval']);
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Project approved! Proceeding to payment.'
-        ]);
+        return redirect()->back()->with('success', 'Proyek disetujui! Silakan lanjut ke pembayaran.');
     }
 
     // ==================== PAYMENTS ====================
@@ -167,10 +168,7 @@ class ClientAreaController extends Controller
             ]
         );
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment proof uploaded! Waiting for verification.'
-        ]);
+        return redirect()->route('client.payments')->with('success', 'Bukti pembayaran diupload! Menunggu verifikasi admin.');
     }
 
     public function invoices()
@@ -206,18 +204,12 @@ class ClientAreaController extends Controller
 
     public function markNotificationRead($id)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Notification marked as read'
-        ]);
+        return redirect()->back()->with('success', 'Notifikasi ditandai sudah dibaca');
     }
 
     public function markAllNotificationsRead()
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'All notifications marked as read'
-        ]);
+        return redirect()->back()->with('success', 'Semua notifikasi ditandai sudah dibaca');
     }
 
     // ==================== PROFILE ====================
@@ -236,23 +228,39 @@ class ClientAreaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
-            'company' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:500',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'current_password' => 'nullable|required_with:new_password',
+            'new_password' => 'nullable|min:6|confirmed',
         ]);
         
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'company' => $request->company,
-            'address' => $request->address,
-        ]);
+        // Update basic info
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile updated successfully!',
-            'user' => $user
-        ]);
+        // Update password jika ada
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return redirect()->back()->with('error', 'Password saat ini salah.');
+            }
+            $user->password = Hash::make($request->new_password);
+        }
+        
+        // Update foto profil
+        if ($request->hasFile('profile_photo')) {
+            // Hapus foto lama jika ada
+            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+            
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $user->profile_photo = $path;
+        }
+        
+        $user->save();
+        
+        // ✅ REDIRECT dengan flash message
+        return redirect()->route('client.profile')->with('success', 'Profil berhasil diperbarui!');
     }
 
     public function uploadProfilePicture(Request $request)
@@ -263,39 +271,29 @@ class ClientAreaController extends Controller
 
         $path = $request->file('profile_pic')->store('profile-photos', 'public');
         $user = Auth::user();
-        $user->update(['profile_photo' => $path]);
+        $user->profile_photo = $path;
+        $user->save();
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile picture updated!',
-            'photo_url' => asset('storage/' . $path)
-        ]);
+        return redirect()->route('client.profile')->with('success', 'Foto profil berhasil diperbarui!');
     }
 
     public function changePassword(Request $request)
     {
         $request->validate([
             'current_password' => 'required|string',
-            'new_password' => 'required|string|min:8|confirmed',
+            'new_password' => 'required|string|min:6|confirmed',
         ]);
         
         $user = Auth::user();
         
         if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Current password is incorrect'
-            ], 422);
+            return redirect()->back()->with('error', 'Password saat ini salah.');
         }
         
-        $user->update([
-            'password' => Hash::make($request->new_password)
-        ]);
+        $user->password = Hash::make($request->new_password);
+        $user->save();
         
-        return response()->json([
-            'success' => true,
-            'message' => 'Password changed successfully!'
-        ]);
+        return redirect()->route('client.profile')->with('success', 'Password berhasil diubah!');
     }
 
     // ==================== LOGOUT ====================
@@ -306,7 +304,7 @@ class ClientAreaController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect('/')->with('success', 'You have been logged out');
+        return redirect('/')->with('success', 'Anda telah logout');
     }
 
     // ==================== PRIVATE METHODS ====================

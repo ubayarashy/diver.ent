@@ -38,6 +38,16 @@
         overflow: hidden;
     }
 
+    /* Light mode background */
+    [data-theme="light"] .hero {
+        background: linear-gradient(135deg, #FBF9FB 0%, #F0F4F8 100%);
+    }
+
+    /* Dark mode background */
+    [data-theme="dark"] .hero {
+        background: linear-gradient(135deg, #07111F 0%, #0A192F 100%);
+    }
+
     .hero::before {
         content: '';
         position: absolute;
@@ -45,7 +55,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(ellipse at 30% 50%, rgba(59,130,255,0.05) 0%, transparent 70%);
+        background: radial-gradient(ellipse at 30% 50%, var(--accent) 0%, transparent 70%);
+        opacity: 0.06;
         pointer-events: none;
     }
 
@@ -59,14 +70,23 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(59, 130, 255, 0.1);
-        color: var(--accent);
         padding: 6px 16px;
         border-radius: 40px;
         font-size: 0.7rem;
         font-weight: 600;
         margin-bottom: 28px;
         letter-spacing: 0.3px;
+    }
+
+    [data-theme="light"] .hero-tag {
+        background: rgba(0, 210, 255, 0.1);
+        color: #00A3CC;
+        border: 0.5px solid rgba(0, 210, 255, 0.15);
+    }
+
+    [data-theme="dark"] .hero-tag {
+        background: rgba(0, 210, 255, 0.12);
+        color: var(--accent);
     }
 
     .hero h1 {
@@ -78,18 +98,43 @@
         letter-spacing: -1px;
     }
 
+    [data-theme="light"] .hero h1 {
+        color: #0A192F;
+    }
+
+    [data-theme="dark"] .hero h1 {
+        color: var(--text);
+    }
+
     .hero .highlight {
-        color: var(--accent);
         position: relative;
         display: inline-block;
     }
 
+    [data-theme="light"] .hero .highlight {
+        background: linear-gradient(135deg, #00D2FF, #0099CC);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    [data-theme="dark"] .hero .highlight {
+        color: var(--accent);
+    }
+
     .hero p {
         font-size: 1.05rem;
-        color: var(--text-secondary);
         margin-bottom: 36px;
         max-width: 540px;
         line-height: 1.65;
+    }
+
+    [data-theme="light"] .hero p {
+        color: #4a5568;
+    }
+
+    [data-theme="dark"] .hero p {
+        color: var(--text-secondary);
     }
 
     .hero-ctas {
@@ -100,7 +145,6 @@
     }
 
     .hero-media {
-        border-top: 1px solid var(--border);
         padding-top: 32px;
         display: flex;
         align-items: center;
@@ -108,12 +152,27 @@
         flex-wrap: wrap;
     }
 
+    [data-theme="light"] .hero-media {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] .hero-media {
+        border-top: 1px solid var(--border);
+    }
+
     .hero-media span:first-child {
-        color: var(--text-secondary);
         font-size: 0.7rem;
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1.5px;
+    }
+
+    [data-theme="light"] .hero-media span:first-child {
+        color: #718096;
+    }
+
+    [data-theme="dark"] .hero-media span:first-child {
+        color: var(--text-secondary);
     }
 
     .media-logos {
@@ -125,8 +184,17 @@
     .media-logos span {
         font-size: 0.8rem;
         font-weight: 500;
-        opacity: 0.4;
         letter-spacing: 0.5px;
+    }
+
+    [data-theme="light"] .media-logos span {
+        opacity: 0.5;
+        color: #4a5568;
+    }
+
+    [data-theme="dark"] .media-logos span {
+        opacity: 0.4;
+        color: #A7B3C2;
     }
 
     /* ========== SECTION UMUM ========== */
@@ -298,9 +366,7 @@
     .portfolio-thumb {
         width: 100%;
         height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        object-fit: cover;
         transition: transform 0.4s ease;
     }
 
@@ -465,6 +531,14 @@
         align-items: center;
         justify-content: center;
         border: 1px solid var(--border);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .about-visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     /* ========== TESTIMONIALS ========== */
@@ -695,7 +769,18 @@
         cursor: pointer;
     }
 
-    .btn-outline:hover {
+    [data-theme="light"] .btn-outline {
+        border-color: #DCE4EA;
+        color: #0A192F;
+    }
+
+    [data-theme="light"] .btn-outline:hover {
+        border-color: #00D2FF;
+        color: #00A3CC;
+        background: rgba(0, 210, 255, 0.05);
+    }
+
+    [data-theme="dark"] .btn-outline:hover {
         border-color: var(--accent);
         color: var(--accent);
         transform: translateY(-2px);
@@ -865,50 +950,6 @@
     </div>
 </section>
 
-{{-- Portfolio --}}
-<section class="portfolio-section" id="portfolio">
-    <div class="container">
-        <div class="reveal">
-            <span class="section-tag"><i class="fas fa-star"></i> Portfolio</span>
-            <h2 class="section-title">Our Best Work</h2>
-            <p class="section-desc">Lihat hasil karya terbaik kami dari berbagai industri.</p>
-        </div>
-        <div class="portfolio-filters reveal">
-            <button class="filter-btn active" data-filter="all"><i class="fas fa-fire"></i> Featured</button>
-            <button class="filter-btn" data-filter="social"><i class="fab fa-instagram"></i> Social Media</button>
-            <button class="filter-btn" data-filter="web"><i class="fas fa-globe"></i> Website & Apps</button>
-            <button class="filter-btn" data-filter="ads"><i class="fas fa-chart-line"></i> Digital Ads</button>
-            <button class="filter-btn" data-filter="brand"><i class="fas fa-palette"></i> Visual Branding</button>
-            <button class="filter-btn" data-filter="video"><i class="fas fa-video"></i> Photo & Video</button>
-        </div>
-        <div class="portfolio-grid reveal">
-            @php
-            $portfolioItems = [
-                ['name' => 'Brand Campaign Wardah', 'cat' => 'social', 'label' => 'Social Media', 'icon' => 'fab fa-instagram'],
-                ['name' => 'E-Commerce Platform', 'cat' => 'web', 'label' => 'Website', 'icon' => 'fas fa-shopping-cart'],
-                ['name' => 'Google Ads Kopi Kenangan', 'cat' => 'ads', 'label' => 'Digital Ads', 'icon' => 'fab fa-google'],
-                ['name' => 'Rebranding Erigo', 'cat' => 'brand', 'label' => 'Branding', 'icon' => 'fas fa-pen-fancy'],
-                ['name' => 'Product Video Shoot', 'cat' => 'video', 'label' => 'Video Production', 'icon' => 'fas fa-play-circle'],
-                ['name' => 'Social Media BCA', 'cat' => 'social', 'label' => 'Social Media', 'icon' => 'fab fa-facebook'],
-            ];
-            @endphp
-            @foreach($portfolioItems as $item)
-            <div class="portfolio-item" data-category="{{ $item['cat'] }}">
-                <div class="portfolio-thumb" style="background:linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
-                    <i class="{{ $item['icon'] }}" style="font-size: 48px; opacity: 0.3; color: var(--accent);"></i>
-                </div>
-                <div class="overlay">
-                    <h4>{{ $item['name'] }}</h4>
-                    <span><i class="fas fa-tag"></i> {{ $item['label'] }}</span>
-                </div>
-            </div>
-            @endforeach
-        </div>
-        <div style="text-align:center; margin-top: 48px;" class="reveal">
-            <a href="{{ route('portfolio') }}" class="btn-outline"><i class="fas fa-arrow-right"></i> See All Portfolio</a>
-        </div>
-    </div>
-</section>
 
 {{-- Services - 4 Layanan Unggulan --}}
 <section class="services-section" id="services">
@@ -977,7 +1018,7 @@
                 </div>
             </div>
             <div class="about-visual reveal">
-                <i class="fas fa-users" style="font-size: 64px; opacity: 0.1; color: var(--accent);"></i>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop" alt="diver.ent Team">
             </div>
         </div>
     </div>

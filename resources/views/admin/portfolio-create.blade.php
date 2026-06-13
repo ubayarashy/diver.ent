@@ -95,11 +95,12 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: 10px;
 }
-.admin-content {
+.admin-content{
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 32px;
-    max-width: 800px;
 }
 .page-header {
     margin-bottom: 32px;

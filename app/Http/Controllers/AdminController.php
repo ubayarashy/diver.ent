@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Barryvdh\DomPDF\Facade\Pdf; // Tambahkan ini di bagian atas
 
 class AdminController extends Controller
 {
@@ -40,13 +41,199 @@ class AdminController extends Controller
             'recentBriefs'
         ));
     }
-
+    public function exportPaymentsPDF(Request $request)
+    {
+        // Get payments with filters if needed
+        $payments = Payment::with(['brief.user', 'brief'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $pendingCount = Payment::where('status', 'pending')->count();
+        $totalRevenue = Payment::where('status', 'paid')->sum('amount');
+        
+        $data = [
+            'payments' => $payments,
+            'pendingCount' => $pendingCount,
+            'totalRevenue' => $totalRevenue,
+            'exportDate' => now()->format('d F Y H:i'),
+            'adminName' => auth()->user()->name
+        ];
+        
+        $pdf = Pdf::loadView('admin.exports.payments-pdf', $data);
+        $pdf->setPaper('A4', 'landscape');
+        
+        return $pdf->download('laporan-pembayaran-' . date('Y-m-d') . '.pdf');
+    }
     /*
     |--------------------------------------------------------------------------
     | BRIEFS
     |--------------------------------------------------------------------------
     */
+     
+    public function users(Request $request)
+    {
+        $query = User::query();
+        
+        // Filter by role
+        if ($request->has('role') && $request->role != 'all') {
+            $query->where('role', $request->role);
+        }
+        
+        // Search by name or email
+        if ($request->has('search') && $request->search) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
+        }
+        
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
+        
+        $stats = [
+            'total' => User::count(),
+            'clients' => User::where('role', 'client')->count(),
+            'admins' => User::where('role', 'admin')->count(),
+            'teams' => User::where('role', 'team')->count(),
+        ];
+        
+        return view('admin.users.index', compact('users', 'stats'));
+    }
 
+    /**
+     * Show form to create new user
+     */
+    public function createUser()
+    {
+        return view('admin.users.create');
+    }
+
+    /**
+     * Store new user in database
+     */
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'role' => 'required|in:client,admin,team',
+            'password' => 'required|string|min:6|confirmed',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ];
+        
+        // Upload profile photo
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $userData['profile_photo'] = $path;
+        }
+        
+        User::create($userData);
+        
+        return redirect()->route('admin.users')
+            ->with('success', 'User berhasil ditambahkan!');
+    }
+
+    /**
+     * Show form to edit user
+     */
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+    /**
+     * Update existing user
+     */
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'nullable|string|max:20',
+            'role' => 'required|in:client,admin,team',
+            'password' => 'nullable|string|min:6|confirmed',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'role' => $request->role,
+        ];
+        
+        // Update password if provided
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+        
+        // Update profile photo
+        if ($request->hasFile('profile_photo')) {
+            // Delete old photo
+            if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+                Storage::disk('public')->delete($user->profile_photo);
+            }
+            $path = $request->file('profile_photo')->store('profile-photos', 'public');
+            $userData['profile_photo'] = $path;
+        }
+        
+        $user->update($userData);
+        
+        return redirect()->route('admin.users')
+            ->with('success', 'User berhasil diperbarui!');
+    }
+
+    /**
+     * Delete user from database
+     */
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        
+        // Prevent deleting own account
+        if ($user->id == auth()->id()) {
+            return redirect()->route('admin.users')
+                ->with('error', 'Anda tidak dapat menghapus akun sendiri!');
+        }
+        
+        // Delete profile photo
+        if ($user->profile_photo && Storage::disk('public')->exists($user->profile_photo)) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
+        
+        $user->delete();
+        
+        return redirect()->route('admin.users')
+            ->with('success', 'User berhasil dihapus!');
+    }
+
+    /**
+     * Show user details
+     */
+    public function showUser($id)
+    {
+        $user = User::with('briefs')->findOrFail($id);
+        
+        $stats = [
+            'total_projects' => $user->briefs->count(),
+            'completed_projects' => $user->briefs->where('status', 'completed')->count(),
+            'pending_projects' => $user->briefs->where('status', 'pending')->count(),
+            'in_progress_projects' => $user->briefs->where('status', 'in_progress')->count(),
+        ];
+        
+        return view('admin.users.show', compact('user', 'stats'));
+    }
     public function briefs()
     {
         $briefs = Brief::with('user')->orderBy('created_at', 'desc')->paginate(10);

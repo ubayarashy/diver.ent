@@ -25,6 +25,10 @@
             <i class="fas fa-money-bill-wave"></i>
             <span>Pembayaran</span>
         </a>
+        <a href="{{ route('client.profile') }}" class="menu-item {{ request()->routeIs('client.profile') ? 'active' : '' }}">
+            <i class="fas fa-user-circle"></i>
+            <span>Profil Saya</span>
+        </a>
     </nav>
 
     <div class="sidebar-footer">
@@ -32,11 +36,11 @@
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
         </button>
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();" class="logout-btn">
+        <button type="button" class="logout-btn" id="logoutBtnSidebar" onclick="showLogoutModal()">
             <i class="fas fa-sign-out-alt"></i>
             <span>Keluar</span>
-        </a>
-        <form id="logout-form-sidebar" action="{{ route('logout') }}" method="POST" style="display: none;">
+        </button>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
     </div>
@@ -90,10 +94,13 @@
                 <a href="{{ route('client.payments') }}">
                     <i class="fas fa-money-bill-wave"></i> Pembayaran
                 </a>
-                <div class="divider"></div>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                <a href="{{ route('client.profile') }}">
+                    <i class="fas fa-user-circle"></i> Profil Saya
                 </a>
+                <div class="divider"></div>
+                <button type="button" class="dropdown-logout-btn" onclick="showLogoutModal()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
         </div>
         @else
@@ -101,6 +108,25 @@
         @endauth
     </div>
 </header>
+
+{{-- MODAL KONFIRMASI LOGOUT --}}
+<div id="logoutModal" class="modal-overlay" style="display: none;">
+    <div class="modal-container">
+        <div class="modal-icon">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+        <h3 class="modal-title">Konfirmasi Logout</h3>
+        <p class="modal-message">Apakah Anda yakin ingin keluar dari akun ini?</p>
+        <div class="modal-buttons">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="hideLogoutModal()">
+                <i class="fas fa-times"></i> Batal
+            </button>
+            <button type="button" class="modal-btn modal-btn-confirm" onclick="confirmLogout()">
+                <i class="fas fa-check"></i> Ya, Keluar
+            </button>
+        </div>
+    </div>
+</div>
 
 <style>
 /* ==================== VARIABLES ==================== */
@@ -239,6 +265,32 @@
     background: rgba(59, 130, 255, 0.08);
     color: var(--accent);
     transform: translateX(4px);
+}
+
+/* Dropdown Logout Button */
+.dropdown-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #ef4444;
+    text-decoration: none;
+    font-size: 0.85rem;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dropdown-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.dropdown-logout-btn i {
+    width: 20px;
 }
 
 /* ==================== HEADER ==================== */
@@ -463,6 +515,115 @@
     margin: 6px 0;
 }
 
+/* ==================== MODAL LOGOUT ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-container {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+    border: 1px solid var(--border);
+}
+
+.modal-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.modal-icon i {
+    font-size: 2.5rem;
+    color: #ef4444;
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+}
+
+.modal-message {
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.modal-btn-cancel {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.modal-btn-cancel:hover {
+    background: var(--border);
+    transform: translateY(-2px);
+}
+
+.modal-btn-confirm {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none;
+    color: #fff;
+}
+
+.modal-btn-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==================== MAIN CONTENT ==================== */
 .app-main {
     margin-left: var(--sidebar-width);
@@ -526,6 +687,24 @@
     .btn-primary {
         display: none;
     }
+    
+    .modal-container {
+        padding: 24px;
+        width: 85%;
+    }
+    
+    .modal-icon {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .modal-icon i {
+        font-size: 2rem;
+    }
+    
+    .modal-title {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -536,17 +715,19 @@
     .user-btn span {
         display: none;
     }
+    
+    .modal-buttons {
+        flex-direction: column;
+    }
 }
 
 /* ==================== ANIMATIONS ==================== */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 </style>
@@ -624,4 +805,44 @@
             userDropdown.classList.remove('show');
         });
     }
+    
+    // ==================== LOGOUT MODAL FUNCTIONS ====================
+    function showLogoutModal() {
+        const modal = document.getElementById('logoutModal');
+        if (modal) {
+            modal.style.display = 'flex';
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    function hideLogoutModal() {
+        const modal = document.getElementById('logoutModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+    
+    function confirmLogout() {
+        // Submit the logout form
+        document.getElementById('logout-form').submit();
+    }
+    
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('logoutModal');
+        if (modal && modal.style.display === 'flex') {
+            if (e.target === modal) {
+                hideLogoutModal();
+            }
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            hideLogoutModal();
+        }
+    });
 </script>

@@ -220,6 +220,8 @@
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 4px;
+    font-family: monospace;
+    letter-spacing: 0.5px;
 }
 
 .stat-label {
@@ -266,7 +268,7 @@
 }
 
 .invoice-info {
-    flex: 2;
+    flex: 3;
 }
 
 .invoice-number {
@@ -292,6 +294,15 @@
     font-weight: 700;
     color: var(--accent);
     flex: 1;
+    text-align: right;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.invoice-status {
+    flex: 1;
+    text-align: right;
 }
 
 .status-badge {
@@ -300,6 +311,7 @@
     font-size: 0.7rem;
     font-weight: 600;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .status-warning {
@@ -641,10 +653,14 @@
     }
     .invoice-header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
     }
     .invoice-amount {
+        text-align: left;
         margin-top: 4px;
+    }
+    .invoice-status {
+        text-align: left;
     }
     .bank-item {
         flex-wrap: wrap;

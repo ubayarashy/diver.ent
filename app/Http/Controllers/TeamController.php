@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
     // Dashboard Team
     public function dashboard()
     {
@@ -151,33 +146,69 @@ class TeamController extends Controller
         return redirect()->back()->with('success', 'Hasil task berhasil diupload');
     }
 
-    // Calendar Team
-    public function calendar()
+    // Calendar Team - Menampilkan BRIEF DATES dan DEADLINE otomatis 2 minggu setelah brief
+   // Calendar Team - Menampilkan Brief Date & Update Status Date
+public function calendar()
 {
-    $tasks = Task::where('assigned_to', Auth::id())
-        ->whereNotNull('deadline')
-        ->get(['id', 'title', 'deadline', 'status']);
+    $userId = Auth::id();
     
-    // Format events untuk FullCalendar
+    // Ambil semua tasks dengan brief
+    $tasks = Task::with('brief')
+        ->where('assigned_to', $userId)
+        ->get();
+    
     $events = [];
+    
     foreach ($tasks as $task) {
-        $color = '#3b82f6'; // default blue
-        if ($task->status == 'completed') {
-            $color = '#10b981'; // green
-        } elseif ($task->status == 'pending') {
-            $color = '#f59e0b'; // orange
-        } elseif ($task->status == 'in_progress') {
-            $color = '#3b82f6'; // blue
-        }
+        // Ambil tanggal brief
+        $briefDate = $task->brief ? $task->brief->created_at : $task->created_at;
         
-        $events[] = [
-            'id' => $task->id,
-            'title' => $task->title,
-            'start' => $task->deadline->format('Y-m-d'),
-            'backgroundColor' => $color,
-            'borderColor' => $color,
-            'url' => route('team.task.detail', $task->id),
-        ];
+        if ($briefDate) {
+            // Warna berdasarkan status
+            $statusColors = [
+                'pending' => '#F59E0B',
+                'in_progress' => '#3B82F6',
+                'review' => '#8B5CF6',
+                'revision' => '#F59E0B',
+                'completed' => '#10B981',
+            ];
+            
+            $color = $statusColors[$task->status] ?? '#6B7280';
+            
+            // 1. EVENT BRIEF TERKIRIM
+            $events[] = [
+                'id' => 'brief_' . $task->id,
+                'title' => '📋 ' . ($task->brief->title ?? $task->title),
+                'start' => $briefDate->format('Y-m-d'),
+                'backgroundColor' => '#00D2FF',
+                'borderColor' => '#00D2FF',
+                'textColor' => '#0A192F',
+                'type' => 'brief',
+                'status' => $task->status,
+                'client' => $task->brief->user->name ?? 'Client',
+                'task_id' => $task->id,
+                'url' => route('team.task.detail', $task->id),
+            ];
+            
+            // 2. EVENT UPDATE STATUS (2 minggu setelah brief)
+            $updateDate = clone $briefDate;
+            $updateDate->addDays(14);
+            
+            $events[] = [
+                'id' => 'update_' . $task->id,
+                'title' => '🔄 Update Status: ' . ($task->brief->title ?? $task->title),
+                'start' => $updateDate->format('Y-m-d'),
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+                'textColor' => '#ffffff',
+                'type' => 'update_status',
+                'status' => $task->status,
+                'client' => $task->brief->user->name ?? 'Client',
+                'brief_date' => $briefDate->format('Y-m-d'),
+                'task_id' => $task->id,
+                'url' => route('team.task.detail', $task->id),
+            ];
+        }
     }
     
     return view('team.calendar', compact('events'));

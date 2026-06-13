@@ -1,16 +1,14 @@
 @extends('layouts.app')
-
 @section('content')
 @include('partials.client.navbar-sidebar')
 
 <div class="app-main">
     <div class="app-content">
         <div class="page-header">
-            <h1><i class="fas fa-handshake"></i> Ayo Kerjasama</h1>
+            <h1>Ayo Kerjasama</h1>
             <p>Isi brief project Anda, tim kami akan segera menghubungi</p>
         </div>
 
-        <!-- Step Progress -->
         <div class="step-progress">
             <div class="step-item" id="step1Item">
                 <div class="step-number">1</div>
@@ -30,17 +28,15 @@
             </div>
         </div>
 
-        <!-- Form Card -->
         <div class="form-card">
             <form id="briefForm">
                 @csrf
-                
-                <!-- STEP 1: Pilih Layanan -->
+
                 <div class="form-step" id="step1">
                     <div class="form-group">
                         <label>Pilih Layanan yang Dibutuhkan <span class="required">*</span></label>
                         <p class="form-hint">Kamu bisa memilih lebih dari satu layanan</p>
-                        <div class="services-grid" id="servicesGrid">
+                        <div class="services-grid">
                             <div class="service-card" data-service="Social Media Management">
                                 <div class="service-icon"><i class="fab fa-instagram"></i></div>
                                 <div class="service-name">Social Media Management</div>
@@ -70,7 +66,6 @@
                     </div>
                 </div>
 
-                <!-- STEP 2: Detail Proyek -->
                 <div class="form-step" id="step2">
                     <div class="form-group">
                         <label>Nama Proyek / Brand <span class="required">*</span></label>
@@ -84,19 +79,18 @@
                         <label>Timeline / Deadline</label>
                         <input type="text" id="timeline" placeholder="Contoh: 2 minggu, 1 bulan, flexible">
                     </div>
-                       <div class="form-group">
+                    <div class="form-group">
                         <label>Contact Information <span class="required">*</span></label>
                         <input type="text" id="contact" placeholder="Contoh: +62xxxxxxxxxx">
-                    </div>            
+                    </div>
                 </div>
 
-                <!-- STEP 3: Budget -->
                 <div class="form-step" id="step3">
                     <div class="form-group">
                         <label>Estimasi Budget</label>
                         <div class="budget-wrapper">
                             <span class="budget-prefix">Rp</span>
-                            <input type="number" id="budget" placeholder="1.000.000" oninput="formatRupiah(this)">
+                            <input type="text" id="budget" placeholder="1.000.000" oninput="formatRupiah(this)">
                         </div>
                         <p class="form-hint">Kosongkan jika belum tahu</p>
                     </div>
@@ -107,10 +101,9 @@
                     </div>
                 </div>
 
-                <!-- STEP 4: Konfirmasi -->
                 <div class="form-step" id="step4">
                     <div class="summary-card">
-                        <h3><i class="fas fa-clipboard-list"></i> Ringkasan Brief</h3>
+                        <h3>Ringkasan Brief</h3>
                         <div class="summary-item">
                             <span class="summary-label">Layanan Dipilih</span>
                             <span class="summary-value" id="summaryServices">—</span>
@@ -143,37 +136,26 @@
                     <div id="submitFeedback"></div>
                 </div>
 
-                <!-- Navigation Buttons -->
                 <div class="form-navigation">
-                    <button type="button" class="btn-prev" id="prevBtn" style="display: none;">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </button>
-                    <button type="button" class="btn-next" id="nextBtn">
-                        Lanjut<i class="fas fa-arrow-right" style="margin-left:8px;"></i>
-                    </button>
-                    <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">
-                        <i class="fas fa-paper-plane"></i> Kirim Brief
-                    </button>
+                    <button type="button" class="btn-prev" id="prevBtn" style="display: none;">Kembali</button>
+                    <button type="button" class="btn-next" id="nextBtn">Lanjut</button>
+                    <button type="submit" class="btn-submit" id="submitBtn" style="display: none;">Kirim Brief</button>
                 </div>
             </form>
         </div>
 
-        <!-- Back to Landing -->
         <div class="back-link">
-            <a href="{{ route('home') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali ke Landing Page
-            </a>
+            <a href="{{ route('home') }}" class="btn-back">Kembali ke Landing Page</a>
         </div>
     </div>
 </div>
 
-<!-- Logout Modal -->
 <div id="logout-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center;">
     <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 400px; width: 90%; text-align: center;">
         <i class="fas fa-question-circle" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
         <h3>Konfirmasi Keluar</h3>
         <p>Apakah Anda yakin ingin keluar?</p>
-        <div style="display: flex; gap: 12px;">
+        <div style="display: flex; gap: 12px; justify-content: center;">
             <button onclick="closeLogoutModal()" class="btn-outline">Batal</button>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -184,39 +166,51 @@
 </div>
 
 <style>
-/* Hanya style untuk form, tanpa style .client-main */
+.app-main {
+    margin-left: 280px;
+    min-height: 100vh;
+    background: var(--bg);
+     padding-top: 10px;
+}
+
 .app-content {
     max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 48px;
 }
 
 .page-header {
+    text-align: center;
     margin-bottom: 32px;
 }
 
 .page-header h1 {
     font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -1px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     margin-bottom: 8px;
 }
 
 .page-header p {
     color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
-/* Step Progress */
 .step-progress {
     display: flex;
     justify-content: space-between;
     margin-bottom: 48px;
     position: relative;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .step-progress::before {
     content: '';
     position: absolute;
-    top: 24px;
+    top: 20px;
     left: 0;
     right: 0;
     height: 2px;
@@ -232,23 +226,24 @@
 }
 
 .step-number {
-    width: 48px;
-    height: 48px;
-    background: var(--bg);
+    width: 40px;
+    height: 40px;
+    background: var(--surface);
     border: 2px solid var(--border);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     font-weight: 700;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
 .step-item.active .step-number {
     background: var(--accent);
     border-color: var(--accent);
-    color: #fff;
+    color: #000;
 }
 
 .step-item.completed .step-number {
@@ -258,7 +253,7 @@
 }
 
 .step-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
     font-weight: 500;
 }
@@ -268,12 +263,11 @@
     font-weight: 600;
 }
 
-/* Form Card */
 .form-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 40px;
+    border-radius: 20px;
+    padding: 32px;
     margin-bottom: 24px;
 }
 
@@ -287,7 +281,7 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -299,7 +293,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .required {
@@ -308,7 +302,7 @@
 }
 
 .form-hint {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
     margin-top: 6px;
 }
@@ -328,6 +322,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    text-align: center;
 }
 
 .service-card:hover {
@@ -336,7 +331,7 @@
 }
 
 .service-card.selected {
-    background: rgba(59, 130, 255, 0.08);
+    background: rgba(59, 130, 255, 0.06);
     border-color: var(--accent);
 }
 
@@ -353,36 +348,44 @@
 .service-name {
     font-weight: 700;
     margin-bottom: 6px;
+    font-size: 0.9rem;
 }
 
 .service-desc {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-secondary);
 }
 
 .service-check {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
     color: var(--accent);
     opacity: 0;
     transition: opacity 0.3s;
+    font-size: 1rem;
 }
 
 input, textarea {
     width: 100%;
-    padding: 14px 18px;
+    padding: 12px 16px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 12px;
     color: var(--text);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+    font-family: inherit;
     transition: all 0.3s ease;
+}
+
+textarea {
+    resize: vertical;
 }
 
 input:focus, textarea:focus {
     outline: none;
     border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 255, 0.08);
 }
 
 .budget-wrapper {
@@ -391,32 +394,33 @@ input:focus, textarea:focus {
 
 .budget-prefix {
     position: absolute;
-    left: 18px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--accent);
     font-weight: 600;
+    font-size: 0.85rem;
 }
 
 .budget-wrapper input {
-    padding-left: 50px;
+    padding-left: 48px;
 }
 
 .form-navigation {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     margin-top: 32px;
 }
 
 .btn-prev, .btn-next, .btn-submit {
-    padding: 12px 28px;
-    border-radius: 50px;
+    padding: 10px 28px;
+    border-radius: 40px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .btn-prev {
@@ -428,37 +432,42 @@ input:focus, textarea:focus {
 .btn-prev:hover {
     border-color: var(--accent);
     color: var(--accent);
+    transform: translateX(-2px);
 }
 
 .btn-next, .btn-submit {
-    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-    color: #fff;
+    background: var(--accent);
+    color: #000;
+    margin-left: auto;
 }
 
 .btn-next:hover, .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(59, 130, 255, 0.3);
+    opacity: 0.9;
 }
 
 .summary-card {
     background: var(--bg);
-    border: 1px solid var(--accent);
+    border: 1px solid var(--border);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
 }
 
 .summary-card h3 {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
 }
 
 .summary-item {
     display: flex;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--border);
+    gap: 16px;
 }
 
 .summary-item:last-child {
@@ -467,69 +476,146 @@ input:focus, textarea:focus {
 
 .summary-label {
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    min-width: 110px;
 }
 
 .summary-value {
-    font-weight: 600;
+    font-weight: 500;
     text-align: right;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    word-break: break-word;
+    max-width: 60%;
 }
 
 .alert-success {
-    background: rgba(16, 185, 129, 0.1);
-    border-left: 4px solid #10b981;
-    padding: 20px;
+    background: rgba(16, 185, 129, 0.08);
+    border-left: 3px solid #10b981;
+    padding: 16px;
     border-radius: 12px;
+    font-size: 0.85rem;
 }
 
 .back-link {
     text-align: center;
+    margin-top: 16px;
 }
 
 .btn-back {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: transparent;
-    border: 1px solid var(--border);
+    border: none;
     color: var(--text-secondary);
-    padding: 10px 24px;
-    border-radius: 50px;
+    padding: 8px 16px;
+    border-radius: 40px;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     transition: all 0.3s ease;
 }
 
 .btn-back:hover {
+    color: var(--accent);
+    transform: translateX(-3px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
     border-color: var(--accent);
     color: var(--accent);
 }
 
-/* Responsive */
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+@media (max-width: 992px) {
+    .app-main {
+        margin-left: 0;
+    }
+    .app-content {
+        padding: 32px 24px;
+    }
+}
+
 @media (max-width: 768px) {
     .app-content {
-        padding: 0;
+        padding: 24px 20px;
     }
     .form-card {
         padding: 24px;
     }
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
     }
     .step-label {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
     }
     .step-number {
-        width: 36px;
-        height: 36px;
-        font-size: 0.85rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+    .step-progress::before {
+        top: 17px;
     }
     .summary-item {
         flex-direction: column;
-        text-align: right;
-        gap: 4px;
+        gap: 6px;
     }
+    .summary-value {
+        text-align: left;
+        max-width: 100%;
+    }
+    .form-navigation {
+        flex-direction: column;
+    }
+    .btn-next, .btn-submit {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+    .btn-prev {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 </style>
 
@@ -578,15 +664,18 @@ input:focus, textarea:focus {
 
     function updateSummary() {
         const services = selectedServices.length > 0 ? selectedServices.join(', ') : '—';
-        document.getElementById('summaryServices').innerHTML = services !== '—' ? 
-            `<div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end;">${selectedServices.map(s => `<span style="background: rgba(59,130,255,0.1); padding: 4px 10px; border-radius: 50px; font-size: 0.7rem;">${s}</span>`).join('')}</div>` : '—';
-        
+        if (selectedServices.length > 0) {
+            document.getElementById('summaryServices').innerHTML = `<div style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end;">${selectedServices.map(s => `<span style="background: rgba(59,130,255,0.1); padding: 4px 10px; border-radius: 50px; font-size: 0.65rem;">${s}</span>`).join('')}</div>`;
+        } else {
+            document.getElementById('summaryServices').innerHTML = '—';
+        }
         document.getElementById('summaryProject').innerText = document.getElementById('project_name').value || '—';
         let desc = document.getElementById('description').value || '—';
         document.getElementById('summaryDesc').innerText = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
         document.getElementById('summaryTimeline').innerText = document.getElementById('timeline').value || '—';
-        const contactRaw = document.getElementByID('contact').value;
-        document.getElementById('summaryBudget').innerText = document.getElementById('budget').value ? 'Rp ' + document.getElementById('budget').value : '—';
+        document.getElementById('summaryContact').innerText = document.getElementById('contact').value || '—';
+        const budgetRaw = document.getElementById('budget').value;
+        document.getElementById('summaryBudget').innerText = budgetRaw ? 'Rp ' + budgetRaw : '—';
         document.getElementById('summaryReference').innerText = document.getElementById('reference_link').value || '—';
     }
 
@@ -613,10 +702,8 @@ input:focus, textarea:focus {
         } else if (step === 2 || step === 3) {
             if (step === 2) {
                 step2.classList.add('active-step');
-                step3.classList.remove('active-step');
             } else {
                 step3.classList.add('active-step');
-                step2.classList.remove('active-step');
             }
             prevBtn.style.display = 'flex';
             nextBtn.style.display = 'flex';
@@ -645,6 +732,15 @@ input:focus, textarea:focus {
             alert('Mohon isi nama proyek');
             return false;
         }
+        const contact = document.getElementById('contact').value.trim();
+        if (!contact) {
+            alert('Mohon isi contact information');
+            return false;
+        }
+        if (contact.length < 8) {
+            alert('Contact information minimal 8 karakter (nomor telepon/email)');
+            return false;
+        }
         return true;
     }
 
@@ -658,74 +754,162 @@ input:focus, textarea:focus {
         showStep(currentStep - 1);
     });
 
+    // SUBMIT FORM - FULLY FIXED
     document.getElementById('briefForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Validasi final
         if (!validateStep1() || !validateStep2()) {
             showStep(1);
             return;
         }
         
+        // Disable submit button
         const submitButton = submitBtn;
         submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Mengirim...';
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
         
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || 
+                         document.querySelector('input[name="_token"]')?.value;
+        
+        if (!csrfToken) {
+            alert('CSRF token tidak ditemukan. Silakan refresh halaman.');
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Kirim Brief';
+            return;
+        }
+        
+        // Get budget value (remove formatting)
         const budgetRaw = document.getElementById('budget').value;
         const budgetNumber = budgetRaw ? parseInt(budgetRaw.replace(/\D/g, '')) : null;
         
+        // Prepare payload
         const payload = {
-            project_name: document.getElementById('project_name').value,
+            project_name: document.getElementById('project_name').value.trim(),
             categories: selectedServices,
-            description: document.getElementById('description').value,
-            timeline: document.getElementById('timeline').value,
+            description: document.getElementById('description').value.trim(),
+            timeline: document.getElementById('timeline').value.trim(),
+            contact: document.getElementById('contact').value.trim(),
             budget: budgetNumber,
-            reference_link: document.getElementById('reference_link').value,
-            _token: '{{ csrf_token() }}'
+            reference_link: document.getElementById('reference_link').value.trim(),
+            _token: csrfToken
         };
         
+        console.log('Sending payload:', payload); // Debug log
+        
         try {
-            const response = await fetch('{{ route("client.create-project.store") }}', {
+            const response = await fetch('/client/create-project/store', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin',
                 body: JSON.stringify(payload)
             });
-            const data = await response.json();
+            
+            // Handle response
+            let data;
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response:', text);
+                throw new Error('Server mengembalikan response yang tidak valid');
+            }
+            
+            if (!response.ok) {
+                throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+            }
             
             if (data.success) {
+                // Success!
                 document.getElementById('submitFeedback').innerHTML = `
-                    <div class="alert-success">
-                        <strong><i class="fas fa-check-circle"></i> ${data.message}</strong><br><br>
-                        ✅ Tim kami akan segera menghubungi Anda maksimal 1x24 jam.
+                    <div class="alert-success" style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 16px; border-radius: 12px; margin-top: 16px;">
+                        <strong style="color: #10b981;">✓ ${data.message}</strong>
+                        <br><br>
+                        <span style="font-size: 0.85rem;">Tim kami akan segera menghubungi Anda maksimal 1x24 jam.</span>
                     </div>
                 `;
-                document.querySelectorAll('input, textarea, .service-card').forEach(el => {
+                
+                // Disable all inputs
+                document.querySelectorAll('input, textarea, .service-card, button').forEach(el => {
                     el.style.pointerEvents = 'none';
+                    if (el.tagName === 'BUTTON' && el !== submitButton) {
+                        el.disabled = true;
+                    }
                 });
+                
                 submitButton.style.display = 'none';
                 prevBtn.style.display = 'none';
+                
+                // Optional: Reset after 5 seconds
+                setTimeout(() => {
+                    if (confirm('Brief berhasil dikirim! Ingin mengisi brief baru?')) {
+                        window.location.reload();
+                    }
+                }, 3000);
             } else {
-                alert('Gagal mengirim brief. Silakan coba lagi.');
-                submitButton.disabled = false;
-                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Brief';
+                throw new Error(data.message || 'Gagal mengirim brief');
             }
-        } catch(err) {
-            alert('Terjadi kesalahan. Periksa koneksi Anda.');
+            
+        } catch (error) {
+            console.error('Error details:', error);
+            
+            let errorMessage = error.message;
+            
+            // Check for specific errors
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                errorMessage = 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.';
+            } else if (error.message.includes('419')) {
+                errorMessage = 'Sesi telah berakhir. Silakan refresh halaman dan coba lagi.';
+            } else if (error.message.includes('500')) {
+                errorMessage = 'Terjadi kesalahan pada server. Tim kami sedang memperbaikinya.';
+            } else if (error.message.includes('422')) {
+                errorMessage = 'Data tidak lengkap atau tidak valid. Periksa kembali form Anda.';
+            }
+            
+            alert('Gagal mengirim brief: ' + errorMessage);
+            
+            // Re-enable submit button
             submitButton.disabled = false;
-            submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Brief';
+            submitButton.innerHTML = 'Kirim Brief';
         }
     });
 
+    // Initialize
     showStep(1);
 
+    // Add event listeners for real-time summary update
     document.getElementById('project_name').addEventListener('input', updateSummary);
     document.getElementById('description').addEventListener('input', updateSummary);
     document.getElementById('timeline').addEventListener('input', updateSummary);
+    document.getElementById('contact').addEventListener('input', updateSummary);
     document.getElementById('budget').addEventListener('input', updateSummary);
     document.getElementById('reference_link').addEventListener('input', updateSummary);
-    document.getElementById('contact').addEventListener('input', updateSummary);
 
+    // Logout modal function
     function closeLogoutModal() {
         document.getElementById('logout-modal').style.display = 'none';
     }
+
+    // Reveal animation
+    const reveals = document.querySelectorAll('.reveal');
+    function reveal() {
+        reveals.forEach(el => {
+            const windowHeight = window.innerHeight;
+            const revealTop = el.getBoundingClientRect().top;
+            const revealPoint = 100;
+            if (revealTop < windowHeight - revealPoint) {
+                el.classList.add('active');
+            }
+        });
+    }
+    window.addEventListener('scroll', reveal);
+    window.addEventListener('load', reveal);
 </script>
 @endsection

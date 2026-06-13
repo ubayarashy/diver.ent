@@ -141,7 +141,7 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: 10px;
 }
 
 .admin-content {

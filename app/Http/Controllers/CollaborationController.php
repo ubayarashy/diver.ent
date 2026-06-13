@@ -28,6 +28,7 @@ class CollaborationController extends Controller
             'categories.*' => 'string|in:Social Media Management,Videography,Fotografi,Digital Ads',
             'budget' => 'nullable|numeric|min:0',
             'description' => 'nullable|string|max:2000',
+            'contact'=> 'required|string',
         ]);
 
         $brief = Brief::create([
@@ -37,12 +38,13 @@ class CollaborationController extends Controller
             'budget' => $request->budget,
             'description' => $request->description,
             'status' => 'pending',
+            'contact'=> $request->contact,
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Brief terkirim! Tim kami akan segera menghubungi Anda.',
-            'brief' => $brief
+            'brief' => $brief,
         ]);
     }
 

@@ -11,9 +11,7 @@
                 <p>Kelola semua brief dari client</p>
             </div>
             <div class="page-actions">
-                <a href="{{ route('admin.briefs.export') }}" class="btn-export">
-                    <i class="fas fa-download"></i> Export CSV
-                </a>
+              
             </div>
         </div>
 
@@ -97,7 +95,7 @@
                             <div class="client-info">
                                 <strong>{{ $brief->user->name ?? 'Unknown' }}</strong>
                                 <small>{{ $brief->user->email ?? '-' }}</small>
-                                <small>{{ $brief->user->contact ?? '-' }}</small>
+                                <small>{{ $brief->contact ?? '-' }}</small>
                             </div>
                         </td>
                         <td class="project-name">{{ $brief->project_name }}</td>
@@ -116,7 +114,7 @@
                             @endif
                         </td>
                         <td>{{ $brief->created_at->format('d/m/Y H:i') }}</td>
-                        <td>{{ $brief->user->phone ?? '-' }}</td>
+                        <td>{{ $brief->contact ?? '-' }}</td>
                         <td>
                             <select class="status-select" data-id="{{ $brief->id }}" data-status="{{ $brief->status }}">
                                 <option value="pending" {{ $brief->status == 'pending' ? 'selected' : '' }}>⏳ Menunggu</option>
@@ -183,7 +181,7 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top:20px;
+    padding-top:10px;
 }
 
 

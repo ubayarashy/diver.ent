@@ -201,12 +201,13 @@
 .admin-main {
     margin-left: 280px;
     min-height: 100vh;
-    padding-top:20px;
+    padding-top:10px;
 }
 
-.admin-content {
+.admin-content{
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 32px;
-    max-width: 900px;
 }
 
 .detail-header {

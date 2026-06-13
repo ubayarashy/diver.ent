@@ -8,12 +8,11 @@
         <div class="page-header">
             <div class="header-left">
                 <h1><i class="fas fa-folder-open"></i> Manajemen Portfolio</h1>
-                <p>Kelola portfolio yang ditampilkan di landing page</p>
             </div>
             <div class="header-right">
                 <a href="{{ route('admin.portfolio.create') }}" class="btn-primary">
                     <i class="fas fa-plus"></i> Tambah Portfolio
-                </a>
+                </a>0
             </div>
         </div>
 
