@@ -423,8 +423,7 @@
     
     <script>
         // Reveal animation on scroll
-        const reveals = document.querySelectorAll('.reveal');
-        
+      
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {

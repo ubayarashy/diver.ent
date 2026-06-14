@@ -1163,7 +1163,7 @@
     });
 
     // Reveal animation on scroll
-    const reveals = document.querySelectorAll('.reveal');
+    
     
     function reveal() {
         reveals.forEach(el => {

@@ -784,7 +784,7 @@
         }
     });
 
-    const reveals = document.querySelectorAll('.reveal');
+    
     function reveal() {
         reveals.forEach(el => {
             const windowHeight = window.innerHeight;
