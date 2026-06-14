@@ -897,7 +897,8 @@ input:focus, textarea:focus {
         document.getElementById('logout-modal').style.display = 'none';
     }
 
-    // 
+    // Reveal animation
+    const reveals = document.querySelectorAll
     function reveal() {
         reveals.forEach(el => {
             const windowHeight = window.innerHeight;
