@@ -1,7 +1,7 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "composer install --no-interaction --optimize-autoloader && npm install && npm run build && npm run dev"
+    "buildCommand": "composer install --no-interaction --optimize-autoloader && npm install && npm run build"
 
   },
   "deploy": {
