@@ -7,14 +7,21 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
-    libfreetype6-dev
+    libfreetype6-dev \
+    libicu-dev
 
 # Install Node.js 22
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd pdo pdo_mysql zip
+
+RUN docker-php-ext-install \
+    gd \
+    pdo \
+    pdo_mysql \
+    zip \
+    intl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
